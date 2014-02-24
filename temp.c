@@ -88,7 +88,6 @@ uint8_t therm_read_bit(void)
 	return bit;
 }
 
-
 uint8_t therm_read_byte(void)
 {
 	uint8_t i=8, n=0;

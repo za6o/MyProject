@@ -23,3 +23,6 @@ void lcd_putstring(char* String);
  * Send one character to the LCD.
  */
 int	lcd_putchar(char c);
+
+
+void lcd_pos(uint8_t line, uint8_t pos);

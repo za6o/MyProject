@@ -30,6 +30,8 @@
 #include "uart.h"
 #include "temp.h"
 
+
+
 /*
  * Do all the startup-time peripheral initializations.
  */
@@ -59,7 +61,7 @@ int main(void) {
 	//char String[] = "Test";
 
  for(;;){
-	 	 	lcd_putstring(test);
+
 			therm_read_temperature(&digit,&decimal);
 			lcd_putstring("T: ");
 			itoa (digit, test, 10);
@@ -67,8 +69,38 @@ int main(void) {
 			lcd_putchar('.');
 			itoa (decimal, test, 10);
 			lcd_putstring(test);
-			//delay_1s();
-	lcd_putstring(test);
+			delay_1s();
+
+			lcd_pos(1,8);
+			therm_read_temperature(&digit,&decimal);
+			lcd_putstring("T: ");
+			itoa (digit, test, 10);
+			lcd_putstring(test);
+			lcd_putchar('.');
+			itoa (decimal, test, 10);
+			lcd_putstring(test);
+			delay_1s();
+
+			lcd_pos(2,1);
+			therm_read_temperature(&digit,&decimal);
+			lcd_putstring("T: ");
+			itoa (digit, test, 10);
+			lcd_putstring(test);
+			lcd_putchar('.');
+			itoa (decimal, test, 10);
+			lcd_putstring(test);
+			delay_1s();
+
+			lcd_pos(2,8);
+			therm_read_temperature(&digit,&decimal);
+			lcd_putstring("T: ");
+			itoa (digit, test, 10);
+			lcd_putstring(test);
+			lcd_putchar('.');
+			itoa (decimal, test, 10);
+			lcd_putstring(test);
+			delay_1s();
+
 
 //	uart_putchar(" ");
  }

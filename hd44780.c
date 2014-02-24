@@ -97,8 +97,7 @@ hd44780_pulse_e(bool readback)
 /*
  * Send one nibble out to the LCD controller.
  */
-static void
-hd44780_outnibble(uint8_t n, uint8_t rs)
+static void hd44780_outnibble(uint8_t n, uint8_t rs)
 {
   CLR(PORT, HD44780_RW);
   if (rs)
@@ -113,8 +112,7 @@ hd44780_outnibble(uint8_t n, uint8_t rs)
  * Send one byte to the LCD controller.  As we are in 4-bit mode, we
  * have to send two nibbles.
  */
-void
-hd44780_outbyte(uint8_t b, uint8_t rs)
+void hd44780_outbyte(uint8_t b, uint8_t rs)
 {
   hd44780_outnibble(b >> 4, rs);
   hd44780_outnibble(b & 0xf, rs);
@@ -144,8 +142,7 @@ hd44780_innibble(uint8_t rs)
 /*
  * Read one byte (i.e. two nibbles) from the LCD controller.
  */
-uint8_t
-hd44780_inbyte(uint8_t rs)
+uint8_t hd44780_inbyte(uint8_t rs)
 {
   uint8_t x;
 
@@ -179,8 +176,7 @@ hd44780_wait_ready(bool longwait)
  * This is the only area where timed waits are really needed as
  * the busy flag cannot be probed initially.
  */
-void
-hd44780_init(void)
+void hd44780_init(void)
 {
   SET(DDR, HD44780_RS);
   SET(DDR, HD44780_RW);
@@ -203,11 +199,13 @@ hd44780_init(void)
   hd44780_wait_ready(false);
 }
 
+
+
+
 /*
  * Prepare the LCD controller pins for powerdown.
  */
-void
-hd44780_powerdown(void)
+void hd44780_powerdown(void)
 {
   ASSIGN(PORT, HD44780_D4, 0);
   CLR(PORT, HD44780_RS);

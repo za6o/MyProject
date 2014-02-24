@@ -15,6 +15,9 @@
  * Send byte b to the LCD.  rs is the RS signal (register select), 0
  * selects instruction register, 1 selects the data register.
  */
+#ifndef HD44780_H
+#define HD44780_H
+
 void	hd44780_outbyte(uint8_t b, uint8_t rs);
 
 /*
@@ -22,6 +25,7 @@ void	hd44780_outbyte(uint8_t b, uint8_t rs);
  * selects busy flag (bit 7) and address counter, 1 selects the data
  * register.
  */
+
 uint8_t	hd44780_inbyte(uint8_t rs);
 
 /*
@@ -58,12 +62,7 @@ void	hd44780_powerdown(void);
 
 /* Home cursor command. */
 #define HD44780_HOME 0x02
-/*Go to first line second half*/
-#define HD44780_1L2H 0x08
-/*Go to second line first half*/
-#define HD44780_2L1H 0x40
-/*Go to second line second half*/
-#define HD44780_2L2H 0x48
+
 
 /*
  * Select the entry mode.  inc determines whether the address counter
@@ -107,3 +106,4 @@ void	hd44780_powerdown(void);
 #define HD44780_DDADDR(addr) \
 	(0x80 | ((addr) & 0x7f))
 
+#endif
