@@ -91,7 +91,7 @@ int lcd_putchar(char c)
 
 void lcd_pos(uint8_t line, uint8_t pos)
 {
-	uint8_t location=0;
+	uint8_t location=0x80;
 	if (line == 1 ){
 		location |= (0x00 | pos);
 	}
