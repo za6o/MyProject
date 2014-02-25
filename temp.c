@@ -110,8 +110,8 @@ void therm_write_byte(uint8_t byte)
 void therm_read_temperature(uint8_t *digit, uint8_t *decimal){//char *buffer){
 
 	uint8_t temperature[2];
-	//int8_t digit;
-	//uint16_t decimal;
+	uint8_t dig;
+	uint8_t dec;
 
 	if (therm_reset())
 		//sprintf(buffer, "1st reset isn't completed");
@@ -125,10 +125,12 @@ void therm_read_temperature(uint8_t *digit, uint8_t *decimal){//char *buffer){
 	temperature[0]=therm_read_byte();
 	temperature[1]=therm_read_byte();
 	therm_reset();
-	*digit=temperature[0]>>4;
-	*digit|=(temperature[1]&0x7)<<4;
-	*decimal=temperature[0]&0xf;
-	*decimal*=THERM_DECIMAL_STEPS_12BIT;
+	dig=temperature[0]>>4;
+	dig=(temperature[1]&0x7)<<4;
+	dec=temperature[0]&0xf;
+	dec*=THERM_DECIMAL_STEPS_12BIT;
+	*digit = dig;
+	*decimal = dec;
 	//return decimal;
 }
 
