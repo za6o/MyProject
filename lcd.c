@@ -89,6 +89,21 @@ int lcd_putchar(char c)
   return 0;
 }
 
+
+void lcd_pos(uint8_t line, uint8_t pos)
+{
+	uint8_t location=0x80;
+	if (line == 1 ){
+		location |= (0x00 | pos);
+	}
+	else if (line == 2 ){
+		location |= (0x40 | pos);
+	}
+
+	hd44780_outcmd(location);
+
+}
+
 void lcd_putstring(char* String)
 {
 	while (*String != 0x00) {
