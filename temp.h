@@ -16,6 +16,6 @@ uint8_t therm_read_byte(void);
 
 void therm_write_byte(uint8_t);
 
-int therm_read_temperature(char*);
+void therm_read_temperature(char*);
 
 

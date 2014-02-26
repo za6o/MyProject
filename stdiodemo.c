@@ -59,15 +59,15 @@ int main(void) {
  for(;;){
 
 	 	 	 lcd_putstring("T:");
-	 	 	 therm_read_temperature(&digit,&decimal);
-			itoa (digit, test, 10);
-			itoa (decimal, test1, 10);
+	 	 	 therm_read_temperature(test);//&digit,&decimal);
+	//		itoa (digit, test, 10);
+	//		itoa (decimal, test1, 10);
 			lcd_putstring(test);
 			lcd_putchar('.');
 			lcd_putstring(test);
 			delay_1s();
 
-			lcd_pos(1,8);
+			lcd_pos(0,8);
 			lcd_putstring("t18");
 
 			lcd_pos(2,1);

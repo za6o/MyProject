@@ -96,13 +96,13 @@ void therm_write_byte(uint8_t byte)
 	}
 }
 
-void therm_read_temperature(uint8_t *digit, uint8_t *decimal){ //*buffer){
+void therm_read_temperature(char *buffer){//uint8_t *digit, uint8_t *decimal){ //*buffer){
 
 	uint8_t temperature[2];
 	uint8_t dig;
 	uint8_t dec;
 
-therm_reset()
+    therm_reset();
 		//sprintf(buffer, "1st reset isn't completed");
 
 	therm_write_byte(THERM_CMD_SKIPROM);
@@ -118,8 +118,9 @@ therm_reset()
 	dig=(temperature[1]&0x7)<<4;
 	dec=temperature[0]&0xf;
 	dec*=THERM_DECIMAL_STEPS_12BIT;
-	*digit = dig;
-	*decimal = dec;
+//	sprintf(buffer, "%+d.%04u C", digit, decimal);
+//	*digit = dig;
+//	*decimal = dec;
 	//return decimal;
 }
 
