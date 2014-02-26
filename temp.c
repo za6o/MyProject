@@ -96,7 +96,7 @@ void therm_write_byte(uint8_t byte)
 	}
 }
 
-void therm_read_temperature(char *buffer){//uint8_t *digit, uint8_t *decimal){ //*buffer){
+void therm_read_temperature(uint8_t *digit, uint8_t *decimal){ //*buffer){
 
 	uint8_t temperature[2];
 	uint8_t dig;
@@ -119,8 +119,8 @@ void therm_read_temperature(char *buffer){//uint8_t *digit, uint8_t *decimal){ /
 	dec=temperature[0]&0xf;
 	dec*=THERM_DECIMAL_STEPS_12BIT;
 //	sprintf(buffer, "%+d.%04u C", digit, decimal);
-//	*digit = dig;
-//	*decimal = dec;
+	*digit = dig;
+	*decimal = dec;
 	//return decimal;
 }
 

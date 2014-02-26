@@ -51,27 +51,37 @@ int main(void) {
 
 	uint8_t digit;
 	uint8_t decimal;
-	char test[5];
-	char test1[5];
+	char test[7];
+	char test1[7];
+	char test2[7];
 	ioinit();
 	//char String[] = "Test";
 
  for(;;){
 
-	 	 	 lcd_putstring("T:");
-	 	 	 therm_read_temperature(test);//&digit,&decimal);
-	//		itoa (digit, test, 10);
-	//		itoa (decimal, test1, 10);
+	 	 	lcd_putstring("T:");
+	 	    therm_read_temperature(&digit,&decimal);
+			utoa (digit, test, 10);
+			utoa (decimal, test1, 10);
 			lcd_putstring(test);
 			lcd_putchar('.');
 			lcd_putstring(test);
 			delay_1s();
 
-			lcd_pos(0,8);
+			lcd_pos(1,8);
 			lcd_putstring("t18");
+			delay_1s();
 
-			lcd_pos(2,1);
+
+			lcd_pos(2,0);
 			lcd_putstring("t21");
+			//----------------------------------------
+			 	 	uint8_t tmp = 0b00011001;
+			 	    utoa (tmp, test2, 10);
+			 	   lcd_putstring(test2);//should print 25
+			//----------------------------------------
+			delay_1s();
+
 
 			lcd_pos(2,8);
 			lcd_putstring("t28");
