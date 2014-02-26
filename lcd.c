@@ -111,3 +111,10 @@ void lcd_putstring(char* String)
 	String++;
 	}
 }
+
+void lcd_putint (int i)
+{
+	char buf[8] = "";
+	itoa (i,buf,10);
+	lcd_putstring(buf);
+}

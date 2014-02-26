@@ -49,75 +49,25 @@ delay_1s(void)
 
 int main(void) {
 
-	uint8_t digit;
-	uint8_t decimal;
-	char test[7];
-	char test1[7];
-	char test2[7];
+	int just_test=0;
+	int digit=0, decimal=0;
 	ioinit();
-	//char String[] = "Test";
 
- for(;;){
+ for(just_test=0;just_test<10; just_test++){
 
 	 	 	lcd_putstring("T:");
 	 	    therm_read_temperature(&digit,&decimal);
-			utoa (digit, test, 10);
-			utoa (decimal, test1, 10);
-			lcd_putstring(test);
+
+			lcd_putint(digit);
 			lcd_putchar('.');
-			lcd_putstring(test);
+			lcd_putint(decimal);
 			delay_1s();
-
-			lcd_pos(1,8);
-			lcd_putstring("t18");
-			delay_1s();
-
 
 			lcd_pos(2,0);
-			lcd_putstring("t21");
-			//----------------------------------------
-			 	 	uint8_t tmp = 0b00011001;
-			 	    utoa (tmp, test2, 10);
-			 	   lcd_putstring(test2);//should print 25
-			//----------------------------------------
+			lcd_putint(just_test);
 			delay_1s();
 
 
-			lcd_pos(2,8);
-			lcd_putstring("t28");
-
-/*			lcd_pos(1,8);
-			therm_read_temperature(&digit,&decimal);
-			lcd_putstring("T: ");
-			itoa (digit, test, 10);
-			lcd_putstring(test);
-			lcd_putchar('.');
-			itoa (decimal, test, 10);
-			lcd_putstring(test);
-			delay_1s();
-
-			lcd_pos(2,1);
-			therm_read_temperature(&digit,&decimal);
-			lcd_putstring("T: ");
-			itoa (digit, test, 10);
-			lcd_putstring(test);
-			lcd_putchar('.');
-			itoa (decimal, test, 10);
-			lcd_putstring(test);
-			delay_1s();
-
-			lcd_pos(2,8);
-			therm_read_temperature(&digit,&decimal);
-			lcd_putstring("T: ");
-			itoa (digit, test, 10);
-			lcd_putstring(test);
-			lcd_putchar('.');
-			itoa (decimal, test, 10);
-			lcd_putstring(test);
-			delay_1s();
-*/
-
-//	uart_putchar(" ");
  }
 
 
