@@ -29,7 +29,16 @@
 #include "uart.h"
 #include "temp.h"
 #include "mashing.h"
-#include "timer.h"
+//#include "timer.h"
+
+
+//----------------------
+
+uint8_t target_temp1 = 40;
+uint16_t time_sec1 = 10;
+
+//-----------------------
+
 
 /*
  * Do all the startup-time peripheral initializations.
@@ -38,51 +47,56 @@ static void ioinit(void)
 {
   uart_init();
   lcd_init();
-  timer_config();
 }
 
-static void delay_1s(uint8_t sec)
+static void delay_1s(void)
 {
   uint8_t i;
 
-  for (i = 0; i < (100*sec); i++)
+  for (i = 0; i < 100; i++)
     _delay_ms(10);
 }
 
 int main(void) {
 
-	uint8_t target_temp=40;
-	uint16_t time_sec=10;
-
-	int digit=0, decimal=0;
 	ioinit();
 
-			lcd_putstring("Start Mashing");
-			delay_1s(5);
+	lcd_putstring("Starting...");
+	delay_1s();
+	delay_1s();
 
-			clear_screen();
-	 	 	lcd_putstring("Temp:");
-	 	    therm_read_temperatureRAW(&digit,&decimal);
-			lcd_putint(digit);
-			lcd_putchar('.');
-			lcd_putint(decimal/100);
+	clear_screen();
+	lcd_putstring("Temp:");
+	display_temp();
 
-			lcd_pos(2,0);
-			lcd_putstring("targ:");
-			lcd_putint(target_temp);
+	lcd_pos(2,0);
+	lcd_putstring("targ:");
+	lcd_putint(target_temp1);
 
-			lcd_pos(2,8);
-			lcd_putstring("time:");
-			lcd_putint(time_sec);
+	lcd_pos(2,8);
+	lcd_putstring("time:");
+	lcd_putint(time_sec1);
 
-			start_mashing(target_temp, time_sec);
+//	timer_config(); // enable timer interrupts
 
-  return 0;
+	init_heater();
+
+	for(;;){
+		lcd_pos(1,5);
+		if(compare(target_temp1)){
+			stop_heating();
+		}
+		else
+			start_heating();
+
+		delay_1s();
+	}
+
+//	start_mashing(target_temp1, time_sec1);
+
+	return 0;
 }
 
-ISR(TIMER1_COMPA_vect){
+//ISR(TIMER1_COMPA_vect){
 
-	lcd_pos(1,5);
-	therm_read_temperature();
-
-}
+//}

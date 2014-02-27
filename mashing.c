@@ -11,14 +11,31 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 #include <avr/io.h>
 
 #include <util/delay.h>
 
+static bool heater_on = false;
 
-void start_mashing(uint8_t temp, uint16_t time){
+void init_heater(){
+	HEAT_OUTPUT_MODE();
+	HEAT_LOW();
+}
 
-	while(1);
+void stop_heating(){
+	if(heater_on){
+		HEAT_LOW();
+		heater_on=false;
+	}
+
+}
+
+void start_heating(){
+	if(!(heater_on)){
+		HEAT_HIGH();
+		heater_on = true;
+	}
 
 }

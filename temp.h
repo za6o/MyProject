@@ -16,7 +16,9 @@ uint8_t therm_read_byte(void);
 
 void therm_write_byte(uint8_t);
 
-void therm_read_temperatureRAW(int*, int*);
+void therm_read_temperatureRAW(int*, int*); // reading temo from sensor
 
-void therm_read_temperature(void);
+void display_temp(void); // print temp to display
+
+uint8_t compare(uint8_t); // comparing results
 

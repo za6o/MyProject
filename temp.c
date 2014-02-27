@@ -11,32 +11,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "lcd.h"
-
-
-#define THERM_PORT PORTD
-#define THERM_DDR DDRD
-#define THERM_PIN PIND
-#define THERM_DQ PD2
-#define THERM_INPUT_MODE() THERM_DDR&=~(1<<THERM_DQ)
-#define THERM_OUTPUT_MODE() THERM_DDR|=(1<<THERM_DQ)
-#define THERM_LOW() THERM_PORT&=~(1<<THERM_DQ)
-#define THERM_HIGH() THERM_PORT|=(1<<THERM_DQ)
-
-
-
-#define THERM_CMD_CONVERTTEMP    0x44
-#define THERM_CMD_RSCRATCHPAD    0xbe
-#define THERM_CMD_WSCRATCHPAD    0x4e
-#define THERM_CMD_CPYSCRATCHPAD	 0x48
-#define THERM_CMD_RECEEPROM	     0xb8
-#define THERM_CMD_RPWRSUPPLY     0xb4
-#define THERM_CMD_SEARCHROM	     0xf0
-#define THERM_CMD_READROM	     0x33
-#define THERM_CMD_MATCHROM	     0x55
-#define THERM_CMD_SKIPROM	     0xcc
-#define THERM_CMD_ALARMSEARCH	 0xec
-
-#define THERM_DECIMAL_STEPS_12BIT	625
+#include "defines.h"
+#include "mashing.h"
 
 
 
@@ -122,7 +98,7 @@ void therm_read_temperatureRAW(int *digit, int *decimal){
 
 }
 
-void therm_read_temperature(void){
+void display_temp(void){
 
 	int digit=0, decimal=0;
 
@@ -130,6 +106,21 @@ void therm_read_temperature(void){
 	lcd_putint(digit);
 	lcd_putchar('.');
 	lcd_putint(decimal/100);
+}
+
+uint8_t compare(uint8_t targT){
+
+	int digit=0, decimal=0;
+
+	therm_read_temperatureRAW(&digit,&decimal);
+	lcd_putint(digit);
+	lcd_putchar('.');
+	lcd_putint(decimal/100);
+
+	if ((int)targT <= digit)
+		return 1;
+	else
+		return 0;
 }
 
 

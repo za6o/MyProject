@@ -6,5 +6,9 @@
  */
 
 
-void start_mashing(uint8_t, uint16_t);
+void init_heater(void);
+
+void stop_heating(void);
+
+void start_heating(void);
 
