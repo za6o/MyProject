@@ -29,13 +29,15 @@
 #include "uart.h"
 #include "temp.h"
 #include "mashing.h"
-//#include "timer.h"
+#include "timer.h"
 
 
 //----------------------
 
 uint8_t target_temp1 = 40;
 uint16_t time_sec1 = 10;
+
+volatile uint16_t sec=0;
 
 //-----------------------
 
@@ -77,26 +79,45 @@ int main(void) {
 	lcd_putstring("time:");
 	lcd_putint(time_sec1);
 
-//	timer_config(); // enable timer interrupts
 
 	init_heater();
+	timer_config(); // enable timer interrupts
+
+
 
 	for(;;){
-		lcd_pos(1,5);
-		if(compare(target_temp1)){
-			stop_heating();
+		if (sec == time_sec1){
+			sec = 0;
+			clear_screen();
+			delay_1s();
+			lcd_putstring("second step:");
+			delay_1s();
+			delay_1s();
+			delay_1s();
+			delay_1s();
+			delay_1s();
+			delay_1s();
+			delay_1s();
+			delay_1s();
+
 		}
-		else
-			start_heating();
+		else {
+			lcd_pos(1,5);
+			if(compare(target_temp1)){
+				stop_heating();
+			}
+			else
+				start_heating();
 
-		delay_1s();
+			delay_1s();
+		}
 	}
-
-//	start_mashing(target_temp1, time_sec1);
 
 	return 0;
 }
 
-//ISR(TIMER1_COMPA_vect){
+ISR(TIMER1_COMPA_vect){
 
-//}
+	sec++;
+
+}
