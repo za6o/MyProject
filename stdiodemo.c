@@ -86,7 +86,7 @@ int main(void) {
 
 
 	for(;;){
-		if (sec == time_sec1){
+		if (sec > time_sec1){
 			sec = 0;
 			clear_screen();
 			delay_1s();
