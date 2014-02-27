@@ -19,4 +19,6 @@
 
 void start_mashing(uint8_t temp, uint16_t time){
 
+	while(1);
+
 }
