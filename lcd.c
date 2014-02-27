@@ -118,3 +118,9 @@ void lcd_putint (int i)
 	itoa (i,buf,10);
 	lcd_putstring(buf);
 }
+
+
+void clear_screen(void){
+	hd44780_outcmd(HD44780_CLR);
+	hd44780_outcmd(HD44780_HOME);
+}

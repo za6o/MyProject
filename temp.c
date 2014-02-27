@@ -96,7 +96,7 @@ void therm_write_byte(uint8_t byte)
 	}
 }
 
-void therm_read_temperature(int *digit, int *decimal){ //*buffer){
+void therm_read_temperatureRAW(int *digit, int *decimal){
 
 //	uint8_t temperature[2];
 	uint8_t firstbyte;
@@ -118,7 +118,18 @@ void therm_read_temperature(int *digit, int *decimal){ //*buffer){
 	*decimal =firstbyte&0x0F;
 	*decimal *=THERM_DECIMAL_STEPS_12BIT;
 
+	//sprintf(buffer, "%+d.%04uC", digit, decimal)
 
+}
+
+void therm_read_temperature(void){
+
+	int digit=0, decimal=0;
+
+	therm_read_temperatureRAW(&digit,&decimal);
+	lcd_putint(digit);
+	lcd_putchar('.');
+	lcd_putint(decimal/100);
 }
 
 

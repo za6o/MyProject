@@ -27,4 +27,6 @@ int	lcd_putchar(char c);
 
 void lcd_pos(uint8_t , uint8_t);
 
-void lcd_putint (int i);
+void lcd_putint(int i);
+
+void clear_screen(void);
