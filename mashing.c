@@ -19,7 +19,6 @@ static void delay_1s(void)
 
 uint8_t step_mashing(uint8_t target_temp){
 
-
 		lcd_pos(1,5);
 		if(compare(target_temp)){
 			stop_heating();
@@ -28,15 +27,22 @@ uint8_t step_mashing(uint8_t target_temp){
 		else
 			start_heating();
 
+		delay_1s();
+
+
 		return 0;
 }
 
-uint8_t wait_time (target_temp, desired_time, sec)
+uint8_t wait_time (uint8_t target_temp, uint16_t desired_time,uint16_t sec)
 {
+	lcd_pos(1,5);
+
 	step_mashing(target_temp);
 
-	if(sec > desired_time)
+	if(sec > desired_time){
 		return 1;
-	return 0;
+	}
+	else
+		return 0;
 }
 

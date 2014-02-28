@@ -102,6 +102,7 @@ void lcd_pos(uint8_t line, uint8_t pos)
 	}
 
 	hd44780_outcmd(location);
+    _delay_ms(200);
 
 }
 
@@ -124,6 +125,6 @@ void lcd_putint (int i)
 void clear_screen(void){
 	hd44780_outcmd(HD44780_CLR);
 	hd44780_outcmd(HD44780_HOME);
-    _delay_ms(3);
+    _delay_ms(100);
 
 }
