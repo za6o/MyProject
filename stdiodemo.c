@@ -22,24 +22,20 @@
 
 #include <avr/io.h>
 #include <avr/pgmspace.h>
+#include <stdbool.h>
 
 #include <util/delay.h>
 
 #include "lcd.h"
 #include "uart.h"
 #include "temp.h"
-#include "mashing.h"
+#include "heat.h"
 #include "timer.h"
+#include "mashing.h"
 
 
-//----------------------
-
-uint8_t target_temp1 = 40;
-uint16_t time_sec1 = 10;
 
 volatile uint16_t sec=0;
-
-//-----------------------
 
 
 /*
@@ -61,6 +57,11 @@ static void delay_1s(void)
 
 int main(void) {
 
+	uint8_t target_temp[5] = {22,23};
+	uint16_t time_sec[5] = {10,20};
+	bool heating =true;
+	uint8_t cycle=0;
+
 	ioinit();
 
 	lcd_putstring("Starting...");
@@ -73,11 +74,11 @@ int main(void) {
 
 	lcd_pos(2,0);
 	lcd_putstring("targ:");
-	lcd_putint(target_temp1);
+	lcd_putint(target_temp[cycle]);
 
 	lcd_pos(2,8);
 	lcd_putstring("time:");
-	lcd_putint(time_sec1);
+	lcd_putint(time_sec[cycle]);
 
 
 	init_heater();
@@ -86,33 +87,26 @@ int main(void) {
 
 
 	for(;;){
-		if (sec > time_sec1){
-			sec = 0;
-			clear_screen();
-			lcd_putstring("second step:");
-			delay_1s();
-			delay_1s();
-			delay_1s();
-			delay_1s();
-			delay_1s();
-			delay_1s();
-			delay_1s();
-			delay_1s();
-
-		}
-		else {
-			lcd_pos(1,5);
-			if(compare(target_temp1)){
-				stop_heating();
+		if (heating){
+			if (step_mashing(target_temp[cycle])){
+				sec=0;
+				heating=false;
 			}
-			else
-				start_heating();
-
-			delay_1s();
 		}
-	}
+		else
+			if (wait_time(target_temp[cycle],time_sec[cycle], sec)){
+				heating=true;
+				cycle++;
+				lcd_pos(2,0);
+				lcd_putstring("targ:");
+				lcd_putint(target_temp[cycle]);
 
-	return 0;
+				lcd_pos(2,8);
+				lcd_putstring("time:");
+				lcd_putint(time_sec[cycle]);
+			}
+		return 0;
+	}
 }
 
 ISR(TIMER1_COMPA_vect){

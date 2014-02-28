@@ -1,14 +1,11 @@
 /*
  * mashing.h
  *
- *  Created on: Feb 27, 2014
+ *  Created on: Feb 28, 2014
  *      Author: anaidenov
  */
 
 
-void init_heater(void);
+uint8_t step_mashing(uint8_t);
 
-void stop_heating(void);
-
-void start_heating(void);
-
+uint8_t wait_time(uint8_t, uint16_t, uint16_t);

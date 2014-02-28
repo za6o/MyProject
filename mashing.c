@@ -1,41 +1,42 @@
-/*
- * mashing.c
- *
- *  Created on: Feb 27, 2014
- *      Author: anaidenov
- */
 
-
-#include "defines.h"
-
+#include <avr/io.h>	// deal with port registers
+#include <util/delay.h>	// used for _delay_us function
+#include <stdlib.h>
 #include <stdbool.h>
-#include <stdint.h>
 #include <stdio.h>
-#include <stdbool.h>
+#include "lcd.h"
+#include "temp.h"
+#include "heat.h"
 
-#include <avr/io.h>
 
-#include <util/delay.h>
+static void delay_1s(void)
+{
+  uint8_t i;
 
-static bool heater_on = false;
-
-void init_heater(){
-	HEAT_OUTPUT_MODE();
-	HEAT_LOW();
+  for (i = 0; i < 100; i++)
+    _delay_ms(10);
 }
 
-void stop_heating(){
-	if(heater_on){
-		HEAT_LOW();
-		heater_on=false;
-	}
+uint8_t step_mashing(uint8_t target_temp){
 
+
+		lcd_pos(1,5);
+		if(compare(target_temp)){
+			stop_heating();
+			return 1;
+		}
+		else
+			start_heating();
+
+		return 0;
 }
 
-void start_heating(){
-	if(!(heater_on)){
-		HEAT_HIGH();
-		heater_on = true;
-	}
+uint8_t wait_time (target_temp, desired_time, sec)
+{
+	step_mashing(target_temp);
 
+	if(sec > desired_time)
+		return 1;
+	return 0;
 }
+
