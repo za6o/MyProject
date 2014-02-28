@@ -89,7 +89,6 @@ int main(void) {
 		if (sec > time_sec1){
 			sec = 0;
 			clear_screen();
-			delay_1s();
 			lcd_putstring("second step:");
 			delay_1s();
 			delay_1s();
