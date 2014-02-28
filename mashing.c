@@ -28,14 +28,11 @@ uint8_t step_mashing(uint8_t target_temp){
 			start_heating();
 
 		delay_1s();
-
-
 		return 0;
 }
 
 uint8_t wait_time (uint8_t target_temp, uint16_t desired_time,uint16_t sec)
 {
-	lcd_pos(1,5);
 
 	step_mashing(target_temp);
 

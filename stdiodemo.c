@@ -45,6 +45,8 @@ static void ioinit(void)
 {
   uart_init();
   lcd_init();
+  init_heater();
+  timer_config(); // enable timer interrupts
 }
 
 static void delay_1s(void)
@@ -57,8 +59,8 @@ static void delay_1s(void)
 
 int main(void) {
 
-	uint8_t target_temp[5] = {22,24};
-	uint16_t time_sec[5] = {5,20};
+	const uint8_t target_temp[5] = {22,23};
+	const uint16_t time_sec[5] = {5,20};
 	bool heating=true;
 	uint8_t cycle=0;
 
@@ -69,27 +71,18 @@ int main(void) {
 	//delay_1s();
 
 	clear_screen();
-	//delay_1s();
 	lcd_putstring("Temp:");
 	display_temp();
-	delay_1s();
 
 	lcd_pos(2,0);
-	//delay_1s();
 	lcd_putstring("targ:");
 	lcd_putint(target_temp[cycle]);
-	delay_1s();
+//	delay_1s();
 
 	lcd_pos(2,8);
 	lcd_putstring("time:");
 	lcd_putint(time_sec[cycle]);
-	delay_1s();
-
-
-	init_heater();
-	timer_config(); // enable timer interrupts
-
-
+//	delay_1s();
 
 	for(;;){
 		if (heating){
@@ -102,23 +95,18 @@ int main(void) {
 			if (wait_time(target_temp[cycle],time_sec[cycle], sec)){
 				heating=true;
 				cycle++;
+
 				clear_screen();
-				delay_1s();
 				lcd_pos(2,0);
-				delay_1s();
+				//delay_1s();
 				lcd_putstring("targ:");
 				lcd_putint(target_temp[cycle]);
-				delay_1s();
-
 
 				lcd_pos(2,8);
 				delay_1s();
-
 				lcd_putstring("time:");
-
 				lcd_putint(time_sec[cycle]);
 				delay_1s();
-
 			}
 	}
 	return 0;

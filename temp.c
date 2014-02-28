@@ -74,7 +74,6 @@ void therm_write_byte(uint8_t byte)
 
 void therm_read_temperatureRAW(int *digit, int *decimal){
 
-//	uint8_t temperature[2];
 	uint8_t firstbyte;
 	uint8_t secondbyte;
 
@@ -93,8 +92,6 @@ void therm_read_temperatureRAW(int *digit, int *decimal){
 	*digit|= (secondbyte&0x7)<<4;
 	*decimal =firstbyte&0x0F;
 	*decimal *=THERM_DECIMAL_STEPS_12BIT;
-
-	//sprintf(buffer, "%+d.%04uC", digit, decimal)
 
 }
 
