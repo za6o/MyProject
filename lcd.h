@@ -24,6 +24,8 @@ void lcd_putstring(char* String);
  */
 int	lcd_putchar(char c);
 
+void custom_character(uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t);
+
 
 void lcd_pos(uint8_t , uint8_t);
 

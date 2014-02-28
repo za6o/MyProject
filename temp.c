@@ -114,6 +114,8 @@ uint8_t compare(uint8_t targT){
 	lcd_putchar('.');
 	lcd_putint(decimal/100);
 
+	// lcd_pos(1,15);
+
 	if ((int)targT <= digit)
 		return 1;
 	else

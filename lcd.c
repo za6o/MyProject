@@ -128,3 +128,17 @@ void clear_screen(void){
     _delay_ms(100);
 
 }
+
+void custom_character(uint8_t a, uint8_t b, uint8_t c, uint8_t d, uint8_t e, uint8_t f, uint8_t g, uint8_t h)
+{
+	hd44780_outcmd (0x40);
+    hd44780_outdata(a);
+    hd44780_outdata(b);
+    hd44780_outdata(c);
+    hd44780_outdata(d);
+    hd44780_outdata(e);
+    hd44780_outdata(f);
+    hd44780_outdata(g);
+    hd44780_outdata(h);
+
+}
