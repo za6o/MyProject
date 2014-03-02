@@ -103,23 +103,10 @@ void display_temp(void){
 	lcd_putint(digit);
 	lcd_putchar('.');
 	lcd_putint(decimal/100);
+    _delay_ms(500);
+
 }
 
-uint8_t compare(uint8_t targT){
 
-	int digit=0, decimal=0;
-
-	therm_read_temperatureRAW(&digit,&decimal);
-	lcd_putint(digit);
-	lcd_putchar('.');
-	lcd_putint(decimal/100);
-
-	// lcd_pos(1,15);
-
-	if ((int)targT <= digit)
-		return 1;
-	else
-		return 0;
-}
 
 

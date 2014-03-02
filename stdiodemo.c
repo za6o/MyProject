@@ -43,32 +43,27 @@ volatile uint16_t sec=0;
  */
 static void ioinit(void)
 {
-  uart_init();
+ // uart_init();
   lcd_init();
+//  custom_character();
   init_heater();
   timer_config(); // enable timer interrupts
+
 }
 
-static void delay_1s(void)
-{
-  uint8_t i;
 
-  for (i = 0; i < 100; i++)
-    _delay_ms(10);
-}
 
 int main(void) {
 
-	const uint8_t target_temp[5] = {22,23};
-	const uint16_t time_sec[5] = {5,20};
+	const uint8_t target_temp[5] = {22,23,21};
+	const uint16_t time_sec[5] = {5,10,20};
 	bool heating=true;
 	uint8_t cycle=0;
 
 	ioinit();
 
 	lcd_putstring("Starting...");
-	delay_1s();
-	//delay_1s();
+    _delay_ms(900);
 
 	clear_screen();
 	lcd_putstring("Temp:");
@@ -77,24 +72,17 @@ int main(void) {
 	lcd_pos(2,0);
 	lcd_putstring("targ:");
 	lcd_putint(target_temp[cycle]);
-//	delay_1s();
 
 	lcd_pos(2,8);
 	lcd_putstring("time:");
 	lcd_putint(time_sec[cycle]);
-//	delay_1s();
-
-	custom_character(0x1f, 0x11, 0x17, 0x11, 0x1f, 0x0, 0, 0);
-//	custom_character(0x1f, 0x11, 0x15, 0x15, 0x1f, 0x0, 0, 0);
-//	custom_character(0x1f, 0x11, 0x1d, 0x11, 0x1f, 0x0, 0, 0);
-//	custom_character(0x1f, 0x15, 0x15, 0x11, 0x1f, 0x0, 0, 0);
-	lcd_pos(1,15);
-	lcd_putchar(0);
 
 
 	for(;;){
+		if (cycle == 5)
+			return 0;
 		if (heating){
-			if (step_mashing(target_temp[cycle])){
+			if (reaching_targ(target_temp[cycle])){
 				sec=0;
 				heating=false;
 			}
@@ -104,18 +92,13 @@ int main(void) {
 				heating=true;
 				cycle++;
 
-				clear_screen();
-				lcd_pos(2,0);
-				//delay_1s();
-				lcd_putstring("targ:");
+				lcd_pos(2,5);
 				lcd_putint(target_temp[cycle]);
-
-				lcd_pos(2,8);
-				delay_1s();
-				lcd_putstring("time:");
+				lcd_pos(2,13);
 				lcd_putint(time_sec[cycle]);
-				delay_1s();
 			}
+	    _delay_ms(500);
+
 	}
 	return 0;
 }

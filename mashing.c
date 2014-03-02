@@ -9,15 +9,29 @@
 #include "heat.h"
 
 
-static void delay_1s(void)
+inline void	remaining_sec(uint16_t time, uint16_t desired_time)
 {
-  uint8_t i;
-
-  for (i = 0; i < 100; i++)
-    _delay_ms(10);
+	lcd_pos(2,13);
+	lcd_putint(desired_time-time);
 }
 
-uint8_t step_mashing(uint8_t target_temp){
+
+inline uint8_t compare(uint8_t targT){
+
+	int digit=0, decimal=0;
+
+	therm_read_temperatureRAW(&digit,&decimal);
+	lcd_putint(digit);
+	lcd_putchar('.');
+	lcd_putint(decimal/100);
+
+	if ((int)targT <= digit)
+		return 1;
+	else
+		return 0;
+}
+
+inline uint8_t step_mashing(uint8_t target_temp){
 
 		lcd_pos(1,5);
 		if(compare(target_temp)){
@@ -27,19 +41,27 @@ uint8_t step_mashing(uint8_t target_temp){
 		else
 			start_heating();
 
-		delay_1s();
+
 		return 0;
+}
+
+uint8_t reaching_targ(uint8_t targ_temp)
+{
+
+	return (step_mashing(targ_temp));
 }
 
 uint8_t wait_time (uint8_t target_temp, uint16_t desired_time,uint16_t sec)
 {
-
 	step_mashing(target_temp);
 
 	if(sec > desired_time){
 		return 1;
 	}
-	else
+	else{
+		remaining_sec(sec, desired_time);
 		return 0;
+	}
+
 }
 

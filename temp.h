@@ -20,5 +20,4 @@ void therm_read_temperatureRAW(int*, int*); // reading temo from sensor
 
 void display_temp(void); // print temp to display
 
-uint8_t compare(uint8_t); // comparing results
 

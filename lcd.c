@@ -86,6 +86,7 @@ int lcd_putchar(char c)
       hd44780_wait_ready(false);
       hd44780_outdata(c);
     }
+  _delay_ms(10);
 
   return 0;
 }
@@ -102,7 +103,7 @@ void lcd_pos(uint8_t line, uint8_t pos)
 	}
 
 	hd44780_outcmd(location);
-    _delay_ms(200);
+    _delay_ms(10);
 
 }
 
@@ -125,20 +126,27 @@ void lcd_putint (int i)
 void clear_screen(void){
 	hd44780_outcmd(HD44780_CLR);
 	hd44780_outcmd(HD44780_HOME);
-    _delay_ms(100);
+    _delay_ms(10);
 
 }
 
-void custom_character(uint8_t a, uint8_t b, uint8_t c, uint8_t d, uint8_t e, uint8_t f, uint8_t g, uint8_t h)
+void custom_character()
 {
+	uint8_t i;//,t;
+	char paternA[8] = {0x1f, 0x11, 0x17, 0x11, 0x1f, 0x0, 0, 0};
+//	char *ptr;
+//	ptr = paternA;
+	//char paternB[8] = {0x1f, 0x11, 0x15, 0x15, 0x1f, 0x0, 0, 0};
+	//char paternC[8] = {0x1f, 0x11, 0x1d, 0x11, 0x1f, 0x0, 0, 0};
+	//char paternD[8] = {0x1f, 0x15, 0x15, 0x11, 0x1f, 0x0, 0, 0};
+
+
 	hd44780_outcmd (0x40);
-    hd44780_outdata(a);
-    hd44780_outdata(b);
-    hd44780_outdata(c);
-    hd44780_outdata(d);
-    hd44780_outdata(e);
-    hd44780_outdata(f);
-    hd44780_outdata(g);
-    hd44780_outdata(h);
+	for(i=0; i<8; i++){
+		hd44780_outdata(paternA[i]);
+		//ptr++;
+	}
+
+	//hd44780_outdata(0x00);
 
 }
