@@ -49,9 +49,9 @@ lcd_init(void)
   hd44780_wait_ready(false);
 
   /*
-   * Enable display, activate non-blinking cursor.
+   * Enable display, activate blinking cursor.
    */
-  hd44780_outcmd(HD44780_DISPCTL(1, 1, 0));
+  hd44780_outcmd(HD44780_DISPCTL(1, 0, 0));
   hd44780_wait_ready(false);
 }
 

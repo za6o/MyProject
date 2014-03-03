@@ -123,8 +123,7 @@ hd44780_outbyte(uint8_t b, uint8_t rs)
 /*
  * Read one nibble from the LCD controller.
  */
-static uint8_t
-hd44780_innibble(uint8_t rs)
+static uint8_t hd44780_innibble(uint8_t rs)
 {
   uint8_t x;
 
@@ -144,8 +143,7 @@ hd44780_innibble(uint8_t rs)
 /*
  * Read one byte (i.e. two nibbles) from the LCD controller.
  */
-uint8_t
-hd44780_inbyte(uint8_t rs)
+uint8_t hd44780_inbyte(uint8_t rs)
 {
   uint8_t x;
 
@@ -158,8 +156,7 @@ hd44780_inbyte(uint8_t rs)
 /*
  * Wait until the busy flag is cleared.
  */
-void
-hd44780_wait_ready(bool longwait)
+void hd44780_wait_ready(bool longwait)
 {
 #if USE_BUSY_BIT
   while (hd44780_incmd() & HD44780_BUSYFLAG) ;
@@ -179,8 +176,7 @@ hd44780_wait_ready(bool longwait)
  * This is the only area where timed waits are really needed as
  * the busy flag cannot be probed initially.
  */
-void
-hd44780_init(void)
+void hd44780_init(void)
 {
   SET(DDR, HD44780_RS);
   SET(DDR, HD44780_RW);

@@ -11,8 +11,18 @@
 
 inline void	remaining_sec(uint16_t time, uint16_t desired_time)
 {
+	uint16_t diff=desired_time-time;
+	if (diff <= 99){
+		lcd_pos(2,15);
+		lcd_putchar(' ');
+	}
+	if (diff <= 9){
+		lcd_pos(2,14);
+		lcd_putchar(' ');
+	}
+
 	lcd_pos(2,13);
-	lcd_putint(desired_time-time);
+	lcd_putint(diff);
 }
 
 
@@ -24,6 +34,10 @@ inline uint8_t compare(uint8_t targT){
 	lcd_putint(digit);
 	lcd_putchar('.');
 	lcd_putint(decimal/100);
+
+	lcd_pos(1,15);
+	lcd_putchar('.');
+
 
 	if ((int)targT <= digit)
 		return 1;
@@ -47,7 +61,6 @@ inline uint8_t step_mashing(uint8_t target_temp){
 
 uint8_t reaching_targ(uint8_t targ_temp)
 {
-
 	return (step_mashing(targ_temp));
 }
 

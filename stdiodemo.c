@@ -45,7 +45,7 @@ static void ioinit(void)
 {
  // uart_init();
   lcd_init();
-//  custom_character();
+  custom_character();
   init_heater();
   timer_config(); // enable timer interrupts
 
@@ -55,8 +55,8 @@ static void ioinit(void)
 
 int main(void) {
 
-	const uint8_t target_temp[5] = {22,23,21};
-	const uint16_t time_sec[5] = {5,10,20};
+	const uint8_t target_temp[5] = {22,23,24,20,19};
+	const uint16_t time_sec[5] = {5,10,120,10,9};
 	bool heating=true;
 	uint8_t cycle=0;
 
@@ -79,8 +79,6 @@ int main(void) {
 
 
 	for(;;){
-		if (cycle == 5)
-			return 0;
 		if (heating){
 			if (reaching_targ(target_temp[cycle])){
 				sec=0;
@@ -98,7 +96,6 @@ int main(void) {
 				lcd_putint(time_sec[cycle]);
 			}
 	    _delay_ms(500);
-
 	}
 	return 0;
 }
