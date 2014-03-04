@@ -36,7 +36,7 @@
 
 
 volatile uint16_t sec=0;
-
+//#define BITS11
 
 /*
  * Do all the startup-time peripheral initializations.
@@ -45,19 +45,20 @@ static void ioinit(void)
 {
  // uart_init();
   lcd_init();
-  set_9bits_res();
-  //custom_character();
   init_heater();
   timer_config(); // enable timer interrupts
+#ifdef BITS11
+  set_9bits_res();
+#endif
+  //custom_character();
+
 
 }
 
-
-
 int main(void) {
 
-	const uint8_t target_temp[5] = {22,23,24,20,19};
-	const uint16_t time_sec[5] = {5,10,120,10,9};
+	const uint8_t target_temp[5] = {40,55,65,72,78};
+	const uint16_t time_sec[5] = {5,30,120,600,10};
 	bool heating=true;
 	uint8_t cycle=0;
 
@@ -69,6 +70,9 @@ int main(void) {
 	clear_screen();
 	lcd_putstring("Temp:");
 	display_temp();
+
+	lcd_pos(2,12);
+	lcd_putstring("aut");
 
 	lcd_pos(2,0);
 	lcd_putstring("targ:");
@@ -105,5 +109,21 @@ ISR(TIMER1_COMPA_vect){
 
 	sec++;
 	if (sec >65000 )
+
 		sec=0;
+}
+
+
+ISR(INT0_vect) {
+	if(!manual_mode){
+		manual_mode = true;
+		stop_heating();
+		lcd_pos(2,12);
+		lcd_putstring("man");
+	}
+	else {
+		manual_mode = false;
+		lcd_pos(2,12);
+		lcd_putstring("aut");
+	}
 }

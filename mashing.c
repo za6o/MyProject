@@ -35,8 +35,8 @@ inline uint8_t compare(uint8_t targT){
 	lcd_putchar('.');
 	lcd_putint(decimal/100);
 
-	lcd_pos(1,15);
-	lcd_putchar('.');
+	//lcd_pos(1,15);
+//	lcd_putchar('.');
 
 
 	if ((int)targT <= digit)

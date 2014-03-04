@@ -12,3 +12,5 @@ void stop_heating(void);
 
 void start_heating(void);
 
+
+extern bool manual_mode;

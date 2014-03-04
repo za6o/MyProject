@@ -6,6 +6,10 @@
  */
 
 
+#ifndef TEMP_H_
+#define TEMP_H_
+//#define BITS11
+
 uint8_t therm_reset();
 
 void therm_write_bit(uint8_t);
@@ -22,3 +26,5 @@ void display_temp(void); // print temp to display
 
 
 void set_9bits_res(void);
+
+#endif
