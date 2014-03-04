@@ -21,3 +21,4 @@ void therm_read_temperatureRAW(int*, int*); // reading temo from sensor
 void display_temp(void); // print temp to display
 
 
+void set_9bits_res(void);

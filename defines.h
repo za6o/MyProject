@@ -57,6 +57,7 @@
 #define THERM_CMD_ALARMSEARCH	 0xec
 
 #define THERM_DECIMAL_STEPS_12BIT	625
+#define THERM_DECIMAL_STEPS_11BIT  125
 //--------- TEMP DEFINES ---------------------//
 
 

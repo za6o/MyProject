@@ -45,7 +45,8 @@ static void ioinit(void)
 {
  // uart_init();
   lcd_init();
-  custom_character();
+  set_9bits_res();
+  //custom_character();
   init_heater();
   timer_config(); // enable timer interrupts
 
