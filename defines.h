@@ -63,10 +63,10 @@
 /*
  * HEATER DEFINES
  */
-#define HEAT_PORT PORTD
-#define HEAT_DDR DDRD
-#define HEAT_PIN PIND
-#define HEAT_DQ PD1      //!!!!!!!!!!!!!!!!!!!!!!!!!CHANGE IT!!!!!!!!!!!!!!!
+#define HEAT_PORT PORTB
+#define HEAT_DDR DDRB
+#define HEAT_PIN PINB
+#define HEAT_DQ PB5      //!!!!!!!!!!!!!!!!!!!!!!!!!CHANGE IT!!!!!!!!!!!!!!!
 
 #define HEAT_OUTPUT_MODE() HEAT_DDR|=(1<<HEAT_DQ)
 #define HEAT_LOW() HEAT_PORT&=~(1<<HEAT_DQ)

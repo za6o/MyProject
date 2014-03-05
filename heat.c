@@ -18,7 +18,7 @@
 #include <util/delay.h>
 
 static bool heater_on = false;
-bool manual_mode = false;
+
 
 void init_heater(){
 	HEAT_OUTPUT_MODE();
@@ -33,7 +33,7 @@ void stop_heating(){
 }
 
 void start_heating(){
-	if((!heater_on)&&(!manual_mode)){
+	if(!(heater_on)){
 		HEAT_HIGH();
 		heater_on=true;
 	}

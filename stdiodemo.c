@@ -27,7 +27,6 @@
 #include <util/delay.h>
 
 #include "lcd.h"
-#include "uart.h"
 #include "temp.h"
 #include "heat.h"
 #include "timer.h"
@@ -36,16 +35,13 @@
 
 
 volatile uint16_t sec=0;
-//#define BITS11
 
 /*
  * Do all the startup-time peripheral initializations.
  */
 static void ioinit(void)
 {
- // uart_init();
   lcd_init();
- // custom_character();
   init_heater();
   timer_config(); // enable timer interrupts
 }
@@ -65,9 +61,6 @@ int main(void) {
 	clear_screen();
 	lcd_putstring("Temp:");
 	display_temp();
-
-	lcd_pos(1,12);
-	lcd_putstring("aut");
 
 	lcd_pos(2,0);
 	lcd_putstring("targ:");
@@ -106,19 +99,4 @@ ISR(TIMER1_COMPA_vect){
 	if (sec >65000 )
 
 		sec=0;
-}
-
-
-ISR(INT0_vect) {
-	if(!manual_mode){
-		manual_mode = true;
-		stop_heating();
-		lcd_pos(1,12);
-		lcd_putstring("man");
-	}
-	else {
-		manual_mode = false;
-		lcd_pos(1,12);
-		lcd_putstring("aut");
-	}
 }

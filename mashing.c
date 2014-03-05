@@ -20,6 +20,10 @@ inline void	remaining_sec(uint16_t time, uint16_t desired_time)
 		lcd_pos(2,14);
 		lcd_putchar(' ');
 	}
+
+    lcd_pos(1,13);
+    lcd_putint(diff);
+
 }
 
 
