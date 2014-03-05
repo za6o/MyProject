@@ -55,6 +55,13 @@ inline uint8_t step_mashing(uint8_t target_temp){
 		return 0;
 }
 
+#if 0
+inline uint8_t reaching_targ(uint8_t targ_temp)
+{
+	return (step_mashing(targ_temp));
+}
+#endif
+
 uint8_t reaching_targ(uint8_t targ_temp)
 {
 	return (step_mashing(targ_temp));
@@ -73,4 +80,29 @@ uint8_t wait_time (uint8_t target_temp, uint16_t desired_time,uint16_t sec)
 	}
 
 }
+
+
+
+#if 0
+static bool heating=true;
+void start_mashing(){
+	if (heating){
+		if (reaching_targ(target_temp[cycle])){
+			sec=0;
+			heating=false;
+		}
+	}
+	else
+		if (wait_time(target_temp[cycle],time_sec[cycle], sec)){
+			heating=true;
+			cycle++;
+
+			lcd_pos(2,5);
+			lcd_putint(target_temp[cycle]);
+			lcd_pos(2,13);
+			lcd_putint(time_sec[cycle]);
+		}
+    _delay_ms(600);
+}
+#endif
 

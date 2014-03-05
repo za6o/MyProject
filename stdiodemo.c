@@ -72,6 +72,8 @@ int main(void) {
 
 
 	for(;;){
+
+#if 1
 		if (heating){
 			if (reaching_targ(target_temp[cycle])){
 				sec=0;
@@ -89,14 +91,13 @@ int main(void) {
 				lcd_putint(time_sec[cycle]);
 			}
 	    _delay_ms(500);
+#endif
 	}
 	return 0;
 }
 
 ISR(TIMER1_COMPA_vect){
-
 	sec++;
-	if (sec >65000 )
-
+	if (sec >65000)
 		sec=0;
 }
