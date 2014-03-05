@@ -13,8 +13,6 @@
 #include "lcd.h"
 #include "defines.h"
 
-//#define BITS11
-
 
 uint8_t therm_reset()
 {
@@ -71,19 +69,7 @@ void therm_write_byte(uint8_t byte)
 		byte>>=1;
 	}
 }
-#ifdef BITS11
-	void set_9bits_res(){
 
-		therm_reset();
-		therm_write_byte(THERM_CMD_SKIPROM);
-		therm_write_byte(THERM_CMD_WSCRATCHPAD);
-		therm_write_byte(0xFF);
-		therm_write_byte(0xFF);
-		therm_write_byte(0x40);
-		therm_write_byte(THERM_CMD_CPYSCRATCHPAD);
-		_delay_ms(15);
-	}
-#endif
 
 void therm_read_temperatureRAW(int *digit, int *decimal){
 
@@ -104,15 +90,9 @@ void therm_read_temperatureRAW(int *digit, int *decimal){
 	therm_reset();
 	*digit = firstbyte>>4;
 	*digit|= (secondbyte&0x7)<<4;
-
-#ifdef BITS11
-	*decimal =(firstbyte&0x0E)>>1;
-	*decimal *=THERM_DECIMAL_STEPS_11BIT;
-#else
 	*decimal =firstbyte&0x0F;
 	*decimal *=THERM_DECIMAL_STEPS_12BIT;
 
-#endif
 
 }
 

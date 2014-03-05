@@ -20,9 +20,6 @@ inline void	remaining_sec(uint16_t time, uint16_t desired_time)
 		lcd_pos(2,14);
 		lcd_putchar(' ');
 	}
-
-	lcd_pos(2,13);
-	lcd_putint(diff);
 }
 
 
@@ -34,10 +31,6 @@ inline uint8_t compare(uint8_t targT){
 	lcd_putint(digit);
 	lcd_putchar('.');
 	lcd_putint(decimal/100);
-
-	//lcd_pos(1,15);
-//	lcd_putchar('.');
-
 
 	if ((int)targT <= digit)
 		return 1;
@@ -54,7 +47,6 @@ inline uint8_t step_mashing(uint8_t target_temp){
 		}
 		else
 			start_heating();
-
 
 		return 0;
 }

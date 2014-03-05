@@ -29,8 +29,7 @@
  * Setup the LCD controller.  First, call the hardware initialization
  * function, then adjust the display attributes we want.
  */
-void
-lcd_init(void)
+void lcd_init(void)
 {
 
   hd44780_init();
@@ -127,26 +126,5 @@ void clear_screen(void){
 	hd44780_outcmd(HD44780_CLR);
 	hd44780_outcmd(HD44780_HOME);
     _delay_ms(10);
-
-}
-
-void custom_character()
-{
-	uint8_t i;//,t;
-	char paternA[8] = {0x1f, 0x11, 0x17, 0x11, 0x1f, 0x0, 0, 0};
-//	char *ptr;
-//	ptr = paternA;
-	//char paternB[8] = {0x1f, 0x11, 0x15, 0x15, 0x1f, 0x0, 0, 0};
-	//char paternC[8] = {0x1f, 0x11, 0x1d, 0x11, 0x1f, 0x0, 0, 0};
-	//char paternD[8] = {0x1f, 0x15, 0x15, 0x11, 0x1f, 0x0, 0, 0};
-
-
-	hd44780_outcmd (0x40);
-	for(i=0; i<8; i++){
-		hd44780_outdata(paternA[i]);
-		//ptr++;
-	}
-
-	//hd44780_outdata(0x00);
 
 }

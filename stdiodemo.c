@@ -47,12 +47,6 @@ static void ioinit(void)
   lcd_init();
   init_heater();
   timer_config(); // enable timer interrupts
-#ifdef BITS11
-  set_9bits_res();
-#endif
-  //custom_character();
-
-
 }
 
 int main(void) {
@@ -71,7 +65,7 @@ int main(void) {
 	lcd_putstring("Temp:");
 	display_temp();
 
-	lcd_pos(2,12);
+	lcd_pos(1,12);
 	lcd_putstring("aut");
 
 	lcd_pos(2,0);
@@ -118,12 +112,12 @@ ISR(INT0_vect) {
 	if(!manual_mode){
 		manual_mode = true;
 		stop_heating();
-		lcd_pos(2,12);
+		lcd_pos(1,12);
 		lcd_putstring("man");
 	}
 	else {
 		manual_mode = false;
-		lcd_pos(2,12);
+		lcd_pos(1,12);
 		lcd_putstring("aut");
 	}
 }
