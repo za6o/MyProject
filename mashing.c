@@ -59,7 +59,7 @@ uint8_t speedSelect(uint8_t *target){
 		return HIGH;
 	else if (((*target-actualDigit))>1 && ((*target-actualDigit)<3))
 		return MED;
-	else if (((*target-actualDigit)>=0) && ((*target-actualDigit)<=1))
+	else if (((*target-actualDigit)==0) || ((*target-actualDigit)==1))
 		return LOW;
 	else
 		return OFF;
@@ -74,18 +74,26 @@ void setSpeed(uint8_t level){
 	case HIGH:
 		switchedON=5;
 		switchedOFF=0;
+		lcd_pos(1,11);
+		lcd_putstring("a");
 		break;
 	case MED:
 		switchedON=3;
 		switchedOFF=2;
+		lcd_pos(1,11);
+				lcd_putstring("b");
 		break;
 	case LOW:
 		switchedON=2;
 		switchedOFF=3;
+		lcd_pos(1,11);
+				lcd_putstring("c");
 		break;
 	case OFF:
 		switchedON=0;
 		switchedOFF=5;
+		lcd_pos(1,11);
+				lcd_putstring("d");
 		break;
 	}
 	startHeating (switchedON, switchedOFF);
@@ -108,9 +116,13 @@ void startHeating (uint8_t working,uint8_t stopping){
 void wait(uint16_t *seconds, uint8_t *temp ) {
 
 	sec=0;
+
 	while (sec < *seconds ){
+
 		keepTemp(temp);//   keep the temp in the range //speedSelect
+		sec++;
 	}
+	pause = false;
 }
 
 void keepTemp(uint8_t *tempereture){

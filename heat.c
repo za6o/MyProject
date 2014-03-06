@@ -33,7 +33,7 @@ void stop_heating(){
 }
 
 void start_heating(){
-	if(!(heater_on)){
+	if(!heater_on){
 		HEAT_HIGH();
 		heater_on=true;
 	}
