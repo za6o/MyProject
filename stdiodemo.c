@@ -48,7 +48,7 @@ static void ioinit(void)
 
 int main(void) {
 
-	 uint8_t target_temp[5] = {25,35,65,72,78};
+	 uint8_t target_temp[5] = {24,26,65,72,78};
 	 uint16_t time_sec[5] = {5,30,120,600,10};
 	 uint8_t* targ_temp = target_temp;
 	 uint16_t* tim_sec = time_sec;
@@ -64,19 +64,23 @@ int main(void) {
 	lcd_putstring("Temp:");
 	display_temp();
 
-
+	lcd_pos(2,0);
+	lcd_putstring("targ:");
+	lcd_pos(2,8);
+	lcd_putstring("time:");
 
 	uint8_t i;
 	for(i=0;i<=cycles; i++){
-		lcd_pos(2,0);
-		lcd_putstring("targ:");
+		lcd_pos(2,5);
+		//lcd_putstring("targ:");
 		lcd_putint(*targ_temp);
 
-		lcd_pos(2,8);
-		lcd_putstring("time:");
+		lcd_pos(2,13);
+	//	lcd_putstring("time:");
 		lcd_putint(*tim_sec);
 
 		start_mashing(targ_temp, tim_sec);
+		pause=false;
 
 		targ_temp++;
 		tim_sec++;

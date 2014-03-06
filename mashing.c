@@ -36,7 +36,7 @@ void start_mashing(uint8_t *target_temp, uint16_t *time_sec){
 		case OFF:
 			startHeating(OFF);
 			pause = true;
-			//wait(time_sec, target_temp);
+			wait(time_sec, target_temp);
 			break;
 		default: // just for debugging
 			clear_screen();
@@ -65,7 +65,7 @@ uint8_t speedSelect(uint8_t *target){
 		return OFF;
 }
 
-void startHeating (uint8_t level){
+inline void startHeating (uint8_t level){
 
 	uint8_t i;
 	uint8_t working=0, stopping=0;
@@ -74,17 +74,12 @@ void startHeating (uint8_t level){
 
 	for (i=0; i < working ; i ++){
 		start_heating();
-		lcd_pos(1,12);
-						lcd_putstring("h");
-		_delay_ms(950);
+//		_delay_ms(500);
 	}
 	for (i=0; i < stopping ; i ++){
 			stop_heating();
-			lcd_pos(1,12);
-							lcd_putstring("n");
-			_delay_ms(950);
+	//		_delay_ms(500);
 	}
-
 
 }
 
@@ -95,25 +90,25 @@ void setSpeed (uint8_t level,uint8_t *working,uint8_t *stopping){
 			*working=5;
 			*stopping=0;
 			lcd_pos(1,11);
-			lcd_putstring("a");
+			lcd_putstring("h");
 			break;
 		case MED:
 			*working=3;
 			*stopping=2;
 			lcd_pos(1,11);
-					lcd_putstring("b");
+					lcd_putstring("m");
 			break;
 		case LOW:
 			*working=2;
 			*stopping=3;
 			lcd_pos(1,11);
-					lcd_putstring("c");
+					lcd_putstring("l");
 			break;
 		case OFF:
 			*working=0;
 			*stopping=5;
 			lcd_pos(1,11);
-					lcd_putstring("d");
+					lcd_putstring("o");
 			break;
 		}
 }
@@ -126,7 +121,6 @@ void wait(uint16_t *seconds, uint8_t *temp ) {
 	while (sec < *seconds ){
 		keepTemp(temp);//   keep the temp in the range //speedSelect
 	}
-	pause = false;
 	lcd_pos(1,14);
 	lcd_putint(0);
 	lcd_putint(0);
