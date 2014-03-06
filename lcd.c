@@ -58,7 +58,7 @@ void lcd_init(void)
  * Send character c to the LCD display.  After a '\n' has been seen,
  * the next character will first clear the display.
  */
-int lcd_putchar(char c)
+inline int lcd_putchar(char c)
 {
   static bool nl_seen;
 

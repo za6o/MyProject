@@ -93,8 +93,6 @@ void setSpeed(uint8_t level){
 
 void startHeating (uint8_t working,uint8_t stopping){
 
-	//uint16_t local_sec = sec;
-
 	uint8_t i;
 	for (i=0; i < working ; i ++){
 		start_heating();
@@ -108,12 +106,11 @@ void startHeating (uint8_t working,uint8_t stopping){
 
 
 void wait(uint16_t *seconds, uint8_t *temp ) {
-	//extern uint16_t
+
 	sec=0;
 	while (sec < *seconds ){
 		keepTemp(temp);//   keep the temp in the range //speedSelect
 	}
-
 }
 
 void keepTemp(uint8_t *tempereture){
