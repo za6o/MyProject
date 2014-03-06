@@ -6,6 +6,8 @@
  */
 
 
+#ifndef __TEMP_H__
+#define __TEMP_H__
 
 uint8_t therm_reset();
 
@@ -21,4 +23,4 @@ void therm_read_temperatureRAW(int*, int*); // reading temo from sensor
 
 void display_temp(void); // print temp to display
 
-
+#endif

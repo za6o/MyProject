@@ -5,19 +5,22 @@
  *      Author: anaidenov
  */
 
+#ifndef __MASHING_H__
+#define __MASHING_H__
 
-void remaining_sec(uint16_t , uint16_t );
 
+extern volatile uint16_t sec;
 
-uint8_t step_mashing(uint8_t);
+uint8_t speedSelect(uint8_t*);
 
-uint8_t wait_time(uint8_t, uint16_t, uint16_t);
+uint8_t wait(uint16_t*);
 
-uint8_t reaching_targ(uint8_t);
+void startHeating (uint8_t ,uint8_t );
 
-uint8_t compare(uint8_t); // comparing results
+void setSpeed(uint8_t);
 
-#ifdef stepmashing
-start_mashing
+void start_mashing( const uint8_t *,const uint16_t *);
 
 #endif
+
+
