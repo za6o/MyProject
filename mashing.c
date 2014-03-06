@@ -25,16 +25,16 @@ void start_mashing(uint8_t *target_temp, uint16_t *time_sec){
 	while (!pause){
 		switch (speedSelect(target_temp)){
 		case HIGH:
-			setSpeed(HIGH);
+			startHeating(HIGH);
 			break;
 		case MED:
-			setSpeed(MED);
+			startHeating(MED);
 			break;
 		case LOW:
-			setSpeed(LOW);
+			startHeating(LOW);
 			break;
 		case OFF:
-			setSpeed(OFF);
+			startHeating(OFF);
 			pause = true;
 			//wait(time_sec, target_temp);
 			break;
@@ -65,44 +65,13 @@ uint8_t speedSelect(uint8_t *target){
 		return OFF;
 }
 
-void setSpeed(uint8_t level){
-
-	uint8_t switchedON=0;
-	uint8_t switchedOFF=0;
-
-	switch (level) {
-	case HIGH:
-		switchedON=5;
-		switchedOFF=0;
-		lcd_pos(1,11);
-		lcd_putstring("a");
-		break;
-	case MED:
-		switchedON=3;
-		switchedOFF=2;
-		lcd_pos(1,11);
-				lcd_putstring("b");
-		break;
-	case LOW:
-		switchedON=2;
-		switchedOFF=3;
-		lcd_pos(1,11);
-				lcd_putstring("c");
-		break;
-	case OFF:
-		switchedON=0;
-		switchedOFF=5;
-		lcd_pos(1,11);
-				lcd_putstring("d");
-		break;
-	}
-	startHeating (switchedON, switchedOFF);
-}
-
-void startHeating (uint8_t working,uint8_t stopping){
-
+void startHeating (uint8_t level){
 
 	uint8_t i;
+	uint8_t working=0, stopping=0;
+
+	setSpeed (level, &working, &stopping);
+
 	for (i=0; i < working ; i ++){
 		start_heating();
 		lcd_pos(1,12);
@@ -115,6 +84,38 @@ void startHeating (uint8_t working,uint8_t stopping){
 							lcd_putstring("n");
 			_delay_ms(950);
 	}
+
+
+}
+
+void setSpeed (uint8_t level,uint8_t *working,uint8_t *stopping){
+
+		switch (level) {
+		case HIGH:
+			*working=5;
+			*stopping=0;
+			lcd_pos(1,11);
+			lcd_putstring("a");
+			break;
+		case MED:
+			*working=3;
+			*stopping=2;
+			lcd_pos(1,11);
+					lcd_putstring("b");
+			break;
+		case LOW:
+			*working=2;
+			*stopping=3;
+			lcd_pos(1,11);
+					lcd_putstring("c");
+			break;
+		case OFF:
+			*working=0;
+			*stopping=5;
+			lcd_pos(1,11);
+					lcd_putstring("d");
+			break;
+		}
 }
 
 
@@ -136,16 +137,16 @@ void keepTemp(uint8_t *tempereture){
 
 	switch (speedSelect(tempereture)){
 				case HIGH:
-					setSpeed(HIGH);
+					startHeating(HIGH);
 					break;
 				case MED:
-					setSpeed(MED);
+					startHeating(MED);
 					break;
 				case LOW:
-					setSpeed(LOW);
+					startHeating(LOW);
 					break;
 				case OFF:
-					setSpeed(OFF);
+					startHeating(OFF);
 					break;
 	}
 }
