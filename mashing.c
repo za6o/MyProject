@@ -15,39 +15,34 @@
 #define LOW 1
 #define OFF 0
 
-static bool pause=false;
+bool pause=false;
 
 volatile uint16_t sec;
 
 
 void start_mashing(uint8_t *target_temp, uint16_t *time_sec){
 
-	uint8_t i;
-	for (i=0; i < 5; i++){
-		while (pause){
-			switch (speedSelect(target_temp)){
-			case HIGH:
-				setSpeed(HIGH);
-				break;
-			case MED:
-				setSpeed(MED);
-				break;
-			case LOW:
-				setSpeed(LOW);
-				break;
-			case OFF:
-				setSpeed(OFF);
-				pause = true;
-				wait(time_sec, target_temp);
-				break;
-			default: // just for debugging
-				clear_screen();
-				lcd_putstring("default switch statement!!!");
-				break;
-			}
+	while (!pause){
+		switch (speedSelect(target_temp)){
+		case HIGH:
+			setSpeed(HIGH);
+			break;
+		case MED:
+			setSpeed(MED);
+			break;
+		case LOW:
+			setSpeed(LOW);
+			break;
+		case OFF:
+			setSpeed(OFF);
+			pause = true;
+			wait(time_sec, target_temp);
+			break;
+		default: // just for debugging
+			clear_screen();
+			lcd_putstring("default switch statement!!!");
+			break;
 		}
-		target_temp++;
-		time_sec++;
 	}
 }
 
@@ -62,7 +57,7 @@ uint8_t speedSelect(uint8_t *target){
 
 	if (((*target)-actualDigit)>5)
 		return HIGH;
-	else if (((*target-actualDigit))>1 && ((*target-actualDigit)<5))
+	else if (((*target-actualDigit))>1 && ((*target-actualDigit)<3))
 		return MED;
 	else if (((*target-actualDigit)>=0) && ((*target-actualDigit)<=1))
 		return LOW;
@@ -85,8 +80,8 @@ void setSpeed(uint8_t level){
 		switchedOFF=2;
 		break;
 	case LOW:
-		switchedON=1;
-		switchedOFF=4;
+		switchedON=2;
+		switchedOFF=3;
 		break;
 	case OFF:
 		switchedON=0;
