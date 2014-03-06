@@ -94,7 +94,7 @@ ISR(TIMER1_COMPA_vect){
 	display_temp();
 
 	if (pause){
-		lcd_pos(1,13);
+		lcd_pos(1,14);
 		lcd_putint(sec);
 	}
 
