@@ -7,6 +7,7 @@
 #include "lcd.h"
 #include "temp.h"
 #include "heat.h"
+#include "mashing.h"
 
 
 #define HIGH 3
@@ -17,6 +18,38 @@
 static bool pause=false;
 
 volatile uint16_t sec;
+
+
+void start_mashing(uint8_t *target_temp, uint16_t *time_sec){
+
+	uint8_t i;
+	for (i=0; i < 5; i++){
+		while (pause){
+			switch (speedSelect(target_temp)){
+			case HIGH:
+				setSpeed(HIGH);
+				break;
+			case MED:
+				setSpeed(MED);
+				break;
+			case LOW:
+				setSpeed(LOW);
+				break;
+			case OFF:
+				setSpeed(OFF);
+				pause = true;
+				wait(time_sec, target_temp);
+				break;
+			default: // just for debugging
+				clear_screen();
+				lcd_putstring("default switch statement!!!");
+				break;
+			}
+		}
+		target_temp++;
+		time_sec++;
+	}
+}
 
 uint8_t speedSelect(uint8_t *target){
 
@@ -33,36 +66,8 @@ uint8_t speedSelect(uint8_t *target){
 		return MED;
 	else if (((*target-actualDigit)>=0) && ((*target-actualDigit)<=1))
 		return LOW;
-	else{
-		pause = true;
+	else
 		return OFF;
-	}
-}
-
-
-uint8_t wait(uint16_t *seconds ) {
-	//extern uint16_t
-	sec=0;
-	while (sec < *seconds ){
-    //   keep the temp in the range //speedSelect
-	}
-	return 1;
-}
-
-void startHeating (uint8_t working,uint8_t stopping){
-
-	//uint16_t local_sec = sec;
-
-	uint8_t i;
-	for (i=0; i < working ; i ++){
-		start_heating();
-		_delay_ms(950);
-	}
-	for (i=0; i < stopping ; i ++){
-			stop_heating();
-			_delay_ms(950);
-	}
-
 }
 
 void setSpeed(uint8_t level){
@@ -88,38 +93,53 @@ void setSpeed(uint8_t level){
 		switchedOFF=5;
 		break;
 	}
-
 	startHeating (switchedON, switchedOFF);
-
 }
 
-void start_mashing(uint8_t *target_temp, uint16_t *time_sec){
+void startHeating (uint8_t working,uint8_t stopping){
+
+	//uint16_t local_sec = sec;
 
 	uint8_t i;
-	for (i=0; i < 5; i++){
-
-		switch (speedSelect(target_temp)){
-		case HIGH:
-			setSpeed(HIGH);
-			break;
-		case MED:
-			setSpeed(MED);
-			break;
-		case LOW:
-			setSpeed(LOW);
-			break;
-		case OFF:
-			setSpeed(OFF);
-			//if (pause)
-			wait(time_sec);
-			break;
-		default: // just for debugging
-			clear_screen();
-			lcd_putstring("default switch statement!!!");
-			break;
-		}
-		target_temp++;
-		time_sec++;
+	for (i=0; i < working ; i ++){
+		start_heating();
+		_delay_ms(950);
+	}
+	for (i=0; i < stopping ; i ++){
+			stop_heating();
+			_delay_ms(950);
 	}
 }
+
+
+void wait(uint16_t *seconds, uint8_t *temp ) {
+	//extern uint16_t
+	sec=0;
+	while (sec < *seconds ){
+		keepTemp(temp);//   keep the temp in the range //speedSelect
+	}
+
+}
+
+void keepTemp(uint8_t *tempereture){
+
+
+	switch (speedSelect(tempereture)){
+				case HIGH:
+					setSpeed(HIGH);
+					break;
+				case MED:
+					setSpeed(MED);
+					break;
+				case LOW:
+					setSpeed(LOW);
+					break;
+				case OFF:
+					setSpeed(OFF);
+					break;
+	}
+}
+
+
+
 

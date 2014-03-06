@@ -48,10 +48,10 @@ static void ioinit(void)
 
 int main(void) {
 
-	const uint8_t target_temp[5] = {40,55,65,72,78};
-	const uint16_t time_sec[5] = {5,30,120,600,10};
-	const uint8_t* targ_temp = target_temp;
-	const uint16_t* tim_sec = time_sec;
+	 uint8_t target_temp[5] = {40,55,65,72,78};
+	 uint16_t time_sec[5] = {5,30,120,600,10};
+	 uint8_t* targ_temp = target_temp;
+	 uint16_t* tim_sec = time_sec;
 
 	uint8_t cycle=0;
 
