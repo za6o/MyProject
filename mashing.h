@@ -16,3 +16,8 @@ uint8_t wait_time(uint8_t, uint16_t, uint16_t);
 uint8_t reaching_targ(uint8_t);
 
 uint8_t compare(uint8_t); // comparing results
+
+#ifdef stepmashing
+start_mashing
+
+#endif

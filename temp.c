@@ -10,6 +10,8 @@
 #include <util/delay.h>	// used for _delay_us function
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
+
 #include "lcd.h"
 #include "defines.h"
 
@@ -99,12 +101,24 @@ void therm_read_temperatureRAW(int *digit, int *decimal){
 void display_temp(void){
 
 	int digit=0, decimal=0;
+#ifdef stepmashing
+	static bool lock = false;
+			if (!lock){
+				lock = true;
+				therm_read_temperatureRAW(&digit,&decimal);
+				lcd_putint(digit);
+				lcd_putchar('.');
+				lcd_putint(decimal/100);
+				lock = false;
+			}
 
+#else
 	therm_read_temperatureRAW(&digit,&decimal);
 	lcd_putint(digit);
 	lcd_putchar('.');
 	lcd_putint(decimal/100);
-    _delay_ms(500);
+#endif
+   // _delay_ms(500);
 
 }
 

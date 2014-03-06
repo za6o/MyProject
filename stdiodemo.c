@@ -50,6 +50,10 @@ int main(void) {
 
 	const uint8_t target_temp[5] = {40,55,65,72,78};
 	const uint16_t time_sec[5] = {5,30,120,600,10};
+#ifdef stepmashing
+	uint8_t* targ_temp = target_temp;
+	uint16_t* tim_sec = time_sec;
+#endif
 	bool heating=true;
 	uint8_t cycle=0;
 
@@ -72,8 +76,9 @@ int main(void) {
 
 
 	for(;;){
-
-#if 1
+#ifdef stepmashing
+		start_mashing(&targ_temp, &tim_sec);
+#else
 		if (heating){
 			if (reaching_targ(target_temp[cycle])){
 				sec=0;
@@ -97,7 +102,16 @@ int main(void) {
 }
 
 ISR(TIMER1_COMPA_vect){
+
+#ifdef stepmashing
+	lcd_pos(1,5);
+	display_temp();
 	sec++;
 	if (sec >65000)
 		sec=0;
+#else
+	sec++;
+	if (sec >65000)
+		sec=0;
+#endif
 }
