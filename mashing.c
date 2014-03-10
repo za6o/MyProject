@@ -15,14 +15,14 @@
 #define LOW 1
 #define OFF 0
 
-bool pause=false;
-
+bool nextStep;
+volatile bool pause=false;
 volatile uint16_t sec;
 
 
 void start_mashing(uint8_t *target_temp, uint16_t *time_sec){
 
-	while (!pause){
+	while (!nextStep){
 		switch (speedSelect(target_temp)){
 		case HIGH:
 			startHeating(HIGH);
@@ -74,11 +74,11 @@ inline void startHeating (uint8_t level){
 
 	for (i=0; i < working ; i ++){
 		start_heating();
-//		_delay_ms(500);
+		_delay_ms(500);
 	}
 	for (i=0; i < stopping ; i ++){
-			stop_heating();
-	//		_delay_ms(500);
+		stop_heating();
+		_delay_ms(500);
 	}
 
 }
@@ -118,9 +118,10 @@ void wait(uint16_t *seconds, uint8_t *temp ) {
 
 	sec=0;
 
-	while (sec < *seconds ){
+	while (pause){
 		keepTemp(temp);//   keep the temp in the range //speedSelect
 	}
+	nextStep = true;
 	lcd_pos(1,14);
 	lcd_putint(0);
 	lcd_putint(0);

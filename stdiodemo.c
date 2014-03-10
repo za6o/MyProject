@@ -59,18 +59,19 @@ void precondition(void){
 //	lcd_putstring("time:");
 	lcd_putint(*tim_sec);
 
+	nextStep=false;
 	start_mashing(targ_temp, tim_sec);
-//	pause=false;
 
-	//targ_temp++;
-	//tim_sec++;
+
+	targ_temp++;
+	tim_sec++;
 }
 
 int main(void) {
 
 
 
-	//uint8_t cycles=sizeof(target_temp)/sizeof(uint8_t);
+	uint8_t cycles=sizeof(target_temp)/sizeof(uint8_t);
 
 	ioinit();
 
@@ -86,10 +87,10 @@ int main(void) {
 	lcd_pos(2,8);
 	lcd_putstring("time:");
 
-	//uint8_t i;
-	//for(i=0;i<=cycles; i++){
+	uint8_t i;
+	for(i=0;i<=cycles; i++){
 		precondition();
-//	}
+	}
 	return 0;
 }
 
@@ -107,10 +108,9 @@ ISR(TIMER1_COMPA_vect){
 		lcd_putint(sec);
 		if (sec >= *tim_sec){
 			pause=false;
-			targ_temp++;
-			tim_sec++;
-			precodition();
+	//		targ_temp++;
+	//		tim_sec++;
+	//		precondition();
 		}
 	}
-
 }
