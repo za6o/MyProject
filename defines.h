@@ -11,9 +11,6 @@
  * $Id: defines.h 2186 2010-09-22 10:25:15Z aboyapati $
  */
 
-
-#define stepmashing
-
 /* CPU frequency */
 #define F_CPU 16000000UL
 

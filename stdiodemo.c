@@ -32,12 +32,10 @@
 #include "timer.h"
 #include "mashing.h"
 
-	 uint8_t target_temp[5] = {24,26,65,72,78};
-	 uint16_t time_sec[5] = {5,30,120,600,10};
-	 uint8_t* targ_temp = target_temp;
-	 uint16_t* tim_sec = time_sec;
-
-//volatile uint16_t sec;
+uint8_t target_temp[5] = {24,26,65,72,78};
+uint16_t time_sec[5] = {5,30,120,600,10};
+uint8_t* targ_temp = target_temp;
+uint16_t* tim_sec = time_sec;
 
 /*
  * Do all the startup-time peripheral initializations.
@@ -91,6 +89,10 @@ int main(void) {
 	for(i=0;i<=cycles; i++){
 		precondition();
 	}
+	clear_screen();
+	lcd_pos(1,2);
+	lcd_putstring("FINISHED");
+
 	return 0;
 }
 
@@ -108,9 +110,6 @@ ISR(TIMER1_COMPA_vect){
 		lcd_putint(sec);
 		if (sec >= *tim_sec){
 			pause=false;
-	//		targ_temp++;
-	//		tim_sec++;
-	//		precondition();
 		}
 	}
 }

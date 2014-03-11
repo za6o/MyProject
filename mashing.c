@@ -34,13 +34,9 @@ void start_mashing(uint8_t *target_temp, uint16_t *time_sec){
 			startHeating(LOW);
 			break;
 		case OFF:
-			startHeating(OFF);
+		//	startHeating(OFF);
 			pause = true;
 			wait(time_sec, target_temp);
-			break;
-		default: // just for debugging
-			clear_screen();
-			lcd_putstring("default switch statement!!!");
 			break;
 		}
 	}
@@ -51,9 +47,6 @@ uint8_t speedSelect(uint8_t *target){
 	int actualDigit=0;
 	int decimal=0;
 	therm_read_temperatureRAW(&actualDigit,&decimal);
-//	lcd_putint(digit);
-//	lcd_putchar('.');
-//	lcd_putint(decimal/100);
 
 	if (((*target)-actualDigit)>3)
 		return HIGH;
@@ -119,30 +112,30 @@ void wait(uint16_t *seconds, uint8_t *temp ) {
 	sec=0;
 
 	while (pause){
-		keepTemp(temp);//   keep the temp in the range //speedSelect
+		keepTemp(temp);
 	}
 	nextStep = true;
-	lcd_pos(1,14);
-	lcd_putint(0);
-	lcd_putint(0);
+	lcd_pos(1,13);
+	lcd_putchar(' ');
+	lcd_putchar(' ');
+	lcd_putchar(' ');
 }
 
 void keepTemp(uint8_t *tempereture){
 
-
 	switch (speedSelect(tempereture)){
-				case HIGH:
-					startHeating(HIGH);
-					break;
-				case MED:
-					startHeating(MED);
-					break;
-				case LOW:
-					startHeating(LOW);
-					break;
-				case OFF:
-					startHeating(OFF);
-					break;
+		case HIGH:
+			startHeating(HIGH);
+			break;
+		case MED:
+			startHeating(MED);
+			break;
+		case LOW:
+			startHeating(LOW);
+			break;
+		case OFF:
+			startHeating(OFF);
+			break;
 	}
 }
 

@@ -101,7 +101,6 @@ void therm_read_temperatureRAW(int *digit, int *decimal){
 void display_temp(void){
 
 	int digit=0, decimal=0;
-#ifdef stepmashing
 	static bool lock = false;
 			if (!lock){
 				lock = true;
@@ -111,15 +110,6 @@ void display_temp(void){
 				lcd_putint(decimal/100);
 				lock = false;
 			}
-
-#else
-	therm_read_temperatureRAW(&digit,&decimal);
-	lcd_putint(digit);
-	lcd_putchar('.');
-	lcd_putint(decimal/100);
-#endif
-   // _delay_ms(500);
-
 }
 
 
