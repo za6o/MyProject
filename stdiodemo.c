@@ -32,8 +32,8 @@
 #include "timer.h"
 #include "mashing.h"
 
-uint8_t target_temp[5] = {24,26,65,72,78};
-uint16_t time_sec[5] = {5,30,120,600,10};
+uint8_t target_temp[5] = {22,23,24,25,27};
+uint16_t time_sec[5] = {5,10,11,12,13};
 uint8_t* targ_temp = target_temp;
 uint16_t* tim_sec = time_sec;
 
@@ -76,17 +76,18 @@ int main(void) {
 	lcd_putstring("Starting...");
     _delay_ms(900);
 
-	clear_screen();
-	lcd_putstring("Temp:");
-	display_temp();
 
-	lcd_pos(2,0);
-	lcd_putstring("targ:");
-	lcd_pos(2,8);
-	lcd_putstring("time:");
 
 	uint8_t i;
-	for(i=0;i<=cycles; i++){
+	for(i=0;i<cycles; i++){
+		clear_screen();
+		lcd_putstring("Temp:");
+		display_temp();
+
+		lcd_pos(2,0);
+		lcd_putstring("targ:");
+		lcd_pos(2,8);
+		lcd_putstring("time:");
 		precondition();
 	}
 	clear_screen();
