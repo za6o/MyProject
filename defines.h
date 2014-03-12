@@ -56,7 +56,15 @@
 #define THERM_CMD_SKIPROM	     0xcc
 #define THERM_CMD_ALARMSEARCH	 0xec
 
+
+#define bit11
+
+#ifdef bit11
+#define THERM_DECIMAL_STEPS_11BIT	125
+#else
 #define THERM_DECIMAL_STEPS_12BIT	625
+#endif
+
 //--------- TEMP DEFINES ---------------------//
 
 

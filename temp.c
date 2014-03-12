@@ -79,22 +79,45 @@ void therm_read_temperatureRAW(int *digit, int *decimal){
 	uint8_t secondbyte;
 
 
-    therm_reset();
 
+#ifdef bit11
+	therm_reset();
+	therm_write_byte(THERM_CMD_SKIPROM);
+	therm_write_byte(THERM_CMD_WSCRATCHPAD);
+	therm_write_byte(0x00);
+	therm_write_byte(0x00);
+	therm_write_byte(0x5f); // 11 bit resolution
+
+	therm_reset();
+	therm_write_byte(THERM_CMD_SKIPROM);
+	therm_write_byte(THERM_CMD_CPYSCRATCHPAD);
+	while(!therm_read_bit());//_delay_ms(20);
+
+#endif
+	therm_reset();
 	therm_write_byte(THERM_CMD_SKIPROM);
 	therm_write_byte(THERM_CMD_CONVERTTEMP);
 	while(!therm_read_bit());
+
 	therm_reset();
 	therm_write_byte(THERM_CMD_SKIPROM);
 	therm_write_byte(THERM_CMD_RSCRATCHPAD);
 	firstbyte=therm_read_byte();
 	secondbyte=therm_read_byte();
-	therm_reset();
+	therm_reset(); // try to remove, it should work without this reset
+
+#ifdef bit11
+	*digit = firstbyte>>4;
+	*digit|= (secondbyte&0x7)<<4;
+	*decimal =(firstbyte>>1)&0x07;
+	*decimal *=THERM_DECIMAL_STEPS_11BIT;
+
+#else
 	*digit = firstbyte>>4;
 	*digit|= (secondbyte&0x7)<<4;
 	*decimal =firstbyte&0x0F;
 	*decimal *=THERM_DECIMAL_STEPS_12BIT;
-
+#endif
 
 }
 
