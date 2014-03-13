@@ -50,11 +50,9 @@ static void ioinit(void)
 
 void precondition(void){
 	lcd_pos(2,5);
-	//lcd_putstring("targ:");
 	lcd_putint(*targ_temp);
 
 	lcd_pos(2,13);
-//	lcd_putstring("time:");
 	lcd_putint(*tim_sec);
 
 	nextStep=false;
@@ -81,7 +79,7 @@ int main(void) {
 	uint8_t i;
 	for(i=0;i<cycles; i++){
 		clear_screen();
-		lcd_putstring("Temp:");
+		lcd_putstring("T:");
 		display_temp();
 
 		lcd_pos(2,0);
@@ -91,7 +89,7 @@ int main(void) {
 		precondition();
 	}
 	clear_screen();
-	lcd_pos(1,2);
+	lcd_pos(1,3);
 	lcd_putstring("FINISHED");
 
 	return 0;
@@ -103,11 +101,11 @@ ISR(TIMER1_COMPA_vect){
 	if (sec >65000)
 		sec=0;
 
-	lcd_pos(1,5);
+	lcd_pos(1,2);
 	display_temp();
 
 	if (pause){
-		lcd_pos(1,14);
+		lcd_pos(1,12);
 		lcd_putint(sec);
 		if (sec >= *tim_sec){
 			pause=false;
