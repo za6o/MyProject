@@ -58,34 +58,29 @@ void precondition(void){
 	nextStep=false;
 	start_mashing(targ_temp, tim_sec);
 
-
 	targ_temp++;
 	tim_sec++;
 }
 
 int main(void) {
 
-
+	ioinit();
 
 	uint8_t cycles=sizeof(target_temp)/sizeof(uint8_t);
 
-	ioinit();
-
 	lcd_putstring("Starting...");
     _delay_ms(900);
-
-
 
 	uint8_t i;
 	for(i=0;i<cycles; i++){
 		clear_screen();
 		lcd_putstring("T:");
 		display_temp();
-
 		lcd_pos(2,0);
 		lcd_putstring("targ:");
 		lcd_pos(2,8);
 		lcd_putstring("time:");
+
 		precondition();
 	}
 	clear_screen();
