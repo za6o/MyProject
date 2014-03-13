@@ -17,6 +17,9 @@
 /* UART baud rate */
 #define UART_BAUD  9600
 
+/* 11 bits temp mode  */
+#define bit11
+
 #define BAUD_PRESCALLER (((F_CPU / (UART_BAUD * 16UL))) - 1)    //The formula that does all the required maths
 
 /* HD44780 LCD port connections */
@@ -57,7 +60,7 @@
 #define THERM_CMD_ALARMSEARCH	 0xec
 
 
-#define bit11
+
 
 #ifdef bit11
 #define THERM_DECIMAL_STEPS_11BIT	125

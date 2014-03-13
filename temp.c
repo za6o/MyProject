@@ -130,7 +130,7 @@ void display_temp(void){
 				therm_read_temperatureRAW(&digit,&decimal);
 				lcd_putint(digit);
 				lcd_putchar('.');
-				lcd_putint(decimal/100);
+				lcd_putint(decimal/10);
 				lock = false;
 			}
 }
