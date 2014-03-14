@@ -49,11 +49,12 @@ static void ioinit(void)
 
 
 void precondition(void){
-	lcd_pos(2,5);
+	lcd_pos(1,11);
 	lcd_putint(*targ_temp);
 
-	lcd_pos(2,13);
+	lcd_pos(2,5);
 	lcd_putint(*tim_sec);
+	lcd_putstring("sec");
 
 	nextStep=false;
 	start_mashing(targ_temp, tim_sec);
@@ -75,11 +76,14 @@ int main(void) {
 	for(i=0;i<cycles; i++){
 		clear_screen();
 		lcd_putstring("T:");
-		display_temp();
+		//display_temp();
+		lcd_pos(1,8);
+		lcd_putchar(0x2D);  // --> instead of target
+		lcd_putchar(0x2D);  // --> instead of target
+		lcd_putchar(0x3E);  // --> instead of target
+
 		lcd_pos(2,0);
-		lcd_putstring("targ:");
-		lcd_pos(2,8);
-		lcd_putstring("time:");
+		lcd_putstring("Rest:");
 
 		precondition();
 	}
@@ -100,7 +104,7 @@ ISR(TIMER1_COMPA_vect){
 	display_temp();
 
 	if (pause){
-		lcd_pos(1,12);
+		lcd_pos(2,10);
 		lcd_putint(sec);
 		if (sec >= *tim_sec){
 			pause=false;
