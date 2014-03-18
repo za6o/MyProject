@@ -92,8 +92,14 @@ int main(void) {
 }
 
 ISR(INT0_vect) { //SIG_INTERRUPT0
-	button_pressed = true;
-	BUTT_LED_HIGH();
+	if (!button_pressed){
+		button_pressed = true;
+		BUTT_LED_HIGH();
+	}
+	else if (button_pressed){
+		button_pressed = false;
+		BUTT_LED_LOW();
+	}
 }
 
 
