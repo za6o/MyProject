@@ -44,7 +44,7 @@ static void ioinit(void)
 {
   lcd_init();
   init_heater();
-  timer_config(); // enable timer interrupts
+  int_config(); // enable timer interrupts
 }
 
 
@@ -90,6 +90,12 @@ int main(void) {
 
 	return 0;
 }
+
+ISR(INT0_vect) { //SIG_INTERRUPT0
+	button_pressed = true;
+	BUTT_LED_HIGH();
+}
+
 
 ISR(TIMER1_COMPA_vect){
 

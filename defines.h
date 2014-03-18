@@ -33,6 +33,8 @@
    worst-time delays. */
 #define USE_BUSY_BIT 1
 
+
+//---------------------------------------------------
 /*
  * TEMP DEFINES
  */
@@ -44,8 +46,6 @@
 #define THERM_OUTPUT_MODE() THERM_DDR|=(1<<THERM_DQ)
 #define THERM_LOW() THERM_PORT&=~(1<<THERM_DQ)
 #define THERM_HIGH() THERM_PORT|=(1<<THERM_DQ)
-
-
 
 #define THERM_CMD_CONVERTTEMP    0x44
 #define THERM_CMD_RSCRATCHPAD    0xbe
@@ -59,9 +59,6 @@
 #define THERM_CMD_SKIPROM	     0xcc
 #define THERM_CMD_ALARMSEARCH	 0xec
 
-
-
-
 #ifdef bit11
 #define THERM_DECIMAL_STEPS_11BIT	125
 #else
@@ -70,7 +67,7 @@
 
 //--------- TEMP DEFINES ---------------------//
 
-
+//---------------------------------------------
 /*
  * HEATER DEFINES
  */
@@ -83,4 +80,14 @@
 #define HEAT_LOW() HEAT_PORT&=~(1<<HEAT_DQ)
 #define HEAT_HIGH() HEAT_PORT|=(1<<HEAT_DQ)
 //----------------------
+
+//---------------------------------------------
+/*
+ * button definitions
+ */
+#define BUTT_LED PC0
+#define BUTT_LED_OUTPUT() DDRC=(1<<PC0)
+#define BUTT_LED_HIGH()   PORTC|=(1<<PC0);
+#define BUTT_LED_LOW()    PORTC&=~(1<<PC0);
+#define BUTT_LED_TOGGLE() PORTC^=(1<<PC0);
 

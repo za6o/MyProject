@@ -19,10 +19,14 @@
 
 static bool heater_on = false;
 
+volatile bool button_pressed=false;
+
 
 void init_heater(){
 	HEAT_OUTPUT_MODE();
+	BUTT_LED_OUTPUT();
 	HEAT_LOW();
+	BUTT_LED_LOW();
 }
 
 void stop_heating(){
@@ -33,8 +37,10 @@ void stop_heating(){
 }
 
 void start_heating(){
-	if(!heater_on){
-		HEAT_HIGH();
-		heater_on=true;
+	if (button_pressed){
+		if(!heater_on){
+			HEAT_HIGH();
+			heater_on=true;
+		}
 	}
 }

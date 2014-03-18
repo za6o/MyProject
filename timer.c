@@ -12,9 +12,18 @@
  * Target Timer Count = (((Input Frequency / Prescaler) / Target Frequency) - 1)
  */
 
-void timer_config(void){
+void int_config(void){
+
+	/*
+	 *  button interrupts INT0
+	 */
+	EICRA = (1<<ISC01); // falling edge INT0
+	EIMSK = (1<<INT0); // enable INT0
+
+
 	 TCCR1B = (1<<WGM12)|(1<<CS12); // enable CTS mode; 1HZ=61499 clocks=256 prescale
 	 OCR1A =  62499;            //sets the desired count
-	 TIMSK1 = (1<<OCIE1A); 		//Enable timer interrupts
+	 TIMSK1 = (1<<OCIE1A); 		//Enable timer interrupt
 	 sei();    //Enable global interrupts, so our interrupt service routine can be called
 }
+
