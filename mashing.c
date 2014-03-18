@@ -82,25 +82,25 @@ void setSpeed (uint8_t level,uint8_t *working,uint8_t *stopping){
 		case HIGH:
 			*working=5;
 			*stopping=0;
-			lcd_pos(2,15);
+			lcd_pos(1,15);
 			lcd_putstring("H");
 			break;
 		case MED:
 			*working=3;
 			*stopping=2;
-			lcd_pos(2,15);
+			lcd_pos(1,15);
 					lcd_putstring("M");
 			break;
 		case LOW:
 			*working=2;
 			*stopping=3;
-			lcd_pos(2,15);
+			lcd_pos(1,15);
 					lcd_putstring("L");
 			break;
 		case OFF:
 			*working=0;
 			*stopping=5;
-			lcd_pos(2,15);
+			lcd_pos(1,15);
 					lcd_putstring("O");
 			break;
 		}
@@ -115,7 +115,7 @@ void wait(uint16_t *seconds, uint8_t *temp ) {
 		keepTemp(temp);
 	}
 	nextStep = true;
-	lcd_pos(2,10);
+	lcd_pos(1,10);
 	lcd_putchar(' ');
 	lcd_putchar(' ');
 	lcd_putchar(' ');
