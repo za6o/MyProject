@@ -89,5 +89,4 @@
 #define BUTT_LED_OUTPUT() DDRC=(1<<PC0)
 #define BUTT_LED_HIGH()   PORTC|=(1<<PC0);
 #define BUTT_LED_LOW()    PORTC&=~(1<<PC0);
-#define BUTT_LED_TOGGLE() PORTC^=(1<<PC0);
 

@@ -64,6 +64,9 @@ void precondition(void){
 
 int main(void) {
 
+
+	PORTD |= (1<<PD2);
+
 	ioinit();
 
 	uint8_t cycles=sizeof(target_temp)/sizeof(uint8_t);
@@ -91,14 +94,24 @@ int main(void) {
 	return 0;
 }
 
-ISR(INT0_vect) { //SIG_INTERRUPT0
+ISR(INT0_vect) {
+
+	_delay_ms(20);
+	if (PIND&(1<<PD2)){
+		button_pressed=!button_pressed;
+	}
+
 	if (!button_pressed){
 		button_pressed = true;
 		BUTT_LED_HIGH();
+		lcd_pos(1,13);
+		lcd_putchar('T');
 	}
 	else if (button_pressed){
 		button_pressed = false;
 		BUTT_LED_LOW();
+		lcd_pos(1,13);
+				lcd_putchar('F');
 	}
 }
 
