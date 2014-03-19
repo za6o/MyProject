@@ -22,8 +22,9 @@ volatile uint16_t sec;
 
 void start_mashing(uint8_t *target_temp, uint16_t *time_sec){
 
+	uint8_t reachTemp = (*target_temp)+1;
 	while (!nextStep){
-		switch (speedSelect(target_temp)){
+		switch (speedSelect(&reachTemp)){
 		case HIGH:
 			startHeating(HIGH);
 			break;
@@ -48,7 +49,7 @@ uint8_t speedSelect(uint8_t *target){
 	int decimal=0;
 	therm_read_temperatureRAW(&actualDigit,&decimal);
 
-	if (((*target)-actualDigit)>3)
+	if ((*target-actualDigit)>3)
 		return HIGH;
 	else if (((*target-actualDigit))>1 && ((*target-actualDigit)<=3))
 		return MED;

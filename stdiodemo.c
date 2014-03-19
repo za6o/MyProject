@@ -45,8 +45,15 @@ static void ioinit(void)
   lcd_init();
   init_heater();
   int_config(); // enable timer interrupts
+  PORTD |= (1<<PD2); // enable pullUP for the push button
 }
 
+int8_t  debounce_switch()  {
+	static uint16_t  state = 0;  //holds present state
+	state = (state << 1) | (! bit_is_clear(PIND, 2)) | 0xE000;
+	if (state == 0xF000) return 1;
+	return 0;
+}
 
 void precondition(void){
 	lcd_pos(2,4);
@@ -63,9 +70,6 @@ void precondition(void){
 }
 
 int main(void) {
-
-
-	PORTD |= (1<<PD2);
 
 	ioinit();
 
@@ -87,6 +91,7 @@ int main(void) {
 
 		precondition();
 	}
+
 	clear_screen();
 	lcd_pos(1,3);
 	lcd_putstring("FINISHED");
@@ -96,10 +101,8 @@ int main(void) {
 
 ISR(INT0_vect) {
 
-	_delay_ms(20);
-	if (PIND&(1<<PD2)){
+	if(debounce_switch())
 		button_pressed=!button_pressed;
-	}
 
 	if (!button_pressed){
 		button_pressed = true;
