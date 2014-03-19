@@ -49,10 +49,16 @@ static void ioinit(void)
 }
 
 int8_t  debounce_switch()  {
-	static uint16_t  state = 0;  //holds present state
-	state = (state << 1) | (! bit_is_clear(PIND, 2)) | 0xE000;
-	if (state == 0xF000) return 1;
-	return 0;
+	  char ones=0, zeroes=0, i;
+	  for(i=0;i<9;i++){
+	    if(PORTC&(1<<PC0)){ // read pin == 1
+	      ones++;
+	    } else { // read pin == 0
+	      zeroes++;
+	    }
+	  _delay_ms(10);
+	  }
+	  return ones>zeroes;
 }
 
 void precondition(void){
@@ -103,6 +109,7 @@ ISR(INT0_vect) {
 
 	if(debounce_switch())
 		button_pressed=!button_pressed;
+
 
 	if (!button_pressed){
 		button_pressed = true;
