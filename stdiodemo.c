@@ -77,7 +77,12 @@ void auto_mode(){
 	lcd_pos(2,8);
 	lcd_putstring("sec:");
 
-	precondition();
+	lcd_pos(2,4);
+	lcd_putint(*targ_temp);
+
+	lcd_pos(2,12);
+	lcd_putint(*tim_sec);
+//	precondition();
 }
 
 void manual_mode(){
@@ -86,7 +91,7 @@ void manual_mode(){
 	lcd_putstring("T:");
 	lcd_pos(2,1);
 	lcd_putstring("Manual Mode");
-	for (;;){
+/*	for (;;){
 		if (SWITCH_PIN & (1<<SWITCH_DQ)){
 		   start_heating();
 		   SWITCH_LED_HIGH();
@@ -97,7 +102,7 @@ void manual_mode(){
 		}
 		//check the switch - PC5 -analog 5
 		_delay_ms(100);
-	}
+	} */
 }
 
 
@@ -139,18 +144,20 @@ ISR(INT0_vect) {
 	if (!button_pressed){
 		button_pressed = true;
 		BUTT_LED_HIGH();
-		auto_mode();
-
 		lcd_pos(1,13);
 		lcd_putchar('T');
+		auto_mode();
+
+
 	}
 	else if (button_pressed){
 		button_pressed = false;
 		BUTT_LED_LOW();
-		manual_mode();
 
 		lcd_pos(1,13);
 		lcd_putchar('F');
+		manual_mode();
+
 	}
 }
 
