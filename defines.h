@@ -34,10 +34,7 @@
 #define USE_BUSY_BIT 1
 
 
-//---------------------------------------------------
-/*
- * TEMP DEFINES
- */
+//---------------------TEMP DEFINES-----------------
 #define THERM_PORT PORTD
 #define THERM_DDR DDRD
 #define THERM_PIN PIND
@@ -65,28 +62,32 @@
 #define THERM_DECIMAL_STEPS_12BIT	625
 #endif
 
-//--------- TEMP DEFINES ---------------------//
 
-//---------------------------------------------
-/*
- * HEATER DEFINES
- */
+//-----------------HEATER DEFINES----------------
 #define HEAT_PORT PORTB
 #define HEAT_DDR DDRB
 #define HEAT_PIN PINB
-#define HEAT_DQ PB5      //!!!!!!!!!!!!!!!!!!!!!!!!!CHANGE IT!!!!!!!!!!!!!!!
+#define HEAT_DQ PB5
 
 #define HEAT_OUTPUT_MODE() HEAT_DDR|=(1<<HEAT_DQ)
 #define HEAT_LOW() HEAT_PORT&=~(1<<HEAT_DQ)
 #define HEAT_HIGH() HEAT_PORT|=(1<<HEAT_DQ)
-//----------------------
 
-//---------------------------------------------
-/*
- * button definitions
- */
+
+//--------------------auto mode led definitions---------------
 #define BUTT_LED PC0
 #define BUTT_LED_OUTPUT() DDRC=(1<<PC0)
 #define BUTT_LED_HIGH()   PORTC|=(1<<PC0);
 #define BUTT_LED_LOW()    PORTC&=~(1<<PC0);
+
+//------------------ Switch definition ----------------
+#define SWITCH_DQ         PC5
+#define SWITCH_INPUT()    DDRC &= ~(1<<PC5)
+#define SWITCH_PIN        PINC
+
+//----------------heater led in manual mode definitions---------------
+#define SWITCH_LED 		     PC4
+#define SWITCH_LED_OUTPUT() DDRC=(1<<PC0)
+#define SWITCH_LED_HIGH()   PORTC|=(1<<PC0);
+#define SWITCH_LED_LOW()    PORTC&=~(1<<PC0);
 

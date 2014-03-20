@@ -10,8 +10,13 @@
 #define __HEAT_H__
 
 extern volatile bool button_pressed;
+extern volatile bool manualMode;
 
 void init_heater(void);
+
+void init_led(void);
+
+void init_switch(void);
 
 void stop_heating(void);
 
