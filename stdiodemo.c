@@ -107,8 +107,10 @@ int main(void) {
 
 ISR(INT0_vect) {
 
-	if(debounce_switch())
+	  _delay_ms(10);
+       if (PIND&(1<<PD2))
 		button_pressed=!button_pressed;
+
 
 
 	if (!button_pressed){
@@ -121,7 +123,7 @@ ISR(INT0_vect) {
 		button_pressed = false;
 		BUTT_LED_LOW();
 		lcd_pos(1,13);
-				lcd_putchar('F');
+		lcd_putchar('F');
 	}
 }
 
