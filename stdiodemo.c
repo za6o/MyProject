@@ -45,20 +45,7 @@ static void ioinit(void)
   lcd_init();
   init_heater();
   int_config(); // enable timer interrupts
-  PORTD |= (1<<PD2); // enable pullUP for the push button
-}
-
-int8_t  debounce_switch()  {
-	  char ones=0, zeroes=0, i;
-	  for(i=0;i<9;i++){
-	    if(PORTC&(1<<PC0)){ // read pin == 1
-	      ones++;
-	    } else { // read pin == 0
-	      zeroes++;
-	    }
-	  _delay_ms(10);
-	  }
-	  return ones>zeroes;
+ // PORTD |= (1<<PD2); // enable pullUP for the push button
 }
 
 void precondition(void){
@@ -73,6 +60,37 @@ void precondition(void){
 
 	targ_temp++;
 	tim_sec++;
+}
+
+void auto_mode(){
+	manul_mode = false;
+	clear_screen();
+	lcd_putstring("T:");
+
+	lcd_pos(2,0);
+	lcd_putstring("tar:");
+
+	lcd_pos(2,8);
+	lcd_putstring("sec:");
+
+	precondition();
+}
+
+void manual_mode(){
+	manul_mode = true;
+	clear_screen();
+	lcd_putstring("T:");
+	lcd_pos(2,1);
+	lcd_putstring("Manual Mode");
+	for (;;){
+
+		if (CHECK_BIT(SWITCH_PIN, SWITCH_DQ ))
+			start_heating();
+		else
+			stop_heating();
+		//check the switch - PC5 -analog 5
+		_delay_ms(100);
+	}
 }
 
 int main(void) {
@@ -107,23 +125,17 @@ int main(void) {
 
 ISR(INT0_vect) {
 
-	  _delay_ms(10);
-       if (PIND&(1<<PD2))
-		button_pressed=!button_pressed;
-
-
+	button_pressed=!button_pressed;
 
 	if (!button_pressed){
 		button_pressed = true;
 		BUTT_LED_HIGH();
-		lcd_pos(1,13);
-		lcd_putchar('T');
+		auto_mode();
 	}
 	else if (button_pressed){
 		button_pressed = false;
 		BUTT_LED_LOW();
-		lcd_pos(1,13);
-		lcd_putchar('F');
+		manual_mode();
 	}
 }
 

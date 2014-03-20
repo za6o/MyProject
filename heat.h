@@ -10,6 +10,7 @@
 #define __HEAT_H__
 
 extern volatile bool button_pressed;
+extern volatile bool manul_mode;
 
 void init_heater(void);
 

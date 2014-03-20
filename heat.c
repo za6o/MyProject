@@ -20,6 +20,7 @@
 static bool heater_on = false;
 
 volatile bool button_pressed=false;
+volatile bool manul_mode = false;
 
 
 void init_heater(){
@@ -37,7 +38,7 @@ void stop_heating(){
 }
 
 void start_heating(){
-	if (button_pressed){
+	if ((button_pressed) || (!button_pressed && manul_mode)){
 		if(!heater_on){
 			HEAT_HIGH();
 			heater_on=true;

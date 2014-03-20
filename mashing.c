@@ -35,7 +35,6 @@ void start_mashing(uint8_t *target_temp, uint16_t *time_sec){
 			startHeating(LOW);
 			break;
 		case OFF:
-		//	startHeating(OFF);
 			pause = true;
 			wait(time_sec, target_temp);
 			break;
