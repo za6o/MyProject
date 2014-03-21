@@ -9,8 +9,7 @@
 #ifndef __HEAT_H__
 #define __HEAT_H__
 
-extern volatile bool button_pressed;
-extern volatile bool manualMode;
+extern volatile bool autoMode;
 
 void init_heater(void);
 

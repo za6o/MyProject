@@ -36,7 +36,6 @@ uint8_t target_temp[5] = {22,23,24,25,27};
 uint16_t time_sec[5] = {5,10,11,12,13};
 uint8_t* targ_temp = target_temp;
 uint16_t* tim_sec = time_sec;
-
 /*
  * Do all the startup-time peripheral initializations.
  */
@@ -66,8 +65,6 @@ void precondition(void){
 }
 
 void auto_mode(){
-
-	manualMode = false;
 	clear_screen();
 	lcd_putstring("T:");
 
@@ -82,11 +79,10 @@ void auto_mode(){
 
 	lcd_pos(2,12);
 	lcd_putint(*tim_sec);
-//	precondition();
+	precondition();
 }
 
 void manual_mode(){
-	manualMode = true;
 	clear_screen();
 	lcd_putstring("T:");
 	lcd_pos(2,1);
@@ -116,51 +112,35 @@ int main(void) {
     _delay_ms(900);
 
 	uint8_t i;
-	for(i=0;i<cycles; i++){
-		clear_screen();
-		lcd_putstring("T:");
-		lcd_pos(2,0);
-		lcd_putstring("tar:");
-		lcd_pos(2,8);
-		lcd_putstring("sec:");
 
-		precondition();
+	void manual_mode();
+
+	for(i=0;i<cycles; i++){
+		auto_mode();
 	}
 
 	clear_screen();
 	lcd_pos(1,3);
 	lcd_putstring("FINISHED");
+	exit(0);
 
 	return 0;
 }
 
 ISR(INT0_vect) {
 
+	autoMode=!autoMode;
 
-	  _delay_ms(10);
-       if (PIND&(1<<PD2))
-		button_pressed=!button_pressed;
-
-	if (!button_pressed){
-		button_pressed = true;
+	if (autoMode){
 		BUTT_LED_HIGH();
-		lcd_pos(1,13);
-		lcd_putchar('T');
-		auto_mode();
-
-
+		autoMode=false;
 	}
-	else if (button_pressed){
-		button_pressed = false;
+	else if (!autoMode){
 		BUTT_LED_LOW();
-
-		lcd_pos(1,13);
-		lcd_putchar('F');
-		manual_mode();
-
+		autoMode=true;
 	}
-}
 
+}
 
 ISR(TIMER1_COMPA_vect){
 
@@ -179,3 +159,16 @@ ISR(TIMER1_COMPA_vect){
 		}
 	}
 }
+
+ISR(TIMER1_COMPB_vect){
+
+	//if (prevMode != currMode){
+		if(autoMode){
+			auto_mode();
+		}
+		else
+			manual_mode();
+//	}
+}
+
+

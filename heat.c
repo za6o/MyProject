@@ -19,8 +19,7 @@
 
 static bool heater_on = false;
 
-volatile bool button_pressed=false;
-volatile bool manualMode=false;
+volatile bool autoMode=false;
 
 void init_switch(){
 	SWITCH_INPUT();
@@ -47,7 +46,7 @@ void stop_heating(){
 
 void start_heating(){
 
-	if ((button_pressed) || (manualMode)){
+	if (autoMode){
 		if(!heater_on){
 			HEAT_HIGH();
 			heater_on=true;

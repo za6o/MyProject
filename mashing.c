@@ -22,9 +22,9 @@ volatile uint16_t sec;
 
 void start_mashing(uint8_t *target_temp, uint16_t *time_sec){
 
-	uint8_t reachTemp = (*target_temp)+1;
+//	uint8_t reachTemp = (*target_temp)+1;
 	while (!nextStep){
-		switch (speedSelect(&reachTemp)){
+		switch (speedSelect(target_temp)){
 		case HIGH:
 			startHeating(HIGH);
 			break;
