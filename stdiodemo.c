@@ -89,7 +89,7 @@ void manual_mode(){
 	lcd_putstring("T:");
 	lcd_pos(2,1);
 	lcd_putstring("Manual Mode");
-	for (;;){
+	for (;;){ //  while (!autoMode)
 	/*	if (SWITCH_ON){
 		   start_heating();
 		   SWITCH_LED_HIGH();
