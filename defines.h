@@ -89,13 +89,9 @@
 #define SWITCH_DQ 		   PC5
 #define SWITCH_INPUT()    DDRC &= ~(1<<PC5)
 #define SWITCH_PIN        PINC
-
+#define SWITCH_ON         (SWITCH_PIN & (1<<SWITCH_DQ))
 //-------------------------------------------------------
 
-//------------------ Switch definition ----------------
-#define SWITCH_DQ         PC5
-#define SWITCH_INPUT()    DDRC &= ~(1<<PC5)
-#define SWITCH_PIN        PINC
 
 //----------------heater led in manual mode definitions---------------
 #define SWITCH_LED 		     PC4

@@ -36,6 +36,8 @@ uint8_t target_temp[5] = {22,23,24,25,27};
 uint16_t time_sec[5] = {5,10,11,12,13};
 uint8_t* targ_temp = target_temp;
 uint16_t* tim_sec = time_sec;
+static bool prevMode;
+static bool currMode;
 /*
  * Do all the startup-time peripheral initializations.
  */
@@ -87,8 +89,8 @@ void manual_mode(){
 	lcd_putstring("T:");
 	lcd_pos(2,1);
 	lcd_putstring("Manual Mode");
-/*	for (;;){
-		if (SWITCH_PIN & (1<<SWITCH_DQ)){
+	for (;;){
+	/*	if (SWITCH_ON){
 		   start_heating();
 		   SWITCH_LED_HIGH();
 		}
@@ -96,9 +98,9 @@ void manual_mode(){
 		   stop_heating();
 		   SWITCH_LED_LOW();
 		}
-		//check the switch - PC5 -analog 5
+		//check the switch - PC5 -analog 5*/
 		_delay_ms(100);
-	} */
+	}
 }
 
 
@@ -113,9 +115,12 @@ int main(void) {
 
 	uint8_t i;
 
-	void manual_mode();
+	prevMode=autoMode;
 
 	for(i=0;i<cycles; i++){
+		if (!autoMode)
+			manual_mode();
+
 		auto_mode();
 	}
 
@@ -133,11 +138,11 @@ ISR(INT0_vect) {
 
 	if (autoMode){
 		BUTT_LED_HIGH();
-		autoMode=false;
+		autoMode=false; //it's not needed , should be removed further
 	}
 	else if (!autoMode){
 		BUTT_LED_LOW();
-		autoMode=true;
+		autoMode=true; //it's not needed , should be removed further
 	}
 
 }
@@ -162,13 +167,16 @@ ISR(TIMER1_COMPA_vect){
 
 ISR(TIMER1_COMPB_vect){
 
-	//if (prevMode != currMode){
+	currMode = autoMode;
+	//consider watchdog timer
+	if (prevMode != currMode){
+		prevMode=currMode;
 		if(autoMode){
 			auto_mode();
 		}
 		else
 			manual_mode();
-//	}
+	}
 }
 
 
