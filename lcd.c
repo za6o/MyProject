@@ -102,8 +102,6 @@ void lcd_pos(uint8_t line, uint8_t pos)
 	}
 
 	hd44780_outcmd(location);
-    _delay_ms(20);
-
 }
 
 void lcd_putstring(char* String)
