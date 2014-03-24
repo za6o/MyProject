@@ -12,6 +12,7 @@
 extern volatile uint16_t sec;
 extern volatile bool pause;
 extern bool nextStep;
+extern bool targetReached;
 
 uint8_t speedSelect(uint8_t*);
 

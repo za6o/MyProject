@@ -15,15 +15,17 @@
 #define LOW 1
 #define OFF 0
 
+bool targetReached=false;
 bool nextStep;
 volatile bool pause=false;
 volatile uint16_t sec;
 
 
+
 void start_mashing(uint8_t *target_temp, uint16_t *time_sec){
 
 //	uint8_t reachTemp = (*target_temp)+1;
-	while (!nextStep){
+	while ((!nextStep) && (autoMode)){
 		switch (speedSelect(target_temp)){
 		case HIGH:
 			startHeating(HIGH);
@@ -112,6 +114,7 @@ void wait(uint16_t *seconds, uint8_t *temp ) {
 	sec=0;
 
 	while (pause){
+		targetReached = true;
 		keepTemp(temp);
 	}
 	nextStep = true;
