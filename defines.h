@@ -95,7 +95,7 @@
 
 //----------------heater led in manual mode definitions---------------
 #define SWITCH_LED 		     PC4
-#define SWITCH_LED_OUTPUT() DDRC=(1<<PC0)
-#define SWITCH_LED_HIGH()   PORTC|=(1<<PC0);
-#define SWITCH_LED_LOW()    PORTC&=~(1<<PC0);
+#define SWITCH_LED_OUTPUT() DDRC=(1<<PC4)
+#define SWITCH_LED_HIGH()   PORTC|=(1<<PC4);
+#define SWITCH_LED_LOW()    PORTC&=~(1<<PC4);
 

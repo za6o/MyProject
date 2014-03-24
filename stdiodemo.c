@@ -87,14 +87,14 @@ void manual_mode(){
 	lcd_pos(2,1);
 	lcd_putstring("Manual Mode");
 	while (!autoMode){
-	/*	if (SWITCH_ON){
+		if (SWITCH_ON){
 		   start_heating();
 		   SWITCH_LED_HIGH();
 		}
 		else{
 		   stop_heating();
 		   SWITCH_LED_LOW();
-		} */
+		}
 	//	check the switch - PC5 -analog 5
 		_delay_ms(100);
 	}
