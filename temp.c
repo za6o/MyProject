@@ -124,15 +124,15 @@ void therm_read_temperatureRAW(int *digit, int *decimal){
 void display_temp(void){
 
 	int digit=0, decimal=0;
-	static bool lock = false;
-			if (!lock){
-				lock = true;
+	//static bool lock = false;
+	//		if (!lock){
+	//			lock = true;
 				therm_read_temperatureRAW(&digit,&decimal);
 				lcd_putint(digit);
 				lcd_putchar('.');
 				lcd_putint(decimal/10);
-				lock = false;
-			}
+	//			lock = false;
+	//		}
 }
 
 
