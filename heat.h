@@ -11,11 +11,15 @@
 
 extern volatile bool autoMode;
 
+void init_LedsSwitch(void);
+
+#if 0
 void init_heater(void);
 
 void init_led(void);
 
 void init_switch(void);
+#endif
 
 void stop_heating(void);
 

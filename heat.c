@@ -21,6 +21,22 @@ static bool heater_on = false;
 
 volatile bool autoMode=false;
 
+
+void init_LedsSwitch(){
+
+	HEAT_OUTPUT_MODE();
+	HEAT_LOW();
+
+	SWITCH_INPUT();
+
+	SWITCH_LED_OUTPUT();
+	SWITCH_LED_LOW();
+
+	BUTT_LED_OUTPUT();
+	BUTT_LED_LOW();
+}
+
+#if 0
 void init_switch(){
 	SWITCH_INPUT();
 	SWITCH_LED_OUTPUT();
@@ -38,6 +54,7 @@ void init_heater(){
 	HEAT_OUTPUT_MODE();
 	HEAT_LOW();
 }
+#endif
 
 void stop_heating(){
 	if(heater_on){

@@ -43,9 +43,12 @@ uint16_t* tim_sec = time_sec;
 static void ioinit(void)
 {
   lcd_init();
+  init_LedsSwitch();
+#if 0
   init_heater();
   init_led();
   init_switch();
+#endif
   int_config(); // enable timer interrupts
   PORTD |= (1<<PD2); // enable pullUP for the push button
 
