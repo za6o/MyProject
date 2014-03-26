@@ -44,7 +44,7 @@ void start_mashing(uint8_t *target_temp, uint16_t *time_sec){
 	}
 }
 
-uint8_t speedSelect(uint8_t *target){
+inline uint8_t speedSelect(uint8_t *target){
 
 	int actualDigit=0;
 	int decimal=0;
@@ -60,7 +60,7 @@ uint8_t speedSelect(uint8_t *target){
 		return OFF;
 }
 
-inline void startHeating (uint8_t level){
+void startHeating (uint8_t level){
 
 	uint8_t i;
 	uint8_t working=0, stopping=0;

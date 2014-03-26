@@ -54,7 +54,7 @@ static void ioinit(void)
 
 }
 
-void precondition(void){
+void static precondition(void){
 	lcd_pos(2,4);
 	lcd_putint(*targ_temp);
 
@@ -66,7 +66,7 @@ void precondition(void){
 
 }
 
-void auto_mode(){
+void static auto_mode(){
 	clear_screen();
 	lcd_putstring("T:");
 
@@ -84,7 +84,7 @@ void auto_mode(){
 	precondition();
 }
 
-void manual_mode(){
+void static manual_mode(){
 	clear_screen();
 	lcd_putstring("T:");
 	lcd_pos(2,1);
