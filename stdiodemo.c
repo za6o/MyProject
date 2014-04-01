@@ -59,11 +59,13 @@ void precondition(void){
 	lcd_putint(*tim_sec);
 
 	nextStep=false;
+	sei();
 	start_mashing(targ_temp, tim_sec);
 
 }
 
 void auto_mode(){
+	cli();
 	clear_screen();
 	lcd_putstring("T:");
 
@@ -82,10 +84,12 @@ void auto_mode(){
 }
 
 void manual_mode(){
+	cli();
 	clear_screen();
 	lcd_putstring("T:");
 	lcd_pos(2,1);
 	lcd_putstring("Manual Mode");
+	sei();
 	while (!autoMode){
 		if (SWITCH_ON){
 		   start_heating();
@@ -140,6 +144,7 @@ ISR(INT0_vect) {
 
 	if (autoMode){
 		BUTT_LED_HIGH();
+		SWITCH_LED_LOW();
 		targetReached=false;
 	}
 	else if (!autoMode){

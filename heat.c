@@ -25,8 +25,8 @@ void init_switch(){
 	SWITCH_INPUT();
 	SWITCH_LED_OUTPUT();
 	SWITCH_LED_LOW();
-	//BUTT_LED_OUTPUT();
-	// BUTT_LED_LOW();
+	BUTT_LED_OUTPUT();
+	BUTT_LED_LOW();
 }
 
 void init_led(){
