@@ -43,15 +43,18 @@ uint16_t* tim_sec = time_sec;
 static void ioinit(void)
 {
   lcd_init();
+  init_LedsSwitch();
+#if 0
   init_heater();
   init_led();
   init_switch();
+#endif
   int_config(); // enable timer interrupts
   PORTD |= (1<<PD2); // enable pullUP for the push button
 
 }
 
-void precondition(void){
+void static precondition(void){
 	lcd_pos(2,4);
 	lcd_putint(*targ_temp);
 
@@ -64,8 +67,12 @@ void precondition(void){
 
 }
 
+<<<<<<< HEAD
 void auto_mode(){
 	cli();
+=======
+void static auto_mode(){
+>>>>>>> 15406fe02fdcc3c174d4950ddc30c60079de86f3
 	clear_screen();
 	lcd_putstring("T:");
 
@@ -83,8 +90,12 @@ void auto_mode(){
 	precondition();
 }
 
+<<<<<<< HEAD
 void manual_mode(){
 	cli();
+=======
+void static manual_mode(){
+>>>>>>> 15406fe02fdcc3c174d4950ddc30c60079de86f3
 	clear_screen();
 	lcd_putstring("T:");
 	lcd_pos(2,1);
@@ -140,6 +151,8 @@ int main(void) {
 
 ISR(INT0_vect) {
 
+	_delay_ms(20);
+	if (bit_is_clear(PIND,PD2))
 	autoMode=!autoMode;
 
 	if (autoMode){
