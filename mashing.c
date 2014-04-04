@@ -39,6 +39,7 @@ void start_mashing(uint8_t *target_temp, uint16_t *time_sec){
 		case OFF:
 			pause = true;
 			wait(time_sec, target_temp);
+			nextStep = true;
 			break;
 		}
 	}
@@ -121,7 +122,6 @@ void wait(uint16_t *seconds, uint8_t *temp ) {
 		keepTemp(temp);
 	}
 
-	nextStep = true;
 	lcd_pos(1,10);
 	lcd_putchar(' ');
 	lcd_putchar(' ');

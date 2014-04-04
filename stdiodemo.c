@@ -158,8 +158,12 @@ int main(void) {
 ISR(INT0_vect) {
 
 	_delay_ms(20);
-	if (bit_is_clear(PIND,PD2))
+
+
+	if (bit_is_clear(PIND,PD2)){
 	autoMode=!autoMode;
+	pause=false;
+	}
 
 	if (autoMode){
 		BUTT_LED_HIGH();
@@ -168,7 +172,6 @@ ISR(INT0_vect) {
 	}
 	else if (!autoMode){
 		BUTT_LED_LOW();
-		pause=false;
 		targetReached=false;
 	}
 
