@@ -139,6 +139,8 @@ int main(void) {
 
 ISR(INT0_vect) {
 
+	_delay_ms(20);
+	if (bit_is_clear(PIND,PD2))
 	autoMode=!autoMode;
 
 	if (autoMode){
