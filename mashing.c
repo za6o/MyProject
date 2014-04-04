@@ -50,9 +50,9 @@ inline uint8_t speedSelect(uint8_t *target){
 	int decimal=0;
 	therm_read_temperatureRAW(&actualDigit,&decimal);
 
-	if ((*target-actualDigit)>3)
+	if ((*target-actualDigit)>2)
 		return HIGH;
-	else if (((*target-actualDigit))>1 && ((*target-actualDigit)<=3))
+	else if (((*target-actualDigit))>1 && ((*target-actualDigit)<=2))
 		return MED;
 	else if  ((*target-actualDigit)==1)
 		return LOW;
@@ -67,15 +67,19 @@ void startHeating (uint8_t level){
 
 	setSpeed (level, &working, &stopping);
 
-	for (i=0; i < working ; i ++){
-		start_heating();
-		_delay_ms(500);
-	}
-	for (i=0; i < stopping ; i ++){
-		stop_heating();
-		_delay_ms(500);
+	if (autoMode){
+		for (i=0; i < working ; i ++){
+			start_heating();
+			_delay_ms(800);
+		}
 	}
 
+	if(autoMode){
+		for (i=0; i < stopping ; i ++){
+			stop_heating();
+			_delay_ms(800);
+		}
+	}
 }
 
 void setSpeed (uint8_t level,uint8_t *working,uint8_t *stopping){
@@ -113,10 +117,10 @@ void wait(uint16_t *seconds, uint8_t *temp ) {
 
 	sec=0;
 
-	while (pause){
-		targetReached = true;
+	while ((pause) && (autoMode)){
 		keepTemp(temp);
 	}
+
 	nextStep = true;
 	lcd_pos(1,10);
 	lcd_putchar(' ');

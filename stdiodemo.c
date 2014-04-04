@@ -32,10 +32,12 @@
 #include "timer.h"
 #include "mashing.h"
 
-uint8_t target_temp[5] = {22,23,24,25,27};
+uint8_t target_temp[5] = {23,24,26,28,78};
 uint16_t time_sec[5] = {5,10,11,12,13};
 uint8_t* targ_temp = target_temp;
 uint16_t* tim_sec = time_sec;
+
+uint8_t final_temp = 78;
 
 /*
  * Do all the startup-time peripheral initializations.
@@ -62,17 +64,10 @@ void static precondition(void){
 	lcd_putint(*tim_sec);
 
 	nextStep=false;
-	sei();
-	start_mashing(targ_temp, tim_sec);
-
 }
 
-<<<<<<< HEAD
 void auto_mode(){
 	cli();
-=======
-void static auto_mode(){
->>>>>>> 15406fe02fdcc3c174d4950ddc30c60079de86f3
 	clear_screen();
 	lcd_putstring("T:");
 
@@ -88,17 +83,15 @@ void static auto_mode(){
 	lcd_pos(2,12);
 	lcd_putint(*tim_sec);
 	precondition();
+	sei();
+	start_mashing(targ_temp, tim_sec);
 }
 
-<<<<<<< HEAD
 void manual_mode(){
 	cli();
-=======
-void static manual_mode(){
->>>>>>> 15406fe02fdcc3c174d4950ddc30c60079de86f3
 	clear_screen();
 	lcd_putstring("T:");
-	lcd_pos(2,1);
+	lcd_pos(2,2);
 	lcd_putstring("Manual Mode");
 	sei();
 	while (!autoMode){
@@ -110,11 +103,27 @@ void static manual_mode(){
 		   stop_heating();
 		   SWITCH_LED_LOW();
 		}
-	//	check the switch - PC5 -analog 5
 		_delay_ms(100);
 	}
 }
 
+void finished(uint8_t holdtemp)
+{
+	cli();
+	clear_screen();
+	lcd_pos(1,3);
+	lcd_putstring("FINISHED");
+	_delay_ms(900);
+
+	clear_screen();
+	lcd_putstring("T:");
+	lcd_pos(2,2);
+	lcd_putstring("Keeping 78C");
+	sei();
+
+	keepTemp((uint8_t*)&holdtemp);
+
+}
 
 int main(void) {
 
@@ -141,10 +150,7 @@ int main(void) {
 		auto_mode();
 	}
 
-	clear_screen();
-	lcd_pos(1,3);
-	lcd_putstring("FINISHED");
-	exit(0);
+	finished(final_temp);
 
 	return 0;
 }
@@ -181,6 +187,7 @@ ISR(TIMER1_COMPA_vect){
 		lcd_pos(1,10);
 		lcd_putint(sec);
 		if (sec >= *tim_sec){
+			targetReached = true;
 			pause=false;
 		}
 	}
