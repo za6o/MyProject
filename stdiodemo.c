@@ -32,12 +32,10 @@
 #include "timer.h"
 #include "mashing.h"
 
-uint8_t target_temp[6] = {42,53,62,66,74,78};
-uint16_t time_sec[6] = {900,900,600,2400,900,600};
+uint8_t target_temp[6] = {42,53,64,66,72,78};
+uint16_t time_sec[6] = {900,900,900,2000,600,600};
 uint8_t* targ_temp = target_temp;
 uint16_t* tim_sec = time_sec;
-
-uint8_t final_temp = 78;
 
 /*
  * Do all the startup-time peripheral initializations.
@@ -107,23 +105,6 @@ void manual_mode(){
 	}
 }
 
-void finished(uint8_t holdtemp)
-{
-	cli();
-	clear_screen();
-	lcd_pos(1,3);
-	lcd_putstring("FINISHED");
-	_delay_ms(900);
-
-	clear_screen();
-	lcd_putstring("T:");
-	lcd_pos(2,2);
-	lcd_putstring("Keeping 78C");
-	sei();
-
-	keepTemp((uint8_t*)&holdtemp);
-
-}
 
 int main(void) {
 
@@ -150,7 +131,11 @@ int main(void) {
 		auto_mode();
 	}
 
-	finished(final_temp);
+	cli();
+	clear_screen();
+	lcd_pos(1,3);
+	lcd_putstring("FINISHED");
+	_delay_ms(900);
 
 	return 0;
 }
@@ -167,7 +152,7 @@ ISR(INT0_vect) {
 
 	if (autoMode){
 		BUTT_LED_HIGH();
-		SWITCH_LED_LOW();
+		//SWITCH_LED_LOW();
 		targetReached=false;
 	}
 	else if (!autoMode){
@@ -186,10 +171,16 @@ ISR(TIMER1_COMPA_vect){
 	lcd_pos(1,2);
 	display_temp();
 
+	if(SWITCH_ON){
+		SWITCH_LED_HIGH();
+	}
+	else
+		SWITCH_LED_LOW();
+
 	if (pause){
 		lcd_pos(1,10);
 		lcd_putint(sec);
-		if (sec >= *tim_sec){
+		if ((sec >= *tim_sec)&&(!SWITCH_ON)){
 			targetReached = true;
 			pause=false;
 		}
