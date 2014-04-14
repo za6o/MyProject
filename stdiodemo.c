@@ -115,14 +115,15 @@ int main(void) {
 	lcd_putstring("Starting...");
     _delay_ms(900);
 
+    global_sec=0;
 	uint8_t i;
-
 	for(i=0;i<cycles;){
 
 		if (targetReached){
 			targ_temp++;
 			tim_sec++;
 			i++;
+			global_sec=0;
 		}
 
 		if (!autoMode)
@@ -166,7 +167,7 @@ ISR(TIMER1_COMPA_vect){
 
 	sec++;
 	if (sec >65000)
-		sec=0;
+		sec=global_sec;
 
 	lcd_pos(1,2);
 	display_temp();

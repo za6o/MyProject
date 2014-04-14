@@ -19,6 +19,7 @@ bool targetReached=false;
 bool nextStep;
 volatile bool pause=false;
 volatile uint16_t sec;
+volatile uint16_t global_sec;
 
 
 
@@ -116,7 +117,7 @@ void setSpeed (uint8_t level,uint8_t *working,uint8_t *stopping){
 
 void wait(uint16_t *seconds, uint8_t *temp ) {
 
-	sec=0;
+	sec=global_sec;
 
 	while ((pause) && (autoMode)){
 		keepTemp(temp);

@@ -10,6 +10,7 @@
 
 
 extern volatile uint16_t sec;
+extern volatile uint16_t global_sec;
 extern volatile bool pause;
 extern bool nextStep;
 extern bool targetReached;
