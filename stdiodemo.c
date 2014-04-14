@@ -33,7 +33,7 @@
 #include "mashing.h"
 
 uint8_t target_temp[6] = {42,53,64,66,72,78};
-uint16_t time_sec[6] = {900,900,900,2000,600,600};
+uint16_t time_sec[6] = {90,90,90,200,60,60};
 uint8_t* targ_temp = target_temp;
 uint16_t* tim_sec = time_sec;
 
@@ -87,6 +87,8 @@ void auto_mode(){
 
 void manual_mode(){
 	cli();
+	global_sec=sec;
+
 	clear_screen();
 	lcd_putstring("T:");
 	lcd_pos(2,2);
