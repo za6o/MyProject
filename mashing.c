@@ -22,7 +22,6 @@ volatile uint16_t sec;
 volatile uint16_t global_sec;
 
 
-
 void start_mashing(uint8_t *target_temp, uint16_t *time_sec){
 
 //	uint8_t reachTemp = (*target_temp)+1;
@@ -39,6 +38,7 @@ void start_mashing(uint8_t *target_temp, uint16_t *time_sec){
 			break;
 		case OFF:
 			pause = true;
+			sec=global_sec;
 			wait(time_sec, target_temp);
 			nextStep = true;
 			break;
@@ -116,8 +116,6 @@ void setSpeed (uint8_t level,uint8_t *working,uint8_t *stopping){
 
 
 void wait(uint16_t *seconds, uint8_t *temp ) {
-
-	sec=global_sec;
 
 	while ((pause) && (autoMode)){
 		keepTemp(temp);

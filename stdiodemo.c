@@ -32,8 +32,8 @@
 #include "timer.h"
 #include "mashing.h"
 
-uint8_t target_temp[6] = {42,53,64,66,72,78};
-uint16_t time_sec[6] = {90,90,90,200,60,60};
+uint8_t target_temp[6] = {50,  63,  66,  72,  78};
+uint16_t time_sec[6] =   {1200,1200,2100,1200,600};
 uint8_t* targ_temp = target_temp;
 uint16_t* tim_sec = time_sec;
 
