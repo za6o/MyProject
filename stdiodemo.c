@@ -87,8 +87,8 @@ void auto_mode(){
 
 void manual_mode(){
 	cli();
-	global_sec=sec;
 
+	global_sec=sec;
 	clear_screen();
 	lcd_putstring("T:");
 	lcd_pos(2,2);
@@ -118,6 +118,8 @@ int main(void) {
     _delay_ms(900);
 
     global_sec=0;
+    sec=0;
+
 	uint8_t i;
 	for(i=0;i<cycles;){
 
@@ -126,6 +128,7 @@ int main(void) {
 			tim_sec++;
 			i++;
 			global_sec=0;
+			sec=0;
 		}
 
 		if (!autoMode)
@@ -147,7 +150,6 @@ ISR(INT0_vect) {
 
 	_delay_ms(20);
 
-
 	if (bit_is_clear(PIND,PD2)){
 	autoMode=!autoMode;
 	pause=false;
@@ -167,10 +169,6 @@ ISR(INT0_vect) {
 
 ISR(TIMER1_COMPA_vect){
 
-	sec++;
-	if (sec >65000)
-		sec=global_sec;
-
 	lcd_pos(1,2);
 	display_temp();
 
@@ -181,6 +179,7 @@ ISR(TIMER1_COMPA_vect){
 		SWITCH_LED_LOW();
 
 	if (pause){
+		sec++;
 		lcd_pos(1,10);
 		lcd_putint(sec);
 		if ((sec >= *tim_sec)&&(!SWITCH_ON)){
