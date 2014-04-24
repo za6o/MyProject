@@ -40,7 +40,7 @@ uint16_t* tim_sec = time_sec;
 /*
  * Do all the startup-time peripheral initializations.
  */
-static void ioinit(void)
+static inline void ioinit(void)
 {
   lcd_init();
   init_LedsSwitch();
@@ -93,6 +93,7 @@ void manual_mode(){
 	lcd_putstring("T:");
 	lcd_pos(2,2);
 	lcd_putstring("Manual Mode");
+
 	sei();
 	while (!autoMode){
 		if (SWITCH_ON){
@@ -119,8 +120,9 @@ int main(void) {
 
     global_sec=0;
     sec=0;
-
 	uint8_t i;
+	sei();    //Enable global interrupts, so our interrupt service routine can be called
+
 	for(i=0;i<cycles;){
 
 		if (targetReached){
