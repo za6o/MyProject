@@ -32,10 +32,8 @@
 #include "timer.h"
 #include "mashing.h"
 
-uint8_t target_temp[6] = {50,  63,  66,  72,  78};
-uint16_t time_sec[6] =   {1200,1200,2100,1200,600};
-uint8_t* targ_temp = target_temp;
-uint16_t* tim_sec = time_sec;
+uint8_t *target_temp;
+uint16_t *time_sec;
 
 /*
  * Do all the startup-time peripheral initializations.
@@ -56,10 +54,10 @@ static inline void ioinit(void)
 
 void static precondition(void){
 	lcd_pos(2,4);
-	lcd_putint(*targ_temp);
+	lcd_putint(*target_temp);
 
 	lcd_pos(2,12);
-	lcd_putint(*tim_sec);
+	lcd_putint(*time_sec);
 
 	nextStep=false;
 }
@@ -76,13 +74,13 @@ void auto_mode(){
 	lcd_putstring("sec:");
 
 	lcd_pos(2,4);
-	lcd_putint(*targ_temp);
+	lcd_putint(*target_temp);
 
 	lcd_pos(2,12);
-	lcd_putint(*tim_sec);
+	lcd_putint(*time_sec);
 	precondition();
 	sei();
-	start_mashing(targ_temp, tim_sec);
+	start_mashing(target_temp, time_sec);
 }
 
 void manual_mode(){
@@ -113,21 +111,39 @@ int main(void) {
 
 	ioinit();
 
+
+	uint8_t steps=5;
+	target_temp = malloc(sizeof(*target_temp)*steps);
+	time_sec = malloc(sizeof(*time_sec)*steps);
+
 	uint8_t cycles=sizeof(target_temp)/sizeof(uint8_t);
+
+	*target_temp=20;
+	*time_sec=10;
+
+	for (;cycles<0;cycles--)
+	{
+		*target_temp +=2;
+		*time_sec +=5;
+		target_temp++;
+		time_sec++;
+	}
+
 
 	lcd_putstring("Starting...");
     _delay_ms(900);
 
     global_sec=0;
     sec=0;
-	uint8_t i;
+
 	sei();    //Enable global interrupts, so our interrupt service routine can be called
 
+	uint8_t i;
 	for(i=0;i<cycles;){
 
 		if (targetReached){
-			targ_temp++;
-			tim_sec++;
+			target_temp++;
+			time_sec++;
 			i++;
 			global_sec=0;
 			sec=0;
@@ -184,7 +200,7 @@ ISR(TIMER1_COMPA_vect){
 		sec++;
 		lcd_pos(1,10);
 		lcd_putint(sec);
-		if ((sec >= *tim_sec)&&(!SWITCH_ON)){
+		if ((sec >= *time_sec)&&(!SWITCH_ON)){
 			targetReached = true;
 			pause=false;
 		}
