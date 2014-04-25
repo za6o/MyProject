@@ -27,6 +27,7 @@
 #include <util/delay.h>
 
 #include "lcd.h"
+#include "adc.h"
 #include "temp.h"
 #include "heat.h"
 #include "timer.h"
@@ -42,10 +43,8 @@ static inline void ioinit(void)
 {
   lcd_init();
   init_LedsSwitch();
-#if 0
-  init_heater();
-  init_led();
-  init_switch();
+#if 1
+  adc_init();
 #endif
   int_config(); // enable timer interrupts
   PORTD |= (1<<PD2); // enable pullUP for the push button
@@ -111,17 +110,24 @@ int main(void) {
 
 	ioinit();
 
+	lcd_putstring("How many steps?");
+	_delay_ms(900);
+	_delay_ms(900);
+	clear_screen();
 
 	uint8_t steps=5;
 	target_temp = malloc(sizeof(*target_temp)*steps);
 	time_sec = malloc(sizeof(*time_sec)*steps);
 
-	uint8_t cycles=sizeof(target_temp)/sizeof(uint8_t);
+	if ((target_temp==NULL) || time_sec==NULL )
+	{
+		lcd_putstring("Couldn't allocate buffers... restart it ");
+	}
 
 	*target_temp=20;
 	*time_sec=10;
 
-	for (;cycles<0;cycles--)
+	for (;steps<0;steps--)
 	{
 		*target_temp +=2;
 		*time_sec +=5;
@@ -139,7 +145,7 @@ int main(void) {
 	sei();    //Enable global interrupts, so our interrupt service routine can be called
 
 	uint8_t i;
-	for(i=0;i<cycles;){
+	for(i=0;i<steps;){
 
 		if (targetReached){
 			target_temp++;
@@ -153,6 +159,14 @@ int main(void) {
 			manual_mode();
 
 		auto_mode();
+	}
+
+	uint16_t test=0;
+	for(;;){
+		cli();
+		clear_screen();
+		test=read_adc(2); //adc2 analog input 2
+		lcd_putint(test);
 	}
 
 	cli();
