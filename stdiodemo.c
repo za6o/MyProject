@@ -34,8 +34,8 @@
 #include "mashing.h"
 #include "keyboard.h"
 
-uint8_t *target_temp;
-uint16_t *time_sec;
+uint8_t *target_temp=NULL;
+uint16_t *time_sec=NULL;
 
 /*
  * Do all the startup-time peripheral initializations.
@@ -136,6 +136,8 @@ int main(void) {
 		time_sec++;
 	}
 
+	target_temp-=(steps+1);
+	time_sec-=(steps+1);
 
 	lcd_putstring("Starting...");
     _delay_ms(900);
@@ -166,12 +168,11 @@ int main(void) {
 
 	cli();
 	clear_screen();
-	uint16_t test=0;
 
-	uint8_t* PressedKey;
-	// (!(EndLine)){
-	while (GetKey(PressedKey)){
-		lcd_putint(*PressedKey);
+
+	uint8_t *PresKey=0;
+	while (GetKey(PresKey)){
+		lcd_putint(*PresKey);
 	}
 
 	lcd_pos(2,1);
