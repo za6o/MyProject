@@ -164,24 +164,31 @@ int main(void) {
 		auto_mode();
 	}
 
-#if 1
 
 	cli();
 	clear_screen();
 
+#if 0
+		uint16_t RealValue=0;
+		uint8_t temp=0;
+#endif
 
 	uint8_t *PresKey=0;
 	while (GetKey(PresKey)){
 		lcd_putint(*PresKey);
+#if 0
+
+		RealValue=(RealValue<<temp) | (*PresKey);
+		temp+=3;
+
+
+#endif
 	}
 
 	lcd_pos(2,1);
 	lcd_putstring("Uspeshno vyvedeno pyrvo chislo ");
 	_delay_ms(900);
 	_delay_ms(900);
-
-#endif
-
 
 	cli();
 	clear_screen();
