@@ -32,6 +32,7 @@
 #include "heat.h"
 #include "timer.h"
 #include "mashing.h"
+#include "keyboard.h"
 
 uint8_t *target_temp;
 uint16_t *time_sec;
@@ -161,13 +162,25 @@ int main(void) {
 		auto_mode();
 	}
 
+#if 1
+
+	cli();
+	clear_screen();
 	uint16_t test=0;
-	for(;;){
-		cli();
-		clear_screen();
-		test=read_adc(2); //adc2 analog input 2
-		lcd_putint(test);
+
+	uint8_t* PressedKey;
+	// (!(EndLine)){
+	while (GetKey(PressedKey)){
+		lcd_putint(*PressedKey);
 	}
+
+	lcd_pos(2,1);
+	lcd_putstring("Uspeshno vyvedeno pyrvo chislo ");
+	_delay_ms(900);
+	_delay_ms(900);
+
+#endif
+
 
 	cli();
 	clear_screen();

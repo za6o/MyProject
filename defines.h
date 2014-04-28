@@ -99,3 +99,8 @@
 #define SWITCH_LED_HIGH()   PORTC|=(1<<PC4);
 #define SWITCH_LED_LOW()    PORTC&=~(1<<PC4);
 
+//---------------- ADC chanel---------------------
+#define KEYBOARD 2
+//------------------------------------------------
+
+
