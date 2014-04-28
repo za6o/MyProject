@@ -175,6 +175,10 @@ int main(void) {
 
 	uint8_t *PresKey=0;
 	while (GetKey(PresKey)){
+
+		lcd_putstring("...");
+		//lcd_putint(temp+1);
+		lcd_putstring(":");
 		lcd_putint(*PresKey);
 #if 0
 
@@ -185,12 +189,7 @@ int main(void) {
 #endif
 	}
 
-	lcd_pos(2,1);
-	lcd_putstring("Uspeshno vyvedeno pyrvo chislo ");
-	_delay_ms(900);
-	_delay_ms(900);
 
-	cli();
 	clear_screen();
 	lcd_pos(1,3);
 	lcd_putstring("FINISHED");
