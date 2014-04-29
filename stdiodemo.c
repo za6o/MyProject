@@ -173,9 +173,8 @@ int main(void) {
 		uint8_t temp=0;
 
 
-	uint8_t *PresKey=0xFF;
+	uint8_t *PresKey=(uint8_t*)0xFF;
 	while (GetKey(PresKey)){
-	//	_delay_ms(200);
 		lcd_putint(*PresKey);
 		RealValue=(RealValue*temp)+(*PresKey);//(temp<<RealValue) | (*PresKey);
 		temp+=10;
@@ -184,6 +183,11 @@ int main(void) {
 	lcd_pos(2,5);
 	lcd_putint(RealValue);
 
+
+	clear_screen();
+	lcd_pos(1,3);
+	lcd_putstring("FINISHED");
+	_delay_ms(900);
 
 	return 0;
 }
