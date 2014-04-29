@@ -124,7 +124,7 @@ int main(void) {
 	{
 		lcd_putstring("Couldn't allocate buffers... restart it ");
 	}
-
+#if 0
 	*target_temp=20;
 	*time_sec=10;
 
@@ -167,34 +167,23 @@ int main(void) {
 
 	cli();
 	clear_screen();
+#endif
 
-#if 0
 		uint16_t RealValue=0;
 		uint8_t temp=0;
-#endif
 
-	uint8_t *PresKey=0;
+
+	uint8_t *PresKey=0xFF;
 	while (GetKey(PresKey)){
+	//	_delay_ms(200);
 		lcd_putint(*PresKey);
-#if 0
+		RealValue=(RealValue*temp)+(*PresKey);//(temp<<RealValue) | (*PresKey);
+		temp+=10;
 
-		RealValue=(RealValue<<temp) | (*PresKey);
-		temp+=3;
-
-
-#endif
 	}
+	lcd_pos(2,5);
+	lcd_putint(RealValue);
 
-	lcd_pos(2,1);
-	lcd_putstring("Uspeshno vyvedeno pyrvo chislo ");
-	_delay_ms(900);
-	_delay_ms(900);
-
-	cli();
-	clear_screen();
-	lcd_pos(1,3);
-	lcd_putstring("FINISHED");
-	_delay_ms(900);
 
 	return 0;
 }
