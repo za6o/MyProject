@@ -130,14 +130,15 @@ int main(void) {
 
 	for (;steps<0;steps--)
 	{
+		lcd_putint(steps);
 		*target_temp +=2;
 		*time_sec +=5;
 		target_temp++;
 		time_sec++;
 	}
 
-	target_temp-=(steps+1);
-	time_sec-=(steps+1);
+	target_temp-=steps;
+	time_sec-=steps;
 
 	lcd_putstring("Starting...");
     _delay_ms(900);
