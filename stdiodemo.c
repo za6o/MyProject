@@ -34,6 +34,7 @@
 #include "mashing.h"
 #include "keyboard.h"
 
+
 uint8_t *target_temp=NULL;
 uint16_t *time_sec=NULL;
 
@@ -106,39 +107,110 @@ void manual_mode(){
 	}
 }
 
+#if 0
+uint32_t menu(void){
+
+	uint32_t RealValue=0;
+	uint32_t temp=0;
+	uint8_t PresKey=0xFF;
+
+	while (GetKey(&PresKey)){
+		lcd_putint(PresKey);
+		RealValue=(uint32_t)((RealValue*temp)+(PresKey));//(temp<<RealValue) | (PresKey);
+		temp+=10;
+		_delay_ms(200);
+
+	}
+	lcd_pos(4,10);
+	lcd_putint(RealValue);
+	_delay_ms(900);
+
+	return RealValue;
+}
+#else
+
+void menu(void){
+
+	uint32_t RealValue=0;
+	uint32_t temp=0;
+	uint8_t PresKey=0xFF;
+
+	while (GetKey(&PresKey)){
+		lcd_putint(PresKey);
+		RealValue=(uint32_t)((RealValue*temp)+(PresKey));//(temp<<RealValue) | (PresKey);
+		temp+=10;
+		_delay_ms(200);
+
+	}
+	lcd_pos(4,10);
+	lcd_putint(RealValue);
+	_delay_ms(900);
+}
+
+#endif
 
 int main(void) {
 
 	ioinit();
 
+#if 0
+	uint16_t steps;
 	lcd_putstring("How many steps?");
-	_delay_ms(900);
-	_delay_ms(900);
-	clear_screen();
+	lcd_pos(2,0);
+	lcd_putstring("steps:");
+	steps = (uint16_t)menu();
+	lcd_pos(2,6);
+	lcd_putint(steps);
+	_delay_ms(1500);
 
-	uint8_t steps=5;
-	target_temp = malloc(sizeof(*target_temp)*steps);
-	time_sec = malloc(sizeof(*time_sec)*steps);
+	target_temp =(uint8_t*)malloc(sizeof(*target_temp)*steps);
+	time_sec = (uint16_t*)malloc(sizeof(*time_sec)*steps);
 
 	if ((target_temp==NULL) || time_sec==NULL )
 	{
 		lcd_putstring("Couldn't allocate buffers... restart it ");
 	}
-#if 0
-	*target_temp=20;
-	*time_sec=10;
 
-	for (;steps<0;steps--)
+	//*target_temp=20;
+	//*time_sec=10;
+
+	uint8_t i;
+	for (i=0;i<steps;i++)
 	{
-		lcd_putint(steps);
-		(*target_temp) +=2;
-		(*time_sec) +=5;
+		clear_screen();
+
+		lcd_putstring("Insert temp for pause ");
+		lcd_putint(i+1);
+		lcd_pos(2,0);
+		lcd_putstring("temp:");
+		target_temp[i] = (uint8_t)menu();
+		lcd_pos(3,0);
+		lcd_putstring("Insert sec for pause ");
+		lcd_putint(i+1);
+		lcd_pos(4,0);
+		lcd_putstring("sec:");
+		time_sec[i] = (uint16_t)menu();
 		target_temp++;
 		time_sec++;
+		_delay_ms(1500);
 	}
 
 	target_temp-=steps;
 	time_sec-=steps;
+
+	//*** for debugging**
+	for (i=0;i<steps;i++)
+	{
+		lcd_putstring("temp");
+		lcd_putint(i);
+		lcd_putstring(":");
+		lcd_putint(target_temp[i]);
+		lcd_putstring("sec");
+		lcd_putint(i);
+		lcd_putstring(":");
+		lcd_putint(time_sec[i]);
+	}
+	//-----------------
 
 	lcd_putstring("Starting...");
     _delay_ms(900);
@@ -148,7 +220,6 @@ int main(void) {
 
 	sei();    //Enable global interrupts, so our interrupt service routine can be called
 
-	uint8_t i;
 	for(i=0;i<steps;){
 
 		if (targetReached){
@@ -165,31 +236,23 @@ int main(void) {
 		auto_mode();
 	}
 
-
 	cli();
 	clear_screen();
+	lcd_putstring("FINISHED");
+
 #else
 
-	uint16_t RealValue=0;
-	uint8_t temp=0;
-	uint8_t PresKey=0xFF;
-
-	while (GetKey(&PresKey)){
-		lcd_putint(PresKey);
-		RealValue=(RealValue*temp)+(PresKey);//(temp<<RealValue) | (PresKey);
-		temp+=10;
-		_delay_ms(200);
-
-	}
-	lcd_pos(2,5);
-	lcd_putint(RealValue);
+	menu();
+	_delay_ms(900);
 	_delay_ms(900);
 
 	clear_screen();
 	lcd_pos(1,3);
 	lcd_putstring("FINISHED");
-	_delay_ms(900);
+
 #endif
+	free(target_temp);
+	free(target_temp);
 	return 0;
 }
 
