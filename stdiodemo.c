@@ -131,8 +131,8 @@ int main(void) {
 	for (;steps<0;steps--)
 	{
 		lcd_putint(steps);
-		*target_temp +=2;
-		*time_sec +=5;
+		(*target_temp) +=2;
+		(*time_sec) +=5;
 		target_temp++;
 		time_sec++;
 	}
@@ -168,28 +168,28 @@ int main(void) {
 
 	cli();
 	clear_screen();
-#endif
+#else
 
-		uint16_t RealValue=0;
-		uint8_t temp=0;
+	uint16_t RealValue=0;
+	uint8_t temp=0;
+	uint8_t PresKey=0xFF;
 
-
-	uint8_t *PresKey=(uint8_t*)0xFF;
-	while (GetKey(PresKey)){
-		lcd_putint(*PresKey);
-		RealValue=(RealValue*temp)+(*PresKey);//(temp<<RealValue) | (*PresKey);
+	while (GetKey(&PresKey)){
+		lcd_putint(PresKey);
+		RealValue=(RealValue*temp)+(PresKey);//(temp<<RealValue) | (PresKey);
 		temp+=10;
+		_delay_ms(200);
 
 	}
 	lcd_pos(2,5);
 	lcd_putint(RealValue);
-
+	_delay_ms(900);
 
 	clear_screen();
 	lcd_pos(1,3);
 	lcd_putstring("FINISHED");
 	_delay_ms(900);
-
+#endif
 	return 0;
 }
 

@@ -39,8 +39,6 @@ uint8_t ParseKey(uint16_t val, uint8_t* KeyPressed){
 
 }
 
-#if 1
-
 bool GetKey(uint8_t* PressedKey){
 
 	uint16_t adc=0;
@@ -52,9 +50,9 @@ bool GetKey(uint8_t* PressedKey){
 			adc = read_adc(KEYBOARD);
 		} while (ParseKey(adc, PressedKey) == 0);
 
-		_delay_ms(30);
+		_delay_ms(70);
 
-		if (prevKey == *PressedKey)
+		if ((prevKey == *PressedKey)||(EndLine))
 			gotKey=true;
 		else
 			prevKey = *PressedKey;
@@ -66,19 +64,4 @@ bool GetKey(uint8_t* PressedKey){
 		return true;
 
 }
-#else
 
-bool GetKey(uint8_t* PressedKey){
-
-	uint16_t adc=0;
-
-
-	while(ParseKey(adc, PressedKey) == 0){
-		_delay_ms(80);
-		ParseKey(adc, PressedKey);
-		adc = read_adc(KEYBOARD);
-		if (EndLine) return false;
-	}
-	return true;
-}
-#endif
