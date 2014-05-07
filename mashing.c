@@ -91,25 +91,25 @@ void setSpeed (uint8_t level,uint8_t *working,uint8_t *stopping){
 			*working=5;
 			*stopping=0;
 			lcd_pos(1,15);
-			lcd_putstring("H");
+			lcd_putstring("Hi");
 			break;
 		case MED:
 			*working=3;
 			*stopping=2;
 			lcd_pos(1,15);
-					lcd_putstring("M");
+					lcd_putstring("Me");
 			break;
 		case LOW:
 			*working=2;
 			*stopping=3;
 			lcd_pos(1,15);
-					lcd_putstring("L");
+					lcd_putstring("Lo");
 			break;
 		case OFF:
 			*working=0;
 			*stopping=5;
 			lcd_pos(1,15);
-					lcd_putstring("O");
+					lcd_putstring("Off");
 			break;
 		}
 }
