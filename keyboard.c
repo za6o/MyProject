@@ -18,8 +18,6 @@ bool EndLine = false;
 
 uint8_t ParseKey(uint16_t val, uint8_t* KeyPressed){
 
-	//static uint8_t KeyPressed;
-
 	val=1023-val;
 
 	if((30<=val)&&(val<=70)) {*KeyPressed=1; return 1;}
@@ -32,7 +30,7 @@ uint8_t ParseKey(uint16_t val, uint8_t* KeyPressed){
 	else if((612<=val)&&(val<=730)) {*KeyPressed=8;return 1;}
 	else if((731<=val)&&(val<=808)) {*KeyPressed=9;return 1;}
 	else if((877<=val)&&(val<=921)) {*KeyPressed=0;return 1;}
-	else if((922<=val)&&(val<=1015)) {EndLine=true;return 0;}
+	else if((922<=val)&&(val<=1015)) {EndLine=true;return 1;}
 
 
 	return 0;

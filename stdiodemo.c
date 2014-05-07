@@ -107,55 +107,33 @@ void manual_mode(){
 	}
 }
 
-#if 1
+
 uint32_t menu(void){
 
 	uint32_t RealValue=0;
-	uint32_t temp=1;
 	uint8_t PresKey=0xFF;
 
 	while (GetKey(&PresKey)){
+		lcd_pos(3,0);
+		lcd_putstring("input:");
 		lcd_putint(PresKey);
-		RealValue=(uint32_t)((RealValue*temp)+(PresKey));//(temp<<RealValue) | (PresKey);
-		temp*=10;
-		_delay_ms(200);
-		lcd_pos(4,10);
-		lcd_putint(RealValue);
+		RealValue=(uint32_t)((RealValue*10)+(PresKey)); //(4<<RealValue(<<4)) | (PresKey);
+		_delay_ms(150);
 
 	}
 	lcd_pos(4,0);
+	lcd_pustring("RV:");
 	lcd_putint(RealValue);
 	_delay_ms(600);
 
 	return RealValue;
 }
-#else
-
-void menu(void){
-
-	uint32_t RealValue=0;
-	uint32_t temp=0;
-	uint8_t PresKey=0xFF;
-
-	while (GetKey(&PresKey)){
-		lcd_putint(PresKey);
-		RealValue=(uint32_t)((RealValue*temp)+(PresKey));//(temp<<RealValue) | (PresKey);
-		temp+=10;
-		_delay_ms(200);
-
-	}
-	lcd_pos(4,10);
-	lcd_putint(RealValue);
-	_delay_ms(900);
-}
-
-#endif
 
 int main(void) {
 
 	ioinit();
 
-#if 1
+
 	uint16_t steps;
 	lcd_putstring("How many steps?");
 	lcd_pos(2,0);
@@ -182,7 +160,7 @@ int main(void) {
 	{
 		clear_screen();
 		lcd_putint(i+1);
-		lcd_putstring("pause at C:");
+		lcd_putstring(" pause at C:");
 		target_temp[i] = (uint8_t)menu();
 		lcd_pos(2,0);
 		lcd_putint(i+1);
@@ -197,22 +175,25 @@ int main(void) {
 	time_sec-=steps;
 
 	//*** for debugging**
-	clear_screen();
+
 	for (i=0;i<steps;i++)
 	{
+		clear_screen();
 		lcd_putstring("temp ");
 		lcd_putint(i);
 		lcd_putstring(":");
 		lcd_putint(target_temp[i]);
+		lcd_pos(2,0);
 		lcd_putstring("sec ");
 		lcd_putint(i);
 		lcd_putstring(":");
 		lcd_putint(time_sec[i]);
-		lcd_putstring(";;;");
+		_delay_ms(1500);
 		_delay_ms(1500);
 	}
 	//-----------------
 
+	clear_screen();
 	lcd_putstring("Starting...");
     _delay_ms(900);
 
@@ -242,13 +223,6 @@ int main(void) {
 
 	lcd_putstring("FINISHED");
 
-#else
-
-	clear_screen();
-	lcd_pos(1,3);
-	lcd_putstring("FINISHED");
-
-#endif
 	free(target_temp);
 	free(target_temp);
 	return 0;
