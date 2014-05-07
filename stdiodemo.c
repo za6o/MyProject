@@ -111,17 +111,19 @@ void manual_mode(){
 uint32_t menu(void){
 
 	uint32_t RealValue=0;
-	uint32_t temp=0;
+	uint32_t temp=1;
 	uint8_t PresKey=0xFF;
 
 	while (GetKey(&PresKey)){
 		lcd_putint(PresKey);
 		RealValue=(uint32_t)((RealValue*temp)+(PresKey));//(temp<<RealValue) | (PresKey);
-		temp+=10;
+		temp*=10;
 		_delay_ms(200);
+		lcd_pos(4,10);
+		lcd_putint(RealValue);
 
 	}
-	lcd_pos(4,10);
+	lcd_pos(4,0);
 	lcd_putint(RealValue);
 	_delay_ms(600);
 
@@ -179,17 +181,12 @@ int main(void) {
 	for (i=0;i<steps;i++)
 	{
 		clear_screen();
-
-		lcd_putstring("Insert temp for ");
 		lcd_putint(i+1);
-		lcd_pos(2,0);
-		lcd_putstring("temp:");
+		lcd_putstring("pause at C:");
 		target_temp[i] = (uint8_t)menu();
-		lcd_pos(3,0);
-		lcd_putstring("Insert sec for ");
+		lcd_pos(2,0);
 		lcd_putint(i+1);
-		lcd_pos(4,0);
-		lcd_putstring("sec:");
+		lcd_putstring("pause for sec:");
 		time_sec[i] = (uint16_t)menu();
 		target_temp++;
 		time_sec++;
@@ -200,19 +197,19 @@ int main(void) {
 	time_sec-=steps;
 
 	//*** for debugging**
+	clear_screen();
 	for (i=0;i<steps;i++)
 	{
-		lcd_putstring("temp");
+		lcd_putstring("temp ");
 		lcd_putint(i);
 		lcd_putstring(":");
 		lcd_putint(target_temp[i]);
-		_delay_ms(1000);
-
-		lcd_putstring("sec");
+		lcd_putstring("sec ");
 		lcd_putint(i);
 		lcd_putstring(":");
 		lcd_putint(time_sec[i]);
-		_delay_ms(1000);
+		lcd_putstring(";;;");
+		_delay_ms(1500);
 	}
 	//-----------------
 
