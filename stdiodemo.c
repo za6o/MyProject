@@ -114,10 +114,9 @@ uint32_t menu(void){
 	uint8_t PresKey=0xFF;
 
 	while (GetKey(&PresKey)){
-		lcd_pos(3,0);
-		lcd_putstring("input:");
-		lcd_putint(PresKey);
 		RealValue=(uint32_t)((RealValue*10)+(PresKey)); //(4<<RealValue(<<4)) | (PresKey);
+		lcd_putint(PresKey);
+
 		_delay_ms(150);
 
 	}
@@ -166,13 +165,14 @@ int main(void) {
 		lcd_putint(i+1);
 		lcd_putstring("pause for sec:");
 		time_sec[i] = (uint16_t)menu();
-		target_temp++;
-		time_sec++;
-		_delay_ms(1500);
+	//	target_temp++;
+	//	time_sec++;
+		_delay_ms(1000);
+
 	}
 
-	target_temp-=steps;
-	time_sec-=steps;
+	*target_temp=target_temp[0];
+	*time_sec=time_sec[0];
 
 	//*** for debugging**
 
@@ -192,6 +192,8 @@ int main(void) {
 		_delay_ms(1500);
 	}
 	//-----------------
+	*target_temp=target_temp[0];
+	*time_sec=time_sec[0];
 
 	clear_screen();
 	lcd_putstring("Starting...");
@@ -202,7 +204,7 @@ int main(void) {
 
 	sei();    //Enable global interrupts, so our interrupt service routine can be called
 
-	for(i=0;i<steps;){
+	for(i=0;i<(steps-1);){
 
 		if (targetReached){
 			target_temp++;

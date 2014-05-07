@@ -49,8 +49,6 @@ bool GetKey(uint8_t* PressedKey){
 			adc = read_adc(KEYBOARD);
 		} while (ParseKey(adc, PressedKey) == 0);
 
-		lcd_pos(4,5);
-		lcd_putint(*PressedKey);
 		_delay_ms(50);
 
 		if ((prevKey == *PressedKey)||(EndLine))
@@ -59,8 +57,10 @@ bool GetKey(uint8_t* PressedKey){
 			prevKey = *PressedKey;
 	}
 
-	if (EndLine)
+	if (EndLine){
+		EndLine=false;
 		return false;
+	}
 	else
 		return true;
 
