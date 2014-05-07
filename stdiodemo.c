@@ -122,7 +122,7 @@ uint32_t menu(void){
 
 	}
 	lcd_pos(4,0);
-	lcd_pustring("RV:");
+	lcd_putstring("RV:");
 	lcd_putint(RealValue);
 	_delay_ms(600);
 
