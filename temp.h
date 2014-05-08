@@ -6,8 +6,8 @@
  */
 
 
-#ifndef __TEMP_H__
-#define __TEMP_H__
+#ifndef TEMP_H
+#define TEMP_H
 
 uint8_t therm_reset();
 

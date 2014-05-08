@@ -1,7 +1,7 @@
 
 
-#ifndef __KEYBOARD_H__
-#define __KEYBOARD_H__
+#ifndef KEYBOARD_H
+#define KEYBOARD_H
 
 void init_keyboard(void);
 uint8_t ParseKey(uint16_t,uint8_t*);

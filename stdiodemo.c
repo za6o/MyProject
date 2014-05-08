@@ -15,7 +15,6 @@
 
 #include <ctype.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <avr/interrupt.h>
 
 #include <stdlib.h>
@@ -32,8 +31,8 @@
 #include "keyboard.h"
 
 
-uint8_t *target_temp=NULL;
-uint16_t *time_sec=NULL;
+static uint8_t *target_temp=NULL;
+static uint16_t *time_sec=NULL;
 
 /*
  * Do all the startup-time peripheral initializations.
@@ -44,7 +43,7 @@ static inline void ioinit(void)
 	lcd_init();
 	init_buttons();
 
-  int_config(); // enable timer interrupts
+  init_timers(); // enable timer interrupts
   PORTD |= (1<<PD2); // enable pullUP for the push button
 
 }
@@ -59,7 +58,7 @@ void static precondition(void){
 	nextStep=false;
 }
 
-void auto_mode(){
+static void auto_mode(){
 	cli();
 	clear_screen();
 	lcd_putstring("T:");
@@ -80,7 +79,7 @@ void auto_mode(){
 	start_mashing(target_temp, time_sec);
 }
 
-void manual_mode(){
+static void manual_mode(){
 	cli();
 
 	global_sec=sec;
@@ -95,7 +94,7 @@ void manual_mode(){
 }
 
 
-uint32_t menu(void){
+static uint32_t menu(void){
 
 	uint32_t RealValue=0;
 	uint8_t PresKey=0xFF;
@@ -244,7 +243,7 @@ ISR(TIMER1_COMPA_vect){
 	display_temp();
 
 	if(SWITCH_ON){
-		SWITCH_LED_HIGH();
+		SWITCH_LED_HIGH;
 	}
 	else
 		SWITCH_LED_LOW();

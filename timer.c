@@ -13,7 +13,7 @@
  * Target Timer Count = (((Input Frequency / Prescaler) / Target Frequency) - 1)
  */
 
-void int_config(void){
+void init_timers(void){
 
 	/*
 	 *  button interrupts INT0

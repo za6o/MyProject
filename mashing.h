@@ -5,8 +5,8 @@
  *      Author: anaidenov
  */
 
-#ifndef __MASHING_H__
-#define __MASHING_H__
+#ifndef MASHING_H
+#define MASHING_H
 
 
 extern volatile uint16_t sec;

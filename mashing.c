@@ -1,9 +1,7 @@
 
 #include <avr/io.h>	// deal with port registers
 #include <util/delay.h>	// used for _delay_us function
-#include <stdlib.h>
 #include <stdbool.h>
-#include <stdio.h>
 #include "lcd.h"
 #include "mashing.h"
 #include "defines.h"
@@ -24,9 +22,9 @@ volatile uint16_t global_sec;
 volatile bool autoMode=false;
 
 void init_buttons(){
-	void init_switch();
-	void init_led();
-	void init_heater();
+	init_switch();
+	init_led();
+	init_heater();
 }
 
 
@@ -158,7 +156,7 @@ void manual_heating(){
 	while (!autoMode){
 		if (SWITCH_ON){
 		   start_heating();
-		   SWITCH_LED_HIGH();
+		   SWITCH_LED_HIGH;
 		}
 		else{
 		   stop_heating();

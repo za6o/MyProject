@@ -6,19 +6,15 @@
  */
 
 
-#ifndef __HEAT_H__
-#define __HEAT_H__
+#ifndef HEAT_H
+#define HEAT_H
 
-#if 0
-void init_LedsSwitch(void);
 
-#else
 void init_heater(void);
 
 void init_led(void);
 
 void init_switch(void);
-#endif
 
 void stop_heating(void);
 

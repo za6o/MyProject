@@ -6,9 +6,9 @@
  */
 
 
-#ifndef __TIMER_H__
-#define __TIMER_H__
+#ifndef TIMER_H
+#define TIMER_H
 
-void int_config(void);
+void init_timers(void);
 
 #endif

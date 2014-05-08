@@ -1,6 +1,4 @@
 
-
-#include <stdint.h>
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -14,10 +12,10 @@
 
 
 
-bool EndLine = false;
+static bool EndLine = false;
 
 void init_keyboard(){
-	void init_adc();
+	init_adc();
 }
 
 uint8_t ParseKey(uint16_t val, uint8_t* KeyPressed){

@@ -8,9 +8,6 @@
 
 #include <avr/io.h>	// deal with port registers
 #include <util/delay.h>	// used for _delay_us function
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdbool.h>
 
 #include "defines.h"
 #include "temp.h"

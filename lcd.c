@@ -11,19 +11,14 @@
  * $Id: lcd.c 2265 2011-12-28 21:28:29Z joerg_wunsch $
  */
 
-#include "defines.h"
-
 #include <stdbool.h>
-#include <stdint.h>
-#include <stdio.h>
 #include <stdlib.h>
-
-#include <avr/io.h>
 
 #include <util/delay.h>
 
 #include "hd44780.h"
 #include "lcd.h"
+#include "defines.h"
 
 /*
  * Setup the LCD controller.  First, call the hardware initialization

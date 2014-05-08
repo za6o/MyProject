@@ -88,15 +88,14 @@
 //------------- toggle switch definitions ------------------
 #define SWITCH_DQ 		   PC5
 #define SWITCH_INPUT()    DDRC &= ~(1<<PC5)
-#define SWITCH_PIN        PINC
-#define SWITCH_ON         (SWITCH_PIN & (1<<SWITCH_DQ))
+#define SWITCH_ON         (PINC & (1<<SWITCH_DQ))
 //-------------------------------------------------------
 
 
 //----------------manual heater ON/OFF (red one)---------------
 #define SWITCH_LED 		     PC4
 #define SWITCH_LED_OUTPUT() DDRC=(1<<PC4)
-#define SWITCH_LED_HIGH()   PORTC|=(1<<PC4);
+#define SWITCH_LED_HIGH   PORTC|=(1<<PC4);
 #define SWITCH_LED_LOW()    PORTC&=~(1<<PC4);
 
 //---------------- ADC chanel---------------------
