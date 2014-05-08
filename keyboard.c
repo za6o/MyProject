@@ -11,10 +11,14 @@
 
 
 #include <util/delay.h>
-#include "lcd.h"
+
 
 
 bool EndLine = false;
+
+void init_keyboard(){
+	void init_adc();
+}
 
 uint8_t ParseKey(uint16_t val, uint8_t* KeyPressed){
 

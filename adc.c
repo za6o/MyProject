@@ -9,7 +9,7 @@
 #include "adc.h"
 
 
-void	adc_init(void)
+void init_adc(void)
 {
 	ADCSRA |= ((1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0));    //16Mhz/128 = 125Khz the ADC reference clock
 	ADMUX=(1<<REFS0)|(0<<REFS1);  // For Aref=AVcc;

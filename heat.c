@@ -6,8 +6,6 @@
  */
 
 
-#include "defines.h"
-
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -15,16 +13,14 @@
 #include <avr/io.h>
 
 #include <util/delay.h>
+#include "defines.h"
+#include "mashing.h"
+
 
 static bool heater_on = false;
 
-volatile bool autoMode=false;
-
-
+#if 0
 void init_LedsSwitch(){
-
-	HEAT_OUTPUT_MODE();
-	HEAT_LOW();
 
 	SWITCH_INPUT();
 
@@ -33,15 +29,16 @@ void init_LedsSwitch(){
 
 	BUTT_LED_OUTPUT();
 	BUTT_LED_LOW();
+
+	HEAT_OUTPUT_MODE();
+	HEAT_LOW();
 }
 
-#if 0
+#else
 void init_switch(){
 	SWITCH_INPUT();
 	SWITCH_LED_OUTPUT();
 	SWITCH_LED_LOW();
-	BUTT_LED_OUTPUT();
-	BUTT_LED_LOW();
 }
 
 void init_led(){

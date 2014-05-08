@@ -27,9 +27,6 @@
 #include <util/delay.h>
 
 #include "lcd.h"
-#include "adc.h"
-#include "temp.h"
-#include "heat.h"
 #include "timer.h"
 #include "mashing.h"
 #include "keyboard.h"
@@ -43,11 +40,10 @@ uint16_t *time_sec=NULL;
  */
 static inline void ioinit(void)
 {
-  lcd_init();
-  init_LedsSwitch();
-#if 1
-  adc_init();
-#endif
+	init_keyboard();
+	lcd_init();
+	init_buttons();
+
   int_config(); // enable timer interrupts
   PORTD |= (1<<PD2); // enable pullUP for the push button
 
@@ -94,17 +90,8 @@ void manual_mode(){
 	lcd_putstring("Manual Mode");
 
 	sei();
-	while (!autoMode){
-		if (SWITCH_ON){
-		   start_heating();
-		   SWITCH_LED_HIGH();
-		}
-		else{
-		   stop_heating();
-		   SWITCH_LED_LOW();
-		}
-		_delay_ms(100);
-	}
+
+	manual_heating();
 }
 
 

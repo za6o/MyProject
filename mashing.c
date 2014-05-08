@@ -5,9 +5,10 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "lcd.h"
+#include "mashing.h"
+#include "defines.h"
 #include "temp.h"
 #include "heat.h"
-#include "mashing.h"
 
 
 #define HIGH 3
@@ -20,11 +21,18 @@ bool nextStep;
 volatile bool pause=false;
 volatile uint16_t sec;
 volatile uint16_t global_sec;
+volatile bool autoMode=false;
+
+void init_buttons(){
+	void init_switch();
+	void init_led();
+	void init_heater();
+}
+
 
 
 void start_mashing(uint8_t *target_temp, uint16_t *time_sec){
 
-//	uint8_t reachTemp = (*target_temp)+1;
 	while ((!nextStep) && (autoMode)){
 		switch (speedSelect(target_temp)){
 		case HIGH:
@@ -146,6 +154,28 @@ void keepTemp(uint8_t *tempereture){
 	}
 }
 
+void manual_heating(){
+	while (!autoMode){
+		if (SWITCH_ON){
+		   start_heating();
+		   SWITCH_LED_HIGH();
+		}
+		else{
+		   stop_heating();
+		   SWITCH_LED_LOW();
+		}
+		_delay_ms(100);
+	}
+}
+
+void display_temp(void){
+
+	int digit=0, decimal=0;
+				therm_read_temperatureRAW(&digit,&decimal);
+				lcd_putint(digit);
+				lcd_putchar('.');
+				lcd_putint(decimal/10);
+}
 
 
 

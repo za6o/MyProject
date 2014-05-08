@@ -6,6 +6,6 @@
  */
 
 
-void	adc_init(void);
+void init_adc(void);
 
 uint16_t read_adc(uint8_t channel);

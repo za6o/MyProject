@@ -9,11 +9,10 @@
 #ifndef __HEAT_H__
 #define __HEAT_H__
 
-extern volatile bool autoMode;
-
+#if 0
 void init_LedsSwitch(void);
 
-#if 0
+#else
 void init_heater(void);
 
 void init_led(void);

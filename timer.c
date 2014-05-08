@@ -7,6 +7,7 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include "timer.h"
 
 /*
  * Target Timer Count = (((Input Frequency / Prescaler) / Target Frequency) - 1)
