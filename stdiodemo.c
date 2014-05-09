@@ -46,16 +46,6 @@ static inline void ioinit(void)
 
 }
 
-void static precondition(void){
-	lcd_pos(2,4);
-	lcd_putint(*target_temp);
-
-	lcd_pos(2,12);
-	lcd_putint(*time_sec);
-
-	nextStep=false;
-}
-
 static void auto_mode(){
 	cli();
 	clear_screen();
@@ -65,7 +55,7 @@ static void auto_mode(){
 	lcd_pos(2,0);
 	lcd_putstring("targ:");
 	lcd_pos(2,7);
-	lcd_putstring("C");
+	lcd_putchar('C');
 
 	lcd_pos(2,12);
 	lcd_putstring("sec:");
@@ -73,7 +63,7 @@ static void auto_mode(){
 	lcd_pos(4,0);
 	lcd_putstring("next:");
 	lcd_pos(4,7);
-	lcd_putstring("C");
+	lcd_putchar('C');
 
 	lcd_pos(4,12);
 	lcd_putstring("sec:");
@@ -303,7 +293,7 @@ ISR(TIMER1_COMPA_vect){
 			lcd_pos(2,17);
 			lcd_putstring("   ");
 		}
-		else if (((*target_temp)-sec) < 10){
+		else if (((*target_temp)-sec) < 100){
 			lcd_pos(2,18);
 			lcd_putstring("  ");
 		}

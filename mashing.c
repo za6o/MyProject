@@ -176,7 +176,7 @@ void display_temp(void){
 				lcd_putint(digit);
 				lcd_putchar('.');
 				lcd_putint(decimal/10);
-				lcd_putchar("C");
+				lcd_putchar('C');
 }
 
 
