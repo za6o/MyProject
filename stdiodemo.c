@@ -59,20 +59,39 @@ void static precondition(void){
 static void auto_mode(){
 	cli();
 	clear_screen();
-	lcd_putstring("T:");
+	lcd_pos(1,3);
+	lcd_putstring("Temp:");
 
 	lcd_pos(2,0);
-	lcd_putstring("tar:");
-
-	lcd_pos(2,8);
-	lcd_putstring("sec:");
-
-	lcd_pos(2,4);
-	lcd_putint(*target_temp);
+	lcd_putstring("targ:");
+	lcd_pos(2,7);
+	lcd_putstring("C");
 
 	lcd_pos(2,12);
+	lcd_putstring("sec:");
+
+	lcd_pos(4,0);
+	lcd_putstring("next:");
+	lcd_pos(4,7);
+	lcd_putstring("C");
+
+	lcd_pos(4,12);
+	lcd_putstring("sec:");
+
+	lcd_pos(2,5);
+	lcd_putint(*target_temp);
+
+	lcd_pos(2,16);
 	lcd_putint(*time_sec);
-	precondition();
+
+	lcd_pos(4,5);
+	lcd_putint(*(++target_temp));
+
+	lcd_pos(4,16);
+	lcd_putint(*(++time_sec));
+
+	nextStep=false;
+
 	sei();
 	start_mashing(target_temp, time_sec);
 }
@@ -82,8 +101,9 @@ static void manual_mode(){
 
 	global_sec=sec;
 	clear_screen();
-	lcd_putstring("T:");
-	lcd_pos(2,2);
+	lcd_pos(1,3);
+	lcd_putstring("Temp:");
+	lcd_pos(2,4);
 	lcd_putstring("Manual Mode");
 
 	sei();
@@ -182,21 +202,27 @@ int main(void) {
 	//*** for debugging**
 
 	clear_screen();
-	for (i=1;i<steps+1;i++)
+	for (i=0;i<steps;i++)
 	{
-		uint8_t line=i;
-		if ((i%4)>=1){
-			line = (i%4);
+		uint8_t line;
+
+		if (i<4)
+			line=i+1;
+		else if((i%4)==0){
+			line = 1;
 			clear_screen();
 		}
+		else
+			line = (i%4)+1;
+
 		lcd_pos(line,0);
-		lcd_putint(i);
+		lcd_putint(i+1);
 		lcd_putstring("- ");
 		lcd_putstring("temp:");
-		lcd_putint(target_temp[i-1]);
+		lcd_putint(target_temp[i]);
 		lcd_putstring("  ");
 		lcd_putstring("sec:");
-		lcd_putint(time_sec[i-1]);
+		lcd_putint(time_sec[i]);
 
 		_delay_ms(1500);
 		_delay_ms(1500);
@@ -262,7 +288,7 @@ ISR(INT0_vect) {
 
 ISR(TIMER1_COMPA_vect){
 
-	lcd_pos(1,2);
+	lcd_pos(1,8);
 	display_temp();
 
 	if(SWITCH_ON){
@@ -273,8 +299,21 @@ ISR(TIMER1_COMPA_vect){
 
 	if (pause){
 		sec++;
-		lcd_pos(1,10);
-		lcd_putint(sec);
+		if (((*target_temp)-sec) < 10){
+			lcd_pos(2,17);
+			lcd_putstring("   ");
+		}
+		else if (((*target_temp)-sec) < 10){
+			lcd_pos(2,18);
+			lcd_putstring("  ");
+		}
+		else if (((*target_temp)-sec) < 1000){
+			lcd_pos(2,19);
+			lcd_putstring(" ");
+		}
+
+		lcd_pos(2,16);
+		lcd_putint((*target_temp)-sec);
 		if ((sec >= *time_sec)&&(!SWITCH_ON)){
 			targetReached = true;
 			pause=false;

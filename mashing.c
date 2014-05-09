@@ -130,11 +130,11 @@ void wait(uint16_t *seconds, uint8_t *temp ) {
 		keepTemp(temp);
 	}
 
-	lcd_pos(1,10);
-	lcd_putchar(' ');
-	lcd_putchar(' ');
-	lcd_putchar(' ');
-	lcd_putchar(' ');
+//	lcd_pos(1,10);
+//	lcd_putchar(' ');
+//	lcd_putchar(' ');
+//	lcd_putchar(' ');
+//	lcd_putchar(' ');
 }
 
 void keepTemp(uint8_t *tempereture){
@@ -176,6 +176,7 @@ void display_temp(void){
 				lcd_putint(digit);
 				lcd_putchar('.');
 				lcd_putint(decimal/10);
+				lcd_putchar("C");
 }
 
 
