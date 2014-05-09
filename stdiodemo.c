@@ -181,16 +181,17 @@ int main(void) {
 
 	//*** for debugging**
 
+	clear_screen();
 	for (i=1;i<steps+1;i++)
 	{
 		uint8_t line=i;
-		if ((i%4)==0)
-			line = 4;
-		clear_screen();
+		if ((i%4)>=1){
+			line = (i%4);
+			clear_screen();
+		}
 		lcd_pos(line,0);
-		lcd_putstring("Step ");
 		lcd_putint(i);
-		lcd_putstring("  ");
+		lcd_putstring("- ");
 		lcd_putstring("temp:");
 		lcd_putint(target_temp[i-1]);
 		lcd_putstring("  ");
