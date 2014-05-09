@@ -42,9 +42,7 @@ static inline void ioinit(void)
 	init_keyboard();
 	lcd_init();
 	init_buttons();
-
-  init_timers(); // enable timer interrupts
-  PORTD |= (1<<PD2); // enable pullUP for the push button
+    init_timers(); // enable timer interrupts
 
 }
 
@@ -99,34 +97,49 @@ static uint32_t menu(void){
 	uint32_t RealValue=0;
 	uint8_t PresKey=0xFF;
 
+	lcd_pos(2,0);
+	lcd_putstring("Input:");
 	while (GetKey(&PresKey)){
-		RealValue=(uint32_t)((RealValue*10)+(PresKey)); //(4<<RealValue(<<4)) | (PresKey);
-		lcd_putint(PresKey);
-
+		if(PresKey==0xF0){
+			RealValue=RealValue/10; // if * button is pressed, one position back
+		}
+		else {
+			RealValue=(uint32_t)((RealValue*10)+(PresKey)); //(4<<RealValue(<<4)) | (PresKey);
+		}
+		lcd_pos(2,6);
+		lcd_putstring("             "); // cleaning rest of the line
+		lcd_pos(2,6);
+		lcd_putint(RealValue);
 		_delay_ms(150);
-
 	}
-	lcd_pos(4,0);
-	lcd_putstring("RV:");
-	lcd_putint(RealValue);
 	_delay_ms(600);
-
+	lcd_pos(2,6);
+	lcd_putstring("             "); // cleaning rest of the line
 	return RealValue;
 }
 
 int main(void) {
 
 	ioinit();
-
-
+    global_sec=0;
+    sec=0;
 	uint16_t steps;
-	lcd_putstring("How many steps?");
-	lcd_pos(2,0);
-	lcd_putstring("steps:");
-	steps = (uint16_t)menu();
+
 	lcd_pos(2,6);
-	lcd_putint(steps);
-	_delay_ms(1500);
+	lcd_putstring("WELLCOME");
+    _delay_ms(1500);
+
+    clear_screen();
+    lcd_pos(1,1);
+	lcd_putstring("Steps for mashing?");
+
+	while((steps = (uint16_t)menu())==0){
+		lcd_putstring("Insert one step at least!");
+	    clear_screen();
+	    lcd_pos(1,1);
+		lcd_putstring("Steps for mashing?");
+
+	}
 
 	target_temp =(uint8_t*)malloc(sizeof(*target_temp)*steps);
 	time_sec = (uint16_t*)malloc(sizeof(*time_sec)*steps);
@@ -136,23 +149,29 @@ int main(void) {
 		lcd_putstring("Couldn't allocate buffers... restart it ");
 	}
 
-	//*target_temp=20;
-	//*time_sec=10;
-
-
 	uint8_t i;
 	for (i=0;i<steps;i++)
 	{
 		clear_screen();
+		if (i > 0){
+			lcd_pos(4,0);
+			lcd_putstring("temp:");
+			lcd_putint(target_temp[i-1]);
+
+			lcd_pos(4,12);
+			lcd_putstring("sec:");
+			lcd_putint(time_sec[i-1]);
+		}
+		lcd_pos(1,0);
+		lcd_putstring("Celsius for step ");
 		lcd_putint(i+1);
-		lcd_putstring(" pause at C:");
+		lcd_putstring("?");
 		target_temp[i] = (uint8_t)menu();
-		lcd_pos(2,0);
+		clear_screen();
+		lcd_putstring("Seconds for step ");
 		lcd_putint(i+1);
-		lcd_putstring("pause for sec:");
+		lcd_putstring("?");
 		time_sec[i] = (uint16_t)menu();
-	//	target_temp++;
-	//	time_sec++;
 		_delay_ms(1000);
 
 	}
@@ -162,31 +181,34 @@ int main(void) {
 
 	//*** for debugging**
 
-	for (i=0;i<steps;i++)
+	for (i=1;i<steps+1;i++)
 	{
+		uint8_t line=i;
+		if ((i%4)==0)
+			line = 4;
 		clear_screen();
-		lcd_putstring("temp ");
+		lcd_pos(line,0);
+		lcd_putstring("Step ");
 		lcd_putint(i);
-		lcd_putstring(":");
-		lcd_putint(target_temp[i]);
-		lcd_pos(2,0);
-		lcd_putstring("sec ");
-		lcd_putint(i);
-		lcd_putstring(":");
-		lcd_putint(time_sec[i]);
+		lcd_putstring("  ");
+		lcd_putstring("temp:");
+		lcd_putint(target_temp[i-1]);
+		lcd_putstring("  ");
+		lcd_putstring("sec:");
+		lcd_putint(time_sec[i-1]);
+
 		_delay_ms(1500);
 		_delay_ms(1500);
 	}
 	//-----------------
+
 	*target_temp=target_temp[0];
 	*time_sec=time_sec[0];
 
 	clear_screen();
+	lcd_pos(2,4);
 	lcd_putstring("Starting...");
-    _delay_ms(900);
-
-    global_sec=0;
-    sec=0;
+    _delay_ms(1000);
 
 	sei();    //Enable global interrupts, so our interrupt service routine can be called
 

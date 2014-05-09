@@ -80,9 +80,9 @@
 
 //--------------auto/manual mode LED (green one)-----------
 #define BUTT_LED PC0
-#define BUTT_LED_OUTPUT() DDRC=(1<<PC0)
-#define BUTT_LED_HIGH()   PORTC|=(1<<PC0);
-#define BUTT_LED_LOW()    PORTC&=~(1<<PC0);
+#define BUTT_LED_OUTPUT() DDRC|=(1<<BUTT_LED)
+#define BUTT_LED_HIGH()   PORTC|=(1<<BUTT_LED);
+#define BUTT_LED_LOW()    PORTC&=~(1<<BUTT_LED);
 //----------------------------------------------------
 
 //------------- toggle switch definitions ------------------
@@ -94,9 +94,9 @@
 
 //----------------manual heater ON/OFF (red one)---------------
 #define SWITCH_LED 		     PC4
-#define SWITCH_LED_OUTPUT() DDRC=(1<<PC4)
-#define SWITCH_LED_HIGH   PORTC|=(1<<PC4);
-#define SWITCH_LED_LOW()    PORTC&=~(1<<PC4);
+#define SWITCH_LED_OUTPUT() DDRC|=(1<<SWITCH_LED)
+#define SWITCH_LED_HIGH   PORTC|=(1<<SWITCH_LED);
+#define SWITCH_LED_LOW()    PORTC&=~(1<<SWITCH_LED);
 
 //---------------- ADC chanel---------------------
 #define KEYBOARD 2

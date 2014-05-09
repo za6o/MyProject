@@ -20,11 +20,14 @@ void init_switch(){
 	SWITCH_INPUT();
 	SWITCH_LED_OUTPUT();
 	SWITCH_LED_LOW();
+
 }
 
 void init_led(){
 	BUTT_LED_OUTPUT();
 	BUTT_LED_LOW();
+
+	PORTD |= (1<<PD2); // enable pullUP for the push button
 }
 
 void init_heater(){

@@ -2,6 +2,7 @@
 #include <avr/io.h>	// deal with port registers
 #include <util/delay.h>	// used for _delay_us function
 #include <stdbool.h>
+#include <avr/interrupt.h>
 #include "lcd.h"
 #include "mashing.h"
 #include "defines.h"
@@ -92,6 +93,7 @@ void startHeating (uint8_t level){
 
 void setSpeed (uint8_t level,uint8_t *working,uint8_t *stopping){
 
+	cli();
 		switch (level) {
 		case HIGH:
 			*working=5;
@@ -118,6 +120,7 @@ void setSpeed (uint8_t level,uint8_t *working,uint8_t *stopping){
 					lcd_putstring("Off");
 			break;
 		}
+	sei();
 }
 
 
