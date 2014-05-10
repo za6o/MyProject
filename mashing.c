@@ -98,26 +98,26 @@ void setSpeed (uint8_t level,uint8_t *working,uint8_t *stopping){
 		case HIGH:
 			*working=5;
 			*stopping=0;
-			lcd_pos(1,15);
-			lcd_putstring("Hi");
+			lcd_pos(4,9);
+			lcd_putstring("H");
 			break;
 		case MED:
 			*working=3;
 			*stopping=2;
-			lcd_pos(1,15);
-					lcd_putstring("Me");
+			lcd_pos(4,9);
+			lcd_putstring("M");
 			break;
 		case LOW:
 			*working=2;
 			*stopping=3;
-			lcd_pos(1,15);
-					lcd_putstring("Lo");
+			lcd_pos(4,9);
+			lcd_putstring("L");
 			break;
 		case OFF:
 			*working=0;
 			*stopping=5;
-			lcd_pos(1,15);
-					lcd_putstring("Off");
+			lcd_pos(4,9);
+			lcd_putstring("O");
 			break;
 		}
 	sei();
@@ -176,7 +176,6 @@ void display_temp(void){
 				lcd_putint(digit);
 				lcd_putchar('.');
 				lcd_putint(decimal/10);
-				lcd_putchar('C');
 }
 
 

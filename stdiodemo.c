@@ -48,6 +48,10 @@ static inline void ioinit(void)
 
 static void auto_mode(){
 	cli();
+
+	uint8_t* next_temp=target_temp;
+	uint16_t* next_sec=time_sec;
+
 	clear_screen();
 	lcd_pos(1,3);
 	lcd_putstring("Temp:");
@@ -75,10 +79,10 @@ static void auto_mode(){
 	lcd_putint(*time_sec);
 
 	lcd_pos(4,5);
-	lcd_putint(*(++target_temp));
+	lcd_putint(*(++next_temp));
 
 	lcd_pos(4,16);
-	lcd_putint(*(++time_sec));
+	lcd_putint(*(++next_sec));
 
 	nextStep=false;
 
@@ -227,7 +231,7 @@ int main(void) {
 	lcd_putstring("Starting...");
     _delay_ms(1000);
 
-	sei();    //Enable global interrupts, so our interrupt service routine can be called
+//	sei();    //Enable global interrupts, so our interrupt service routine can be called
 
 	for(i=0;i<(steps-1);){
 
@@ -289,20 +293,7 @@ ISR(TIMER1_COMPA_vect){
 
 	if (pause){
 		sec++;
-		if (((*target_temp)-sec) < 10){
-			lcd_pos(2,17);
-			lcd_putstring("   ");
-		}
-		else if (((*target_temp)-sec) < 100){
-			lcd_pos(2,18);
-			lcd_putstring("  ");
-		}
-		else if (((*target_temp)-sec) < 1000){
-			lcd_pos(2,19);
-			lcd_putstring(" ");
-		}
-
-		lcd_pos(2,16);
+		lcd_pos(1,16);
 		lcd_putint((*target_temp)-sec);
 		if ((sec >= *time_sec)&&(!SWITCH_ON)){
 			targetReached = true;
