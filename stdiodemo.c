@@ -204,6 +204,7 @@ int main(void) {
 			line=i+1;
 		else if((i%4)==0){
 			line = 1;
+			_delay_ms(1500);
 			clear_screen();
 		}
 		else
@@ -217,9 +218,8 @@ int main(void) {
 		lcd_putstring("  ");
 		lcd_putstring("sec:");
 		lcd_putint(time_sec[i]);
+		_delay_ms(1500);
 
-		_delay_ms(1500);
-		_delay_ms(1500);
 	}
 	//-----------------
 
