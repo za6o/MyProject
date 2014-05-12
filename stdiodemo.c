@@ -58,30 +58,21 @@ static void auto_mode(){
 
 	lcd_pos(2,0);
 	lcd_putstring("targ:");
-	lcd_pos(2,7);
+	lcd_putint(*target_temp);
 	lcd_putchar('C');
 
 	lcd_pos(2,12);
 	lcd_putstring("sec:");
+	lcd_putint(*time_sec);
+
 
 	lcd_pos(4,0);
 	lcd_putstring("next:");
-	lcd_pos(4,7);
+	lcd_putint(*(++next_temp));
 	lcd_putchar('C');
 
-	lcd_pos(4,12);
-	lcd_putstring("sec:");
-
-	lcd_pos(2,5);
-	lcd_putint(*target_temp);
-
-	lcd_pos(2,16);
-	lcd_putint(*time_sec);
-
-	lcd_pos(4,5);
-	lcd_putint(*(++next_temp));
-
-	lcd_pos(4,16);
+	lcd_pos(4,11);
+	lcd_putstring(" sec:");
 	lcd_putint(*(++next_sec));
 
 	nextStep=false;
@@ -127,8 +118,8 @@ static uint32_t menu(void){
 		_delay_ms(150);
 	}
 	_delay_ms(600);
-	lcd_pos(2,6);
-	lcd_putstring("             "); // cleaning rest of the line
+//	lcd_pos(2,6);
+	//lcd_putstring("             "); // cleaning rest of the line
 	return RealValue;
 }
 
@@ -154,6 +145,7 @@ int main(void) {
 		lcd_putstring("Steps for mashing?");
 
 	}
+
 
 	target_temp =(uint8_t*)malloc(sizeof(*target_temp)*steps);
 	time_sec = (uint16_t*)malloc(sizeof(*time_sec)*steps);
@@ -186,7 +178,7 @@ int main(void) {
 		lcd_putint(i+1);
 		lcd_putstring("?");
 		time_sec[i] = (uint16_t)menu();
-		_delay_ms(1000);
+		_delay_ms(500);
 
 	}
 
@@ -219,7 +211,6 @@ int main(void) {
 		lcd_putstring("sec:");
 		lcd_putint(time_sec[i]);
 		_delay_ms(1500);
-
 	}
 	//-----------------
 
@@ -231,16 +222,16 @@ int main(void) {
 	lcd_putstring("Starting...");
     _delay_ms(1000);
 
-//	sei();    //Enable global interrupts, so our interrupt service routine can be called
-
-	for(i=0;i<(steps-1);){
+    int n;
+	for(n=0;n<(steps-1);){
 
 		if (targetReached){
 			target_temp++;
 			time_sec++;
-			i++;
+			n++;
 			global_sec=0;
 			sec=0;
+			targetReached=false;
 		}
 
 		if (!autoMode)
@@ -270,12 +261,9 @@ ISR(INT0_vect) {
 
 	if (autoMode){
 		BUTT_LED_HIGH();
-		//SWITCH_LED_LOW();
-		targetReached=false;
 	}
 	else if (!autoMode){
 		BUTT_LED_LOW();
-		targetReached=false;
 	}
 
 }
@@ -294,7 +282,7 @@ ISR(TIMER1_COMPA_vect){
 	if (pause){
 		sec++;
 		lcd_pos(1,16);
-		lcd_putint((*target_temp)-sec);
+		lcd_putint(sec);
 		if ((sec >= *time_sec)&&(!SWITCH_ON)){
 			targetReached = true;
 			pause=false;
