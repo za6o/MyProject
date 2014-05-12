@@ -232,6 +232,7 @@ int main(void) {
 			n++;
 			global_sec=0;
 			sec=0;
+			targetReached=false;
 		}
 
 		if (!autoMode)
@@ -261,12 +262,9 @@ ISR(INT0_vect) {
 
 	if (autoMode){
 		BUTT_LED_HIGH();
-		//SWITCH_LED_LOW();
-		targetReached=false;
 	}
 	else if (!autoMode){
 		BUTT_LED_LOW();
-		targetReached=false;
 	}
 
 }
