@@ -135,7 +135,7 @@ int main(void) {
 
     int l,p;
     for (l=1;l<=4; l++){
-    	for (p=0; p<20; P++)
+    	for (p=0; p<20; p++)
     	{
     		lcd_pos(l,p);
     		lcd_putint(p);
