@@ -131,6 +131,22 @@ int main(void) {
 	lcd_putstring("WELLCOME");
     _delay_ms(1500);
 
+//------------ testing screen
+
+    int l,p;
+    for (l=1;l<=4; l++){
+    	for (p=0; p<20; P++)
+    	{
+    		lcd_pos(l,p);
+    		lcd_putint(p);
+    	}
+    }
+      _delay_ms(1500);
+
+//------------------------------------
+
+
+
     clear_screen();
     lcd_pos(1,1);
 	lcd_putstring("Steps for mashing?");

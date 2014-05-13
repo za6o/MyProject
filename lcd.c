@@ -103,16 +103,16 @@ void lcd_pos(uint8_t line, uint8_t pos)
 	} */
 
 	if (line == 1 ){
-			location = (0x80 | pos);
+			location = (0x80 + pos);
 		}
 		else if (line == 2 ){
-			location = (0xC0 | pos);
+			location = (0xC0 + pos);
 		}
 		else if (line == 3 ){
-			location = (0x94 | pos);
+			location = (0x94 + pos);
 		}
 		else if (line == 4 ){
-			location = (0xD4 | pos);
+			location = (0xD4 + pos);
 
 	hd44780_outcmd(location);
 }
