@@ -223,7 +223,12 @@ int main(void) {
     _delay_ms(1000);
 
     int n;
-	for(n=0;n<(steps-1);){
+	for(n=0;n<=(steps-1);){
+
+		if (!autoMode)
+			manual_mode();
+		else
+			auto_mode();
 
 		if (targetReached){
 			target_temp++;
@@ -233,11 +238,6 @@ int main(void) {
 			sec=0;
 			targetReached=false;
 		}
-
-		if (!autoMode)
-			manual_mode();
-
-		auto_mode();
 	}
 
 	cli();
