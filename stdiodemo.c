@@ -139,9 +139,10 @@ int main(void) {
     	{
     		lcd_pos(l,p);
     		lcd_putint(p);
+    		_delay_ms(400);
     	}
     }
-      _delay_ms(1500);
+
 
 //------------------------------------
 
