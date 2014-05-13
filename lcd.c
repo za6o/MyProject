@@ -88,7 +88,7 @@ inline int lcd_putchar(char c)
 
 void lcd_pos(uint8_t line, uint8_t pos)
 {
-	uint8_t location=0x80;
+	/* uint8_t location=0x80;
 	if (line == 1 ){
 		location |= (0x00 | pos);
 	}
@@ -100,7 +100,19 @@ void lcd_pos(uint8_t line, uint8_t pos)
 	}
 	else if (line == 4 ){
 		location |= (0x54 | pos);
-	}
+	} */
+
+	if (line == 1 ){
+			location = (0x80 | pos);
+		}
+		else if (line == 2 ){
+			location = (0xC0 | pos);
+		}
+		else if (line == 3 ){
+			location = (0x94 | pos);
+		}
+		else if (line == 4 ){
+			location = (0xD4 | pos);
 
 	hd44780_outcmd(location);
 }

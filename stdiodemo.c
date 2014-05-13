@@ -115,11 +115,8 @@ static uint32_t menu(void){
 		lcd_putstring("             "); // cleaning rest of the line
 		lcd_pos(2,6);
 		lcd_putint(RealValue);
-		_delay_ms(150);
 	}
-	_delay_ms(600);
-//	lcd_pos(2,6);
-	//lcd_putstring("             "); // cleaning rest of the line
+	_delay_ms(800);
 	return RealValue;
 }
 
@@ -173,13 +170,13 @@ int main(void) {
 		lcd_putint(i+1);
 		lcd_putstring("?");
 		target_temp[i] = (uint8_t)menu();
-		clear_screen();
+		lcd_pos(1,0);
+		lcd_putstring("                   "); // clear first line of the screen
+		lcd_pos(1,0);
 		lcd_putstring("Seconds for step ");
 		lcd_putint(i+1);
 		lcd_putstring("?");
 		time_sec[i] = (uint16_t)menu();
-		_delay_ms(500);
-
 	}
 
 	*target_temp=target_temp[0];
@@ -196,7 +193,7 @@ int main(void) {
 			line=i+1;
 		else if((i%4)==0){
 			line = 1;
-			_delay_ms(1500);
+			_delay_ms(2000);
 			clear_screen();
 		}
 		else
@@ -210,7 +207,6 @@ int main(void) {
 		lcd_putstring("  ");
 		lcd_putstring("sec:");
 		lcd_putint(time_sec[i]);
-		_delay_ms(1500);
 	}
 	//-----------------
 
