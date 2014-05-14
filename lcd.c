@@ -88,21 +88,7 @@ inline int lcd_putchar(char c)
 
 void lcd_pos(uint8_t line, uint8_t pos)
 {
-	/* uint8_t location=0x80;
-	if (line == 1 ){
-		location |= (0x00 | pos);
-	}
-	else if (line == 2 ){
-		location |= (0x40 | pos);
-	}
-	else if (line == 3 ){
-		location |= (0x14 | pos);
-	}
-	else if (line == 4 ){
-		location |= (0x54 | pos);
-	} */
-
-	uint8_t location;
+	uint8_t location=0;
 	if (line == 1 ){
 			location = (0x80 + pos);
 		}

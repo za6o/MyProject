@@ -71,8 +71,8 @@ static void auto_mode(){
 	lcd_putint(*(++next_temp));
 	lcd_putchar('C');
 
-	lcd_pos(4,11);
-	lcd_putstring(" sec:");
+	lcd_pos(4,12);
+	lcd_putstring("sec:");
 	lcd_putint(*(++next_sec));
 
 	nextStep=false;
@@ -130,23 +130,6 @@ int main(void) {
 	lcd_pos(2,6);
 	lcd_putstring("WELLCOME");
     _delay_ms(1500);
-
-//------------ testing screen
-
-    int l,p;
-    for (l=1;l<=4; l++){
-    	for (p=0; p<20; p++)
-    	{
-    		lcd_pos(l,p);
-    		lcd_putint(p);
-    		_delay_ms(400);
-    	}
-    }
-
-
-//------------------------------------
-
-
 
     clear_screen();
     lcd_pos(1,1);
@@ -210,7 +193,7 @@ int main(void) {
 			line=i+1;
 		else if((i%4)==0){
 			line = 1;
-			_delay_ms(2000);
+			_delay_ms(1500);
 			clear_screen();
 		}
 		else
@@ -224,6 +207,9 @@ int main(void) {
 		lcd_putstring("  ");
 		lcd_putstring("sec:");
 		lcd_putint(time_sec[i]);
+
+		if(i==(steps-1))
+			_delay_ms(1500);
 	}
 	//-----------------
 

@@ -20,7 +20,6 @@ void init_switch(){
 	SWITCH_INPUT();
 	SWITCH_LED_OUTPUT();
 	SWITCH_LED_LOW();
-
 }
 
 void init_led(){
